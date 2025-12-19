@@ -9,12 +9,14 @@ C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_lib.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_lib_sw_operators.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_rt_main.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_runtime.c
+C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_cipher.c
+C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_stai_internal.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_aton_util.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_sw_float.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ll_sw_integer.c
 C_SOURCES_AI += $(AI_REL_DIR)/Npu/ll_aton/ecloader.c
-C_SOURCES_AI += $(AI_REL_DIR)/Npu/Devices/STM32N6XX/npu_cache.c
-C_SOURCES_AI += $(AI_REL_DIR)/Npu/Devices/STM32N6XX/mcu_cache.c
+C_SOURCES_AI += $(AI_REL_DIR)/Npu/Devices/STM32N6xx/npu_cache.c
+C_SOURCES_AI += $(AI_REL_DIR)/Npu/Devices/STM32N6xx/mcu_cache.c
 
 C_SOURCES_AI += $(PP_REL_DIR)/Src/vision_models_pp.c
 C_SOURCES_AI += $(PP_REL_DIR)/Src/od_pp_yolov2.c
@@ -29,7 +31,7 @@ C_SOURCES_AI += $(wildcard $(PPW_REL_DIR)/*.c)
 
 C_INCLUDES_AI += -I$(AI_REL_DIR)/Inc
 C_INCLUDES_AI += -I$(AI_REL_DIR)/Npu/ll_aton
-C_INCLUDES_AI += -I$(AI_REL_DIR)/Npu/Devices/STM32N6XX
+C_INCLUDES_AI += -I$(AI_REL_DIR)/Npu/Devices/STM32N6xx
 
 C_INCLUDES_AI += -I$(PP_REL_DIR)/Inc
 
@@ -46,5 +48,5 @@ C_SOURCES += $(C_SOURCES_AI)
 C_INCLUDES += $(C_INCLUDES_AI)
 C_DEFS += $(C_DEFS_AI)
 LIBDIR += -L$(AI_REL_DIR)/Lib/GCC/ARMCortexM55
-LIBS += -l:NetworkRuntime1020_CM55_GCC.a
-LIBS_IAR += $(AI_REL_DIR)/Lib/ABI2.1/ARMCortexM55/NetworkRuntime1020_CM55_IAR.a
+LIBS += -l:NetworkRuntime1100_CM55_GCC.a
+LIBS_IAR += $(AI_REL_DIR)/Lib/ABI2.1/ARMCortexM55/NetworkRuntime1100_CM55_IAR.a

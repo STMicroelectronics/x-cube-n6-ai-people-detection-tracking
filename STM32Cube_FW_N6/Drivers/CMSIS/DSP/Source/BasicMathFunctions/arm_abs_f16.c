@@ -33,19 +33,6 @@
   @ingroup groupMath
  */
 
-/**
-  @defgroup BasicAbs Vector Absolute Value
-
-  Computes the absolute value of a vector on an element-by-element basis.
-
-  <pre>
-      pDst[n] = abs(pSrc[n]),   0 <= n < blockSize.
-  </pre>
-
-  The functions support in-place computation allowing the source and
-  destination pointers to reference the same memory buffer.
-  There are separate functions for floating-point, Q7, Q15, and Q31 data types.
- */
 
 /**
   @addtogroup BasicAbs
@@ -57,7 +44,6 @@
   @param[in]     pSrc       points to the input vector
   @param[out]    pDst       points to the output vector
   @param[in]     blockSize  number of samples in each vector
-  @return        none
  */
 
 
@@ -65,7 +51,7 @@
 
 #include "arm_helium_utils.h"
 
-void arm_abs_f16(
+ARM_DSP_ATTRIBUTE void arm_abs_f16(
   const float16_t * pSrc,
         float16_t * pDst,
         uint32_t blockSize)
@@ -111,7 +97,7 @@ void arm_abs_f16(
 
 #else
 #if defined(ARM_FLOAT16_SUPPORTED)
-void arm_abs_f16(
+ARM_DSP_ATTRIBUTE void arm_abs_f16(
   const float16_t * pSrc,
         float16_t * pDst,
         uint32_t blockSize)

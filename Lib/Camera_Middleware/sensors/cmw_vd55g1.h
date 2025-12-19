@@ -28,6 +28,8 @@
 #include "vd55g1.h"
 #include "cmw_camera.h"
 
+#define VD55G1_NAME    "VD55G1"
+
 typedef struct
 {
   uint16_t Address;

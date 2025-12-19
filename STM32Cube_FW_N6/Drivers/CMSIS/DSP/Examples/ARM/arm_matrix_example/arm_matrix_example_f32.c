@@ -40,10 +40,9 @@
  * -------------------------------------------------------------------- */
 
 /**
- * @ingroup groupExamples
- */
-
-/**
+ * @addtogroup groupExamples
+ * @{
+ *
  * @defgroup MatrixExample Matrix Example
  *
  * \par Description:
@@ -83,11 +82,9 @@
  * <b> Refer  </b>
  * \link arm_matrix_example_f32.c \endlink
  *
- */
-
-
-/** \example arm_matrix_example_f32.c
-  */
+ * \example arm_matrix_example_f32.c
+ *
+ * @} */
 
 #include "arm_math.h"
 #include "math_helper.h"
@@ -96,7 +93,7 @@
 #include <stdio.h>
 #endif
 
-#define SNR_THRESHOLD   90
+#define SNR_THRESHOLD   77
 
 /* --------------------------------------------------------------------------------
 * Test input data(Cycles) taken from FIR Q15 module for differant cases of blockSize

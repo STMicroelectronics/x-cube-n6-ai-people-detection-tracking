@@ -25,7 +25,7 @@
 static mpe_pp_outBuffer_t out_detections[AI_MPE_YOLOV8_PP_TOTAL_BOXES];
 static mpe_pp_keyPoints_t out_keyPoints[AI_MPE_YOLOV8_PP_TOTAL_BOXES * AI_POSE_PP_POSE_KEYPOINTS_NB];
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_MPE_PP_ERROR_NO;
   mpe_yolov8_pp_static_param_t *params = (mpe_yolov8_pp_static_param_t *) params_postprocess;

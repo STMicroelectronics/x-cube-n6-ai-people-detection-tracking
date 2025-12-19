@@ -36,22 +36,13 @@
 #include "dsp/matrix_functions.h"
 
 /**
-  @ingroup groupTransforms
- */
-
-
-/**
-  @defgroup MFCC MFCC
-
-  MFCC Transform
-
-  There are separate functions for floating-point, Q15, and Q31 data types.
+  @ingroup MFCC
  */
 
 
 
 /**
-  @addtogroup MFCC
+  @addtogroup MFCCF32
   @{
  */
 
@@ -61,8 +52,6 @@
   @param[in]     pSrc points to the input samples
   @param[out]     pDst  points to the output MFCC values
   @param[inout]     pTmp  points to a temporary buffer of complex
-
-  @return        none
 
   @par           Description
                    The number of input samples if the FFT length used
@@ -76,7 +65,7 @@
                    The source buffer is modified by this function.
 
  */
-void arm_mfcc_f32(
+ARM_DSP_ATTRIBUTE void arm_mfcc_f32(
   const arm_mfcc_instance_f32 * S,
   float32_t *pSrc,
   float32_t *pDst,
@@ -93,7 +82,10 @@ void arm_mfcc_f32(
   /* Normalize */
   arm_absmax_f32(pSrc,S->fftLen,&maxValue,&index);
 
-  arm_scale_f32(pSrc,1.0f/maxValue,pSrc,S->fftLen);
+  if (maxValue != 0.0f)
+  {
+     arm_scale_f32(pSrc,1.0f/maxValue,pSrc,S->fftLen);
+  }
 
   /* Multiply by window */
   arm_mult_f32(pSrc,S->windowCoefs,pSrc,S->fftLen);
@@ -124,6 +116,10 @@ void arm_mfcc_f32(
   pTmp[1]=0.0f;
 #endif
   arm_cmplx_mag_f32(pTmp,pSrc,S->fftLen);
+  if (maxValue != 0.0f)
+  {
+     arm_scale_f32(pSrc,maxValue,pSrc,S->fftLen);
+  }
 
   /* Apply MEL filters */
   for(i=0; i<S->nbMelFilters; i++)
@@ -155,5 +151,5 @@ void arm_mfcc_f32(
 }
 
 /**
-  @} end of MFCC group
+  @} end of MFCCF32 group
  */

@@ -54,14 +54,6 @@
 #endif
 #endif
 
-#ifdef STM32N6570_DK_REV
-#define NN_WIDTH 480
-#define NN_HEIGHT 480
-#else
-#define NN_WIDTH 224
-#define NN_HEIGHT 224
-#endif
-
 #define NN_FORMAT DCMIPP_PIXEL_PACKER_FORMAT_RGB888_YUV444_1
 #define NN_BPP 3
 #define NB_CLASSES 2

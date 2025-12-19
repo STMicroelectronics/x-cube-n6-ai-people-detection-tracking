@@ -32,16 +32,6 @@
   @ingroup groupMatrix
  */
 
-/**
-  @defgroup MatrixSub Matrix Subtraction
-
-  Subtract two matrices.
-  \image html MatrixSubtraction.gif "Subraction of two 3 x 3 matrices"
-
-  The functions check to make sure that
-  <code>pSrcA</code>, <code>pSrcB</code>, and <code>pDst</code> have the same
-  number of rows and columns.
- */
 
 /**
   @addtogroup MatrixSub
@@ -58,7 +48,7 @@
                    - \ref ARM_MATH_SIZE_MISMATCH : Matrix size check failed
  */
 
-arm_status arm_mat_sub_f64(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_sub_f64(
   const arm_matrix_instance_f64 * pSrcA,
   const arm_matrix_instance_f64 * pSrcB,
         arm_matrix_instance_f64 * pDst)

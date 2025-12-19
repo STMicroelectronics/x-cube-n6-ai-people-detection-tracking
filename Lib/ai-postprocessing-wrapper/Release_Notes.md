@@ -7,6 +7,15 @@ It allows to simplify the usage of it in the use case of app using multiple type
 
 ## Update history
 
+### v1.0.9 / January 2026
+
+Yunet face detection with keypoints support
+Compatibility with STAI API
+
+### v1.0.8 / September 2025
+
+BlazeFace face detection with keypoints support
+
 ### v1.0.7 / August 2025
 
 BlazeFace post processing bug fix

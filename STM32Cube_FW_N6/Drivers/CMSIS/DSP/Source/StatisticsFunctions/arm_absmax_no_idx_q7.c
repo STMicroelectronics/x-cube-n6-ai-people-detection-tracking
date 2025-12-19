@@ -42,8 +42,8 @@
   @param[in]     pSrc       points to the input vector
   @param[in]     blockSize  number of samples in input vector
   @param[out]    pResult    maximum value returned here
-  @return        none
  */
+
 
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 
@@ -52,7 +52,7 @@
 
 
 
-void arm_absmax_no_idx_q7(
+ARM_DSP_ATTRIBUTE void arm_absmax_no_idx_q7(
   const q7_t * pSrc,
         uint32_t blockSize,
         q7_t * pResult)
@@ -60,51 +60,35 @@ void arm_absmax_no_idx_q7(
     int32_t  blkCnt;           /* loop counters */
     q7x16_t        vecSrc;
     q7_t   const *pSrcVec;
-    uint8x16_t     curExtremValVec = vdupq_n_s8(Q7_ABSMIN);
-    q7_t            maxValue = Q7_ABSMIN;
-    mve_pred16_t    p0;
+    uint8x16_t     curExtremValVec = vdupq_n_u8(Q7_ABSMIN);
+    uint8_t            maxValue = Q7_ABSMIN;
 
 
     pSrcVec = (q7_t const *) pSrc;
-    blkCnt = blockSize >> 4;
+    blkCnt = blockSize;
     while (blkCnt > 0)
     {
-        vecSrc = vld1q(pSrcVec); 
+        mve_pred16_t    p = vctp8q(blkCnt);
+        vecSrc = vld1q_z_s8(pSrcVec,p); 
         pSrcVec += 16;
         /*
          * update per-lane max.
          */
-        curExtremValVec = vmaxaq(curExtremValVec, vecSrc);
+        curExtremValVec = vmaxaq_m(curExtremValVec, vecSrc,p);
         /*
          * Decrement the blockSize loop counter
          */
-        blkCnt--;
-    }
-    /*
-     * tail
-     * (will be merged thru tail predication)
-     */
-    blkCnt = blockSize & 0xF;
-    if (blkCnt > 0)
-    {
-        vecSrc = vld1q(pSrcVec); 
-        pSrcVec += 16;
-        p0 = vctp8q(blkCnt);
-        /*
-         * Get current max per lane and current index per lane
-         * when a max is selected
-         */
-         curExtremValVec = vmaxaq_m(curExtremValVec, vecSrc, p0);
+        blkCnt -= 16;
     }
     /*
      * Get max value across the vector
      */
-    maxValue = vmaxavq(maxValue, (q7x16_t)curExtremValVec);
-    *pResult = maxValue;
+    maxValue = vmaxvq(maxValue, curExtremValVec);
+    *pResult = __USAT(maxValue,7);
 }
 #else
 #if defined(ARM_MATH_DSP)
-void arm_absmax_no_idx_q7(
+ARM_DSP_ATTRIBUTE void arm_absmax_no_idx_q7(
   const q7_t * pSrc,
         uint32_t blockSize,
         q7_t * pResult)
@@ -180,7 +164,7 @@ void arm_absmax_no_idx_q7(
   *pResult = out;                                                                                           \
 }
 #else
-void arm_absmax_no_idx_q7(
+ARM_DSP_ATTRIBUTE void arm_absmax_no_idx_q7(
   const q7_t * pSrc,
         uint32_t blockSize,
         q7_t * pResult)

@@ -22,7 +22,7 @@
 | Lib/screenl/uvcl                              | STMicroelectronics                        | SLA0044                                       |
 | Lib/Camera_Middleware                         | STMicroelectronics                        | SLA0044                                       |
 | Lib/Camera_Middleware/sensors                 | STMicroelectronics                        | BSD-3-Clause                                  |
-| Lib/Camera_Middleware/ISP_Library             | LACROIX - Impulse, STMicroelectronics     | SLA0044                                       |
+| Lib/Camera_Middleware/ISP_Library             | STMicroelectronics                        | SLA0044                                       |
 | Lib/lib_vision_models_pp/lib_vision_models_pp | STMicroelectronics                        | SLA0044                                       |
 | Lib/AI_Runtime                                | STMicroelectronics                        | SLA0044                                       |
 | Binary                                        | STMicroelectronics                        | SLA0044                                       |

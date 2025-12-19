@@ -19,7 +19,7 @@
 #ifndef UTILS
 #define UTILS
 
-#include "ll_aton_rt_user_api.h"
+#include "stai.h"
 
 #define ALIGN_32 __attribute__ ((aligned (32)))
 #ifdef STM32N6570_DK_REV
@@ -40,6 +40,6 @@
 
 #define ARRAY_NB(a) (sizeof(a)/sizeof(a[0]))
 
-void Run_Inference(NN_Instance_TypeDef *network_instance);
+void Run_Inference(stai_network *network_instance);
 
 #endif

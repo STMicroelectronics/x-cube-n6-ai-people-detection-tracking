@@ -35,6 +35,9 @@
 /**
   @defgroup FIR_Lattice Finite Impulse Response (FIR) Lattice Filters
 
+  @deprecated Those functions are no more tested nor maintained and will be removed in
+              a future version.
+              
   This set of functions implements Finite Impulse Response (FIR) lattice filters
   for Q15, Q31 and floating-point data types.  Lattice filters are used in a
   variety of adaptive filter applications. The filter structure is feedforward and
@@ -115,10 +118,9 @@
   @param[in]     pSrc       points to the block of input data
   @param[out]    pDst       points to the block of output data
   @param[in]     blockSize  number of samples to process
-  @return        none
  */
 
-void arm_fir_lattice_f32(
+ARM_DSP_ATTRIBUTE void arm_fir_lattice_f32(
   const arm_fir_lattice_instance_f32 * S,
   const float32_t * pSrc,
         float32_t * pDst,

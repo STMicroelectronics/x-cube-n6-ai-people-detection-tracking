@@ -77,7 +77,7 @@
    *
    */
   float32_t arm_linear_interp_f32(
-  arm_linear_interp_instance_f32 * S,
+  const arm_linear_interp_instance_f32 * S,
   float32_t x)
   {
     float32_t y;
@@ -85,12 +85,12 @@
     float32_t y0, y1;                            /* Nearest output values */
     float32_t xSpacing = S->xSpacing;            /* spacing between input values */
     int32_t i;                                   /* Index variable */
-    float32_t *pYData = S->pYData;               /* pointer to output table */
+    const float32_t *pYData = S->pYData;               /* pointer to output table */
 
     /* Calculation of index */
     i = (int32_t) ((x - S->x1) / xSpacing);
 
-    if (i < 0)
+    if (x < S->x1)
     {
       /* Iniatilize output for below specified range as least output value of table */
       y = pYData[0];

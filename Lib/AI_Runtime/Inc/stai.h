@@ -25,8 +25,8 @@
 #define STAI_API_VERSION_MINOR        (0)
 #define STAI_API_VERSION_MICRO        (0)
 
-#define STAI_TOOLS_VERSION_MAJOR      (2)
-#define STAI_TOOLS_VERSION_MINOR      (2)
+#define STAI_TOOLS_VERSION_MAJOR      (3)
+#define STAI_TOOLS_VERSION_MINOR      (0)
 #define STAI_TOOLS_VERSION_MICRO      (0)
 
 /*****************************************************************************/

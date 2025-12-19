@@ -27,13 +27,13 @@ static mpe_pp_keyPoints_t out_keyPoints[AI_MPE_YOLOV8_PP_TOTAL_BOXES * AI_POSE_P
 static mpe_pp_keyPoints_s8_t scratchBuffer_keyPoints[AI_MPE_YOLOV8_PP_TOTAL_BOXES * AI_POSE_PP_POSE_KEYPOINTS_NB];
 static mpe_pp_scratchBuffer_s8_t scratchBuffer_detections[AI_MPE_YOLOV8_PP_TOTAL_BOXES];
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_MPE_PP_ERROR_NO;
   mpe_yolov8_pp_static_param_t *params = (mpe_yolov8_pp_static_param_t *) params_postprocess;
-  const LL_Buffer_InfoTypeDef *buffers_info = LL_ATON_Output_Buffers_Info(NN_Instance);
-  params->raw_output_scale = *(buffers_info[0].scale);
-  params->raw_output_zero_point = *(buffers_info[0].offset);
+
+  params->raw_output_scale = NN_Info->outputs[0].scale.data[0];
+  params->raw_output_zero_point = NN_Info->outputs[0].zeropoint.data[0];
   params->nb_classes = AI_MPE_YOLOV8_PP_NB_CLASSES;
   params->nb_total_boxes = AI_MPE_YOLOV8_PP_TOTAL_BOXES;
   params->max_boxes_limit = AI_MPE_YOLOV8_PP_MAX_BOXES_LIMIT;

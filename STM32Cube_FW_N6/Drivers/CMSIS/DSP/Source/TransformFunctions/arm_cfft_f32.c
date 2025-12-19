@@ -510,7 +510,7 @@ static void arm_cfft_radix4by2_inverse_f32_mve(const arm_cfft_instance_f32 * S,f
 
 
 /**
-  @addtogroup ComplexFFT
+  @addtogroup ComplexFFTF32
   @{
  */
 
@@ -524,11 +524,10 @@ static void arm_cfft_radix4by2_inverse_f32_mve(const arm_cfft_instance_f32 * S,f
   @param[in]     bitReverseFlag flag that enables / disables bit reversal of output
                    - value = 0: disables bit reversal of output
                    - value = 1: enables bit reversal of output
-  @return        none
  */
 
 
-void arm_cfft_f32(
+ARM_DSP_ATTRIBUTE void arm_cfft_f32(
   const arm_cfft_instance_f32 * S,
         float32_t * pSrc,
         uint8_t ifftFlag,
@@ -657,36 +656,37 @@ extern void arm_bitreversal_32(
   @code
                    const static arm_cfft_instance_f32 *S;
                    ...
-                     switch (length) {
-                       case 16:
-                         S = &arm_cfft_sR_f32_len16;
-                         break;
-                       case 32:
-                         S = &arm_cfft_sR_f32_len32;
-                         break;
-                       case 64:
-                         S = &arm_cfft_sR_f32_len64;
-                         break;
-                       case 128:
-                         S = &arm_cfft_sR_f32_len128;
-                         break;
-                       case 256:
-                         S = &arm_cfft_sR_f32_len256;
-                         break;
-                       case 512:
-                         S = &arm_cfft_sR_f32_len512;
-                         break;
-                       case 1024:
-                         S = &arm_cfft_sR_f32_len1024;
-                         break;
-                       case 2048:
-                         S = &arm_cfft_sR_f32_len2048;
-                         break;
-                       case 4096:
-                         S = &arm_cfft_sR_f32_len4096;
-                         break;
-                     }
+                   switch (length) {
+                     case 16:
+                       S = &arm_cfft_sR_f32_len16;
+                       break;
+                     case 32:
+                       S = &arm_cfft_sR_f32_len32;
+                       break;
+                     case 64:
+                       S = &arm_cfft_sR_f32_len64;
+                       break;
+                     case 128:
+                       S = &arm_cfft_sR_f32_len128;
+                       break;
+                     case 256:
+                       S = &arm_cfft_sR_f32_len256;
+                       break;
+                     case 512:
+                       S = &arm_cfft_sR_f32_len512;
+                       break;
+                     case 1024:
+                       S = &arm_cfft_sR_f32_len1024;
+                       break;
+                     case 2048:
+                       S = &arm_cfft_sR_f32_len2048;
+                       break;
+                     case 4096:
+                       S = &arm_cfft_sR_f32_len4096;
+                       break;
+                   }
   @endcode
+
   @par
                    The new arm_cfft_init_f32 can also be used.
   @par Q15 and Q31
@@ -754,7 +754,7 @@ extern void arm_bitreversal_32(
 
  */
 
-void arm_cfft_radix8by2_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
+static void arm_cfft_radix8by2_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
 {
   uint32_t    L  = S->fftLen;
   float32_t * pCol1, * pCol2, * pMid1, * pMid2;
@@ -868,7 +868,7 @@ void arm_cfft_radix8by2_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
   arm_radix8_butterfly_f32 (pCol2, L, (float32_t *) S->pTwiddle, 2U);
 }
 
-void arm_cfft_radix8by4_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
+static void arm_cfft_radix8by4_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
 {
     uint32_t    L  = S->fftLen >> 1;
     float32_t * pCol1, *pCol2, *pCol3, *pCol4, *pEnd1, *pEnd2, *pEnd3, *pEnd4;
@@ -1112,7 +1112,7 @@ void arm_cfft_radix8by4_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
 }
 
 /**
-  @addtogroup ComplexFFT
+  @addtogroup ComplexFFTF32
   @{
  */
 
@@ -1126,10 +1126,9 @@ void arm_cfft_radix8by4_f32 (arm_cfft_instance_f32 * S, float32_t * p1)
   @param[in]     bitReverseFlag flag that enables / disables bit reversal of output
                    - value = 0: disables bit reversal of output
                    - value = 1: enables bit reversal of output
-  @return        none
  */
 
-void arm_cfft_f32(
+ARM_DSP_ATTRIBUTE void arm_cfft_f32(
   const arm_cfft_instance_f32 * S,
         float32_t * p1,
         uint8_t ifftFlag,
@@ -1188,5 +1187,5 @@ void arm_cfft_f32(
 #endif /* defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE) */
 
 /**
-  @} end of ComplexFFT group
+  @} end of ComplexFFTF32 group
  */

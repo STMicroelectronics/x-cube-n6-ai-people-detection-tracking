@@ -32,7 +32,7 @@
  * Internal functions prototypes
  * -------------------------------------------------------------------- */
 
-void arm_split_rfft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rfft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,
@@ -40,7 +40,7 @@ void arm_split_rfft_q15(
         q15_t * pDst,
         uint32_t modifier);
 
-void arm_split_rifft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rifft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,
@@ -49,7 +49,7 @@ void arm_split_rifft_q15(
         uint32_t modifier);
 
 /**
-  @addtogroup RealFFT
+  @addtogroup RealFFTQ15
   @{
  */
 
@@ -58,28 +58,50 @@ void arm_split_rifft_q15(
   @param[in]     S     points to an instance of the Q15 RFFT/RIFFT structure
   @param[in]     pSrc  points to input buffer (Source buffer is modified by this function.)
   @param[out]    pDst  points to output buffer
-  @return        none
 
   @par           Input an output formats
                    Internally input is downscaled by 2 for every stage to avoid saturations inside CFFT/CIFFT process.
                    Hence the output format is different for different RFFT sizes.
                    The input and output formats for different RFFT sizes and number of bits to upscale are mentioned in the tables below for RFFT and RIFFT:
+  @par             Input and Output formats for RFFT Q15
+
+| RFFT Size  | Input Format  | Output Format  | Number of bits to upscale |
+| ---------: | ------------: | -------------: | ------------------------: |
+| 32         | 1.15          | 6.10           | 5                         |
+| 64         | 1.15          | 7.9            | 6                         |
+| 128        | 1.15          | 8.8            | 7                         |
+| 256        | 1.15          | 9.7            | 8                         |
+| 512        | 1.15          | 10.6           | 9                         |
+| 1024       | 1.15          | 11.5           | 10                        |
+| 2048       | 1.15          | 12.4           | 11                        |
+| 4096       | 1.15          | 13.3           | 12                        |
+| 8192       | 1.15          | 14.2           | 13                        |
+             
+  @par             Input and Output formats for RIFFT Q15
+
+| RIFFT Size  | Input Format  | Output Format  | Number of bits to upscale |
+| ----------: | ------------: | -------------: | ------------------------: |
+| 32          | 1.15          | 6.10           | 0                         |
+| 64          | 1.15          | 7.9            | 0                         |
+| 128         | 1.15          | 8.8            | 0                         |
+| 256         | 1.15          | 9.7            | 0                         |
+| 512         | 1.15          | 10.6           | 0                         |
+| 1024        | 1.15          | 11.5           | 0                         |
+| 2048        | 1.15          | 12.4           | 0                         |
+| 4096        | 1.15          | 13.3           | 0                         |
+| 8192        | 1.15          | 14.2           | 0                         |
+  
   @par
-                   \image html RFFTQ15.gif "Input and Output Formats for Q15 RFFT"
-  @par
-                   \image html RIFFTQ15.gif "Input and Output Formats for Q15 RIFFT"
-  @par
-                   If the input buffer is of length N, the output buffer must have length 2*N.
+                   If the input buffer is of length N (fftLenReal), the output buffer must have length 2N
+                   since it is containing the conjugate part (except for MVE version where N+2 is enough).
                    The input buffer is modified by this function.
   @par
-                   For the RIFFT, the source buffer must at least have length 
-                   fftLenReal + 2.
-                   The last two elements must be equal to what would be generated
-                   by the RFFT:
-                     (pSrc[0] - pSrc[1]) >> 1 and 0
+                   For the RIFFT, the source buffer must have length N+2 since the Nyquist frequency value
+                   is needed but conjugate part is ignored. 
+                   It is not using the packing trick of the float version.
  */
 
-void arm_rfft_q15(
+ARM_DSP_ATTRIBUTE void arm_rfft_q15(
   const arm_rfft_instance_q15 * S,
         q15_t * pSrc,
         q15_t * pDst)
@@ -116,7 +138,7 @@ void arm_rfft_q15(
 }
 
 /**
-  @} end of RealFFT group
+  @} end of RealFFTQ15 group
  */
 
 /**
@@ -127,7 +149,6 @@ void arm_rfft_q15(
   @param[in]     pBTable   points to twiddle Coef B buffer
   @param[out]    pDst      points to output buffer
   @param[in]     modifier  twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table
-  @return        none
 
   @par
                    The function implements a Real FFT
@@ -138,13 +159,8 @@ void arm_rfft_q15(
 #include "arm_helium_utils.h"
 #include "arm_vec_fft.h"
 
-#if defined(__CMSIS_GCC_H)
-#define MVE_CMPLX_MULT_FX_AxB_S16(A,B)          vqdmladhxq_s16(vqdmlsdhq_s16((__typeof(A))vuninitializedq_s16(), A, B), A, B)
-#define MVE_CMPLX_MULT_FX_AxConjB_S16(A,B)      vqdmladhq_s16(vqdmlsdhxq_s16((__typeof(A))vuninitializedq_s16(), A, B), A, B)
 
-#endif 
-
-void arm_split_rfft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rfft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,
@@ -184,13 +200,9 @@ void arm_split_rfft_q15(
         q15x8_t         coefA = vldrhq_gather_shifted_offset_s16(pCoefAb, offsetCoef);
         q15x8_t         coefB = vldrhq_gather_shifted_offset_s16(pCoefBb, offsetCoef);
 
-#if defined(__CMSIS_GCC_H)
-        q15x8_t         out = vhaddq_s16(MVE_CMPLX_MULT_FX_AxB_S16(in1, coefA),
-                                     MVE_CMPLX_MULT_FX_AxConjB_S16(coefB, in2));
-#else
+
         q15x8_t         out = vhaddq_s16(MVE_CMPLX_MULT_FX_AxB(in1, coefA, q15x8_t),
                                          MVE_CMPLX_MULT_FX_AxConjB(coefB, in2, q15x8_t));
-#endif
         vst1q_s16(pOut1, out);
         pOut1 += 8;
 
@@ -207,7 +219,7 @@ void arm_split_rfft_q15(
     pDst[1] = 0;
 }
 #else
-void arm_split_rfft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rfft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,
@@ -359,7 +371,6 @@ void arm_split_rfft_q15(
   @param[in]     pBTable   points to twiddle Coef B buffer
   @param[out]    pDst      points to output buffer
   @param[in]     modifier  twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table
-  @return        none
 
   @par
                    The function implements a Real IFFT
@@ -370,7 +381,7 @@ void arm_split_rfft_q15(
 #include "arm_helium_utils.h"
 #include "arm_vec_fft.h"
 
-void arm_split_rifft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rifft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,
@@ -427,7 +438,7 @@ void arm_split_rifft_q15(
     }
 }
 #else
-void arm_split_rifft_q15(
+ARM_DSP_ATTRIBUTE void arm_split_rifft_q15(
         q15_t * pSrc,
         uint32_t fftLen,
   const q15_t * pATable,

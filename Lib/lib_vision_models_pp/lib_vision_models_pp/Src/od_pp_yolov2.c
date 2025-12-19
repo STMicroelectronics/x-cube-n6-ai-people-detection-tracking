@@ -209,7 +209,7 @@ int32_t yolov2_pp_getNNBoxes_centroid_int8(od_yolov2_pp_in_t *pInput,
   int8_t *pInbuff = (int8_t *)pInput->pRaw_detections;
   if ( 1 == pInput_static_param->nb_classes) {
     float32_t computedThreshold = -logf( 1 / pInput_static_param->conf_threshold - 1);
-    int8_t threshold_s8  = (int8_t)(computedThreshold / raw_scale + 0.5 + raw_zp);
+    int8_t threshold_s8  = (int8_t)(computedThreshold / raw_scale + 0.5f + raw_zp);
     for (int32_t row = 0; row < pInput_static_param->grid_width; ++row)
     {
       for (int32_t col = 0; col < pInput_static_param->grid_height; ++col)

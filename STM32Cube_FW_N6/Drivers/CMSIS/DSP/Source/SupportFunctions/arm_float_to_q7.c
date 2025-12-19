@@ -42,7 +42,6 @@
  * @param[in]       *pSrc points to the floating-point input vector
  * @param[out]      *pDst points to the Q7 output vector
  * @param[in]       blockSize length of the input vector
- * @return none.
  *
  *\par Description:
  * \par
@@ -59,7 +58,7 @@
  * defined in the preprocessor section of project options.
  */
 #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
-void arm_float_to_q7(
+ARM_DSP_ATTRIBUTE void arm_float_to_q7(
   const float32_t * pSrc,
   q7_t * pDst,
   uint32_t blockSize)
@@ -67,8 +66,8 @@ void arm_float_to_q7(
     uint32_t         blkCnt;     /* loop counters */
     float32_t       maxQ = powf(2.0, 7);
     f32x4x4_t       tmp;
-    q15x8_t         evVec, oddVec;
-    q7x16_t         vecDst;
+    q15x8_t         evVec = { 0 }, oddVec = { 0 };
+    q7x16_t         vecDst = { 0 };
     float32_t const *pSrcVec;
 #ifdef ARM_MATH_ROUNDING
     float32_t in;
@@ -137,7 +136,7 @@ void arm_float_to_q7(
 }
 #else
 #if defined(ARM_MATH_NEON)
-void arm_float_to_q7(
+ARM_DSP_ATTRIBUTE void arm_float_to_q7(
   const float32_t * pSrc,
   q7_t * pDst,
   uint32_t blockSize)
@@ -237,7 +236,7 @@ void arm_float_to_q7(
 
 }
 #else
-void arm_float_to_q7(
+ARM_DSP_ATTRIBUTE void arm_float_to_q7(
   const float32_t * pSrc,
         q7_t * pDst,
         uint32_t blockSize)

@@ -1,11 +1,11 @@
 /**************************************************************************//**
  * @file     os_systick.c
  * @brief    CMSIS OS Tick SysTick implementation
- * @version  V1.0.3
- * @date     19. March 2021
+ * @version  V1.0.5
+ * @date     16. October 2023
  ******************************************************************************/
 /*
- * Copyright (c) 2017-2021 ARM Limited. All rights reserved.
+ * Copyright (c) 2017-2023 ARM Limited. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -25,7 +25,13 @@
 #include "os_tick.h"
 
 //lint -emacro((923,9078),SCB,SysTick) "cast from unsigned long to pointer"
+
+#if defined(_RTE_)
 #include "RTE_Components.h"
+#elif !defined(CMSIS_device_header)
+#error "CMSIS_device_header must be defined to point to CMSIS device header"
+#endif
+
 #include CMSIS_device_header
 
 #ifdef  SysTick
@@ -61,9 +67,9 @@ __WEAK int32_t OS_Tick_Setup (uint32_t freq, IRQHandler_t handler) {
   SCB->SHPR[1] |= ((uint32_t)SYSTICK_IRQ_PRIORITY << 24);
 #elif ((defined(__ARM_ARCH_7M__)        && (__ARM_ARCH_7M__        != 0)) || \
        (defined(__ARM_ARCH_7EM__)       && (__ARM_ARCH_7EM__       != 0)))
-  SCB->SHP[11]  = SYSTICK_IRQ_PRIORITY;
+  SCB->SHPR[11]  = SYSTICK_IRQ_PRIORITY;
 #elif  (defined(__ARM_ARCH_6M__)        && (__ARM_ARCH_6M__        != 0))
-  SCB->SHP[1]  |= ((uint32_t)SYSTICK_IRQ_PRIORITY << 24);
+  SCB->SHPR[1]  |= ((uint32_t)SYSTICK_IRQ_PRIORITY << 24);
 #else
 #error "Unknown ARM Core!"
 #endif
@@ -121,8 +127,17 @@ __WEAK uint32_t OS_Tick_GetInterval (void) {
 
 // Get OS Tick count value.
 __WEAK uint32_t OS_Tick_GetCount (void) {
-  uint32_t load = SysTick->LOAD;
-  return  (load - SysTick->VAL);
+  uint32_t val;
+  uint32_t count;
+
+  val = SysTick->VAL;
+  if (val != 0U) {
+    count = (SysTick->LOAD - val) + 1U;
+  } else {
+    count = 0U;
+  }
+
+  return (count);
 }
 
 // Get OS Tick overflow status.

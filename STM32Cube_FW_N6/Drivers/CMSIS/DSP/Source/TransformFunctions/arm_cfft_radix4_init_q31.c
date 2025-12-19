@@ -30,11 +30,7 @@
 #include "arm_common_tables.h"
 
 /**
-  @ingroup groupTransforms
- */
-
-/**
-  @addtogroup ComplexFFT
+  @addtogroup ComplexFFTDeprecated
   @{
  */
 
@@ -66,7 +62,7 @@
                    This Function also initializes Twiddle factor table pointer and Bit reversal table pointer.
 */
 
-arm_status arm_cfft_radix4_init_q31(
+ARM_DSP_ATTRIBUTE arm_status arm_cfft_radix4_init_q31(
   arm_cfft_radix4_instance_q31 * S,
   uint16_t fftLen,
   uint8_t ifftFlag,
@@ -75,10 +71,6 @@ arm_status arm_cfft_radix4_init_q31(
 
   /*  Initialise the default arm status */
   arm_status status = ARM_MATH_ARGUMENT_ERROR;
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FFT_ALLOW_TABLES)
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_4096)
 
   /*  Initialise the default arm status */
   status = ARM_MATH_SUCCESS;
@@ -90,8 +82,6 @@ arm_status arm_cfft_radix4_init_q31(
   S->ifftFlag = ifftFlag;
   /*  Initialise the Flag for calculation Bit reversal or not */
   S->bitReverseFlag = bitReverseFlag;
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREV_1024)
 
   /*  Initializations of Instance structure depending on the FFT length */
   switch (S->fftLen)
@@ -143,12 +133,9 @@ arm_status arm_cfft_radix4_init_q31(
     break;
   }
 
-#endif
-#endif
-#endif
   return (status);
 }
 
 /**
-  @} end of ComplexFFT group
+  @} end of ComplexFFTDeprecated group
  */

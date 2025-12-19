@@ -90,8 +90,6 @@ void CAM_Init(void)
   cam_conf.width = 0;
   cam_conf.height = 0;
   cam_conf.fps = CAMERA_FPS;
-  cam_conf.pixel_format = 0; /* Default; Not implemented yet */
-  cam_conf.anti_flicker = 0;
   cam_conf.mirror_flip = CAMERA_FLIP;
   ret = CMW_CAMERA_Init(&cam_conf, NULL);
   assert(ret == CMW_ERROR_NONE);
@@ -123,4 +121,9 @@ void CAM_IspUpdate(void)
 
   ret = CMW_CAMERA_Run();
   assert(ret == CMW_ERROR_NONE);
+}
+
+void CMW_CAMERA_PIPE_ErrorCallback(uint32_t pipe)
+{
+  /* FIXME : Need to tune sensor/ipplug so we can remove this implementation */
 }

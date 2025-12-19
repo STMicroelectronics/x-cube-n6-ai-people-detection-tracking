@@ -30,7 +30,15 @@
 
 #define container_of(ptr, type, member) (type *) ((unsigned char *)ptr - offsetof(type,member))
 
-#define MIN(a, b)       ((a) < (b) ?  (a) : (b))
+#ifndef MIN
+#define MIN(a, b)                           ((a) < (b) ?  (a) : (b))
+#endif
+
+#define MDECIBEL_TO_LINEAR(mdB)             (pow(10.0, ((double)(mdB) / 1000.0) / 20.0))
+#define LINEAR_TO_MDECIBEL(linearValue)     (1000.0 * (20.0 * log10(linearValue)))
+
+#define FLOAT_TO_FP58(x)                    ((((uint16_t)(x)) << 8) | ((uint16_t)(((x) - (uint16_t)(x)) * 256.0f) & 0xFFU))
+#define FP58_TO_FLOAT(fp)                   (((fp) >> 8) + (((fp) & 0xFFU) / 256.0))
 
 #define VD55G1_REG_MODEL_ID                           0x0000
 
@@ -178,14 +186,46 @@ static void VD55G1_Log(struct VD55G1_Ctx *ctx, int lvl, const char *format, va_l
   */
 static int32_t CMW_VD55G1_GetSensorInfo(void *io_ctx, ISP_SensorInfoTypeDef *info)
 {
-  if ((io_ctx ==  NULL) || (info == NULL))
+  uint32_t again_min_mdB, again_max_mdB;
+  uint32_t dgain_min_mdB, dgain_max_mdB;
+  uint32_t exposure_min, exposure_max;
+  int ret;
+
+  if ((io_ctx == NULL) || (info == NULL))
   {
     return CMW_ERROR_WRONG_PARAM;
   }
 
-  /* Return the default full resolution */
+  if (sizeof(info->name) >= (strlen(VD55G1_NAME) + 1U))
+  {
+    strcpy(info->name, VD55G1_NAME);
+  }
+  else
+  {
+    return CMW_ERROR_WRONG_PARAM;
+  }
+
+  info->bayer_pattern = ISP_DEMOS_TYPE_MONO;
+  info->color_depth = ((CMW_VD55G1_t *)io_ctx)->ctx_driver.ctx.config_save.pixel_depth;
   info->width = VD55G1_MAX_WIDTH;
   info->height = VD55G1_MAX_HEIGHT;
+
+  /* Add 0.5 before casting so we round to the closest mdB value instead of truncating. */
+  again_min_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(32.0 / (32.0 - (double)VD55G1_ANALOG_GAIN_MIN)) + 0.5);
+  again_max_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(32.0 / (32.0 - (double)VD55G1_ANALOG_GAIN_MAX)) + 0.5);
+  dgain_min_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(FP58_TO_FLOAT(VD55G1_DIGITAL_GAIN_MIN)) + 0.5);
+  dgain_max_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(FP58_TO_FLOAT(VD55G1_DIGITAL_GAIN_MAX)) + 0.5);
+
+  info->gain_min = again_min_mdB + dgain_min_mdB;
+  info->gain_max = again_max_mdB + dgain_max_mdB;
+  info->again_max = again_max_mdB;
+
+  ret = VD55G1_GetExposureRegRange(&((CMW_VD55G1_t *)io_ctx)->ctx_driver, &exposure_min, &exposure_max);
+  if (ret)
+    return ret;
+
+  info->exposure_min = exposure_min;
+  info->exposure_max = exposure_max;
 
   return CMW_ERROR_NONE;
 }
@@ -244,6 +284,12 @@ static int32_t CMW_VD55G1_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
   VD55G1_Config_t config = { 0 };
   int ret;
   int i;
+  CMW_VD55G1_config_t *sensor_config;
+  sensor_config = (CMW_VD55G1_config_t*)(initSensor->sensor_config);
+  if (sensor_config == NULL)
+  {
+    return CMW_ERROR_WRONG_PARAM;
+  }
 
   assert(initSensor != NULL);
 
@@ -259,16 +305,28 @@ static int32_t CMW_VD55G1_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
     return CMW_ERROR_WRONG_PARAM;
   }
 
-  CMW_VD55G1_config_t default_sensor_config;
-  CMW_VD55G1_config_t *sensor_config;
+  switch (sensor_config->pixel_format)
+  {
+    case CMW_PIXEL_FORMAT_DEFAULT:
+    case CMW_PIXEL_FORMAT_RAW10:
+    {
+      config.pixel_depth = 10;
+      break;
+    }
+    case CMW_PIXEL_FORMAT_RAW8:
+    {
+      config.pixel_depth = 8;
+      break;
+    }
+    default:
+      return CMW_ERROR_COMPONENT_FAILURE;
+      break;
+  }
 
-  CMW_VD55G1_SetDefaultSensorValues(&default_sensor_config);
-  sensor_config = initSensor->sensor_config ? (CMW_VD55G1_config_t*)(initSensor->sensor_config) : &default_sensor_config;
-
-  config.ext_clock_freq_in_hz = sensor_config->ext_clock_freq_in_hz;
-  config.out_itf.data_rate_in_mps = sensor_config->csiconfig.data_rate_in_mps;
-  config.out_itf.clock_lane_swap_enable =sensor_config->csiconfig.clock_lane_swap_enable;
-  config.out_itf.data_lane_swap_enable = sensor_config->csiconfig.data_lane_swap_enable;
+  config.ext_clock_freq_in_hz = CAMERA_VD55G1_FREQ_IN_HZ;
+  config.out_itf.data_rate_in_mps = sensor_config->CSI_PHYBitrate;
+  config.out_itf.clock_lane_swap_enable = 1;
+  config.out_itf.data_lane_swap_enable = 1;
 
   config.flip_mirror_mode = CMW_VD55G1_getMirrorFlipConfig(initSensor->mirrorFlip);
   config.patgen = VD55G1_PATGEN_DISABLE;
@@ -293,11 +351,8 @@ static int32_t CMW_VD55G1_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
 void CMW_VD55G1_SetDefaultSensorValues( CMW_VD55G1_config_t *vd55g1_config)
 {
   assert(vd55g1_config != NULL);
-
-  vd55g1_config->ext_clock_freq_in_hz = CAMERA_VD55G1_FREQ_IN_HZ; // Default clock frequency
-  vd55g1_config->csiconfig.data_rate_in_mps = VD55G1_DEFAULT_DATARATE;
-  vd55g1_config->csiconfig.clock_lane_swap_enable = 1;
-  vd55g1_config->csiconfig.data_lane_swap_enable = 1;
+  vd55g1_config->pixel_format = CMW_PIXEL_FORMAT_RAW10;
+  vd55g1_config->CSI_PHYBitrate = VD55G1_DEFAULT_DATARATE;
 }
 
 static int32_t CMW_VD55G1_Start(void *io_ctx)
@@ -365,6 +420,85 @@ static int32_t CMW_VD55G1_MirrorFlipConfig(void *io_ctx, uint32_t Config)
   }
 
   return ret;
+}
+
+int32_t CMW_VD55G1_SetGain(void *io_ctx, int32_t gain)
+{
+  CMW_VD55G1_t *ctx = (CMW_VD55G1_t *)io_ctx;
+  uint32_t again_min_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(32.0 / (32.0 - (double)VD55G1_ANALOG_GAIN_MIN)) + 0.5);
+  uint32_t again_max_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(32.0 / (32.0 - (double)VD55G1_ANALOG_GAIN_MAX)) + 0.5);
+  uint32_t dgain_min_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(FP58_TO_FLOAT(VD55G1_DIGITAL_GAIN_MIN)) + 0.5);
+  uint32_t dgain_max_mdB = (uint32_t)(LINEAR_TO_MDECIBEL(FP58_TO_FLOAT(VD55G1_DIGITAL_GAIN_MAX)) + 0.5);
+  double analog_linear_gain;
+  double digital_linear_gain;
+  int ret;
+  int analog_reg;
+  uint16_t digital_reg;
+
+  if ((gain < (int32_t)(dgain_min_mdB + again_min_mdB)) ||
+      (gain > (int32_t)(dgain_max_mdB + again_max_mdB)))
+    return -1;
+
+  if (gain <= (int32_t)again_max_mdB)
+  {
+    analog_linear_gain = MDECIBEL_TO_LINEAR((double)(gain - (int32_t)dgain_min_mdB));
+    digital_linear_gain = MDECIBEL_TO_LINEAR((double)dgain_min_mdB);
+  }
+  else
+  {
+    analog_linear_gain = MDECIBEL_TO_LINEAR((double)again_max_mdB);
+    digital_linear_gain = MDECIBEL_TO_LINEAR((double)(gain - (int32_t)again_max_mdB));
+  }
+
+  if (analog_linear_gain < 1.0)
+    analog_linear_gain = 1.0;
+
+  analog_reg = (int)(32.0 - (32.0 / analog_linear_gain) + 0.5);
+  if (analog_reg < VD55G1_ANALOG_GAIN_MIN)
+    analog_reg = VD55G1_ANALOG_GAIN_MIN;
+  if (analog_reg > VD55G1_ANALOG_GAIN_MAX)
+    analog_reg = VD55G1_ANALOG_GAIN_MAX;
+
+  ret = VD55G1_SetAnalogGain(&ctx->ctx_driver, analog_reg);
+  if (ret)
+    return ret;
+
+  digital_reg = FLOAT_TO_FP58(digital_linear_gain);
+  if (digital_reg < VD55G1_DIGITAL_GAIN_MIN)
+    digital_reg = VD55G1_DIGITAL_GAIN_MIN;
+  if (digital_reg > VD55G1_DIGITAL_GAIN_MAX)
+    digital_reg = VD55G1_DIGITAL_GAIN_MAX;
+  ret = VD55G1_SetDigitalGain(&ctx->ctx_driver, (int)digital_reg);
+  if (ret)
+    return ret;
+
+  return 0;
+}
+
+int32_t CMW_VD55G1_SetExposure(void *io_ctx, int32_t exposure)
+{
+  return VD55G1_SetExposureTime(&((CMW_VD55G1_t *)io_ctx)->ctx_driver, exposure);
+}
+
+int32_t CMW_VD55G1_SetExposureMode(void *io_ctx, int32_t mode)
+{
+  int ret = -1;
+
+  switch (mode)
+  {
+    case CMW_EXPOSUREMODE_MANUAL:
+      ret = VD55G1_SetExposureMode(&((CMW_VD55G1_t *)io_ctx)->ctx_driver, VD55G1_EXPOSURE_MODE_MANUAL);
+      break;
+    case CMW_EXPOSUREMODE_AUTOFREEZE:
+      ret = VD55G1_SetExposureMode(&((CMW_VD55G1_t *)io_ctx)->ctx_driver, VD55G1_EXPOSURE_MODE_FREEZE);
+      break;
+    case CMW_EXPOSUREMODE_AUTO:
+    default:
+      ret = VD55G1_SetExposureMode(&((CMW_VD55G1_t *)io_ctx)->ctx_driver, VD55G1_EXPOSURE_MODE_AUTO);
+      break;
+  }
+
+  return (ret == 0) ? CMW_ERROR_NONE : CMW_ERROR_UNKNOWN_FAILURE;
 }
 
 static int32_t VD55G1_RegisterBusIO(CMW_VD55G1_t *io_ctx)
@@ -447,6 +581,9 @@ int CMW_VD55G1_Probe(CMW_VD55G1_t *io_ctx, CMW_Sensor_if_t *vd55g1_if)
   vd55g1_if->Start = CMW_VD55G1_Start;
   vd55g1_if->Stop = CMW_VD55G1_Stop;
   vd55g1_if->SetMirrorFlip = CMW_VD55G1_MirrorFlipConfig;
+  vd55g1_if->SetGain = CMW_VD55G1_SetGain;
+  vd55g1_if->SetExposure = CMW_VD55G1_SetExposure;
+  vd55g1_if->SetExposureMode = CMW_VD55G1_SetExposureMode;
   vd55g1_if->GetSensorInfo = CMW_VD55G1_GetSensorInfo;
   return ret;
 }

@@ -143,7 +143,7 @@
  * @param[in]  blockSize  number of samples of output data.
  */
 
-void arm_spline_f32(
+ARM_DSP_ATTRIBUTE void arm_spline_f32(
         arm_spline_instance_f32 * S, 
   const float32_t * xq,
         float32_t * pDst,
@@ -165,17 +165,17 @@ void arm_spline_f32(
     float32_t x_sc;
 
 #ifdef ARM_MATH_NEON
-    float32x4_t xiv;
-    float32x4_t aiv;
-    float32x4_t biv;
-    float32x4_t civ;
-    float32x4_t div;
+    float32x4_t xiv = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t aiv = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t biv = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t civ = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t div = {0.0f, 0.0f, 0.0f, 0.0f};
 
-    float32x4_t xqv;
+    float32x4_t xqv = {0.0f, 0.0f, 0.0f, 0.0f};
 
-    float32x4_t temp;
-    float32x4_t diff;
-    float32x4_t yv;
+    float32x4_t temp = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t diff = {0.0f, 0.0f, 0.0f, 0.0f};
+    float32x4_t yv = {0.0f, 0.0f, 0.0f, 0.0f};
 #endif
 
     /* Create output for x(i)<x<x(i+1) */

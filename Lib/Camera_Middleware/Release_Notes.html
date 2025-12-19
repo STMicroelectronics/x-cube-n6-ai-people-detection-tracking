@@ -1502,9 +1502,12 @@ abstracting hardware-specific details.</p>
 <li>MB1854B IMX335 Camera module</li>
 <li>ST VD66GY Camera module</li>
 <li>ST VD55G1 Camera module</li>
+<li>ST STEVAL-1943-MC1 Camera module</li>
+<li>OV5640 Camera module</li>
 </ul></li>
 <li>Use ISP Library for ST VD66GY.</li>
 <li>Use ISP Library for IMX335.</li>
+<li>Use ISP Library for ST VD1943.</li>
 <li>Enable APIs to Init and Start camera pipelines with CSI-DCMIPP.</li>
 </ul>
 <h2 id="software-components">Software components</h2>
@@ -1524,21 +1527,31 @@ abstracting hardware-specific details.</p>
 <tbody>
 <tr class="odd">
 <td>Isp Library</td>
-<td>v1.2.0</td>
+<td>v1.3.0</td>
 <td><a href="ISP_Library/README.md">release notes</a></td>
 </tr>
 <tr class="even">
 <td>imx335 driver</td>
-<td>v1.3.1-cmw-patch-2</td>
+<td>v1.3.2-cmw-patch</td>
 <td><a href="sensors/imx335/Release_Notes.html">release notes</a></td>
 </tr>
 <tr class="odd">
+<td>ov5640 driver</td>
+<td>v4.0.2-cmw-patch-2</td>
+<td><a href="sensors/ov5640/Release_Notes.html">release notes</a></td>
+</tr>
+<tr class="even">
 <td>vd6g driver</td>
 <td>v1.0.0</td>
 <td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>vd55g1 driver</td>
+<td>v1.1.0</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>vd1943 driver</td>
 <td>v1.0.0</td>
 <td></td>
 </tr>
@@ -1550,6 +1563,19 @@ abstracting hardware-specific details.</p>
 <li>MB1939 STM32N6570-DK revC</li>
 </ul>
 <h2 id="update-history">Update history</h2>
+<h3 id="v1.5.0-december-2025">V1.5.0 / December 2025</h3>
+<ul>
+<li>Update Isp library to v1.3.0</li>
+<li>Add support for STEVAL-1943-MC1 Camera module</li>
+<li>Add support for OV5640 Camera module</li>
+<li>API break in structure layout and naming.</li>
+<li>Add CMW_CAMERA_PIPE_ErrorCallback() user callback in case of DCMIPP
+error. Default weak implementation is to assert.</li>
+<li>Removal of pixel_format and anti_flicker in CMW_CameraInit_t</li>
+<li>Change CMW_Sensor_Config_t to CMW_Advanced_Config_t, enabling
+configuration of parameters such as pixel_format, line_len, and
+CSI_PHYBitrate according to the specific sensor.</li>
+</ul>
 <h3 id="v1.4.3-july-2025">V1.4.3 / July 2025</h3>
 <ul>
 <li>Add support of custom configuration of sensors</li>

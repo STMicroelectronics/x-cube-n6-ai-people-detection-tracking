@@ -33,7 +33,28 @@
 #include "arm_vec_math.h"
 #endif
 
-void arm_vexp_f32(
+/**
+  @ingroup groupFastMath
+ */
+
+/**
+   @defgroup vexp Vector Exponential
+
+   Compute the exp values of a vector of samples.
+*/
+
+/**
+  @addtogroup vexp
+  @{
+ */
+
+/**
+  @brief         Floating-point vector of exp values.
+  @param[in]     pSrc       points to the input vector
+  @param[out]    pDst       points to the output vector
+  @param[in]     blockSize  number of samples in each vector
+ */
+ARM_DSP_ATTRIBUTE void arm_vexp_f32(
   const float32_t * pSrc,
         float32_t * pDst,
         uint32_t blockSize)
@@ -95,3 +116,7 @@ void arm_vexp_f32(
       blkCnt--;
    }
 }
+
+/**
+  @} end of vexp group
+ */

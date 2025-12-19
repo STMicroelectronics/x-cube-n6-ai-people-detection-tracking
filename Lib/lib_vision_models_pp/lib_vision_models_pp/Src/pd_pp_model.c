@@ -148,7 +148,7 @@ static int32_t pd_pp_decode_int8(pd_model_pp_in_t *pInput,
   const size_t in_struct_size = (2 * pInput_static_param->nb_keypoints) + AI_PD_MODEL_PP_KEYPOINTS;
   size_t box_nb = 0;
   float32_t computedThreshold = -logf( 1.0f / pInput_static_param->conf_threshold - 1);
-  int8_t threshold_s8  = (int8_t)(computedThreshold / proba_scale + 0.5 + proba_zp);
+  int8_t threshold_s8  = (int8_t)(computedThreshold / proba_scale + 0.5f + proba_zp);
 
   for (uint32_t i = 0; i < pInput_static_param->nb_total_boxes; i++) {
     pd_pp_box_t *pBox = &pBoxes[box_nb]; //&pd_boxes[box_nb];

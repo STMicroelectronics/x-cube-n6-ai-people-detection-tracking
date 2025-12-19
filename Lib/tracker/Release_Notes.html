@@ -5,12 +5,22 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Release_Notes</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
   <style type="text/css">@charset "UTF-8";
 
 
@@ -1475,14 +1485,18 @@ text-align: center;
 }</style>
 </head>
 <body>
-<h1 id="release-notes-for-stm32n6-tracker-library">Release Notes for STM32N6 Tracker Library</h1>
+<h1 id="release-notes-for-stm32n6-tracker-library">Release Notes for
+STM32N6 Tracker Library</h1>
 <h2 id="purpose">Purpose</h2>
-<p>Tracker Library implement a box tracking algorithm based on ByteTrack.</p>
+<p>Tracker Library implement a box tracking algorithm based on
+ByteTrack.</p>
 <h2 id="key-features">Key Features</h2>
 <ul>
 <li>Track boxes for video sequence.</li>
 </ul>
 <h2 id="update-history">Update history</h2>
+<h3 id="v1.0.1-october-2025">V1.0.1 / October 2025</h3>
+<p>Remove useless assert that may hang application</p>
 <h3 id="v1.0.0-april-2025">V1.0.0 / April 2025</h3>
 <p>Initial Version</p>
 </body>

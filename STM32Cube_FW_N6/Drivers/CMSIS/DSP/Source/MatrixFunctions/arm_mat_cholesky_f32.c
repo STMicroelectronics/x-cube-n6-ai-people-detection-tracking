@@ -27,6 +27,7 @@
  */
 
 #include "dsp/matrix_functions.h"
+#include "dsp/matrix_utils.h"
 
 /**
   @ingroup groupMatrix
@@ -35,7 +36,7 @@
 /**
   @defgroup MatrixChol Cholesky and LDLT decompositions
 
-  Computes the Cholesky or LDL^t decomposition of a matrix.
+  Computes the Cholesky or LL^t decomposition of a matrix.
 
 
   If the input matrix does not have a decomposition, then the 
@@ -58,14 +59,18 @@
                    - \ref ARM_MATH_DECOMPOSITION_FAILURE      : Input matrix cannot be decomposed
    * @par
    * If the matrix is ill conditioned or only semi-definite, then it is better using the LDL^t decomposition.
-   * The decomposition of A is returning a lower triangular matrix U such that A = U U^t
+   * The decomposition of A is returning a lower triangular matrix L such that A = L L^t
+   *
+   * @par
+   * The destination matrix should be set to 0 before calling the functions because
+   * the function may not overwrite all output elements.
    */
 
 #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
 
 #include "arm_helium_utils.h"
 
-arm_status arm_mat_cholesky_f32(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_cholesky_f32(
   const arm_matrix_instance_f32 * pSrc,
         arm_matrix_instance_f32 * pDst)
 {
@@ -170,10 +175,7 @@ arm_status arm_mat_cholesky_f32(
        }
 
        invSqrtVj = 1.0f/sqrtf(pG[i * n + i]);
-       for(j=i; j < n ; j++)
-       {
-         pG[j * n + i] = pG[j * n + i] * invSqrtVj ;
-       }
+       SCALE_COL_F32(pDst,i,invSqrtVj,i);
     }
 
     status = ARM_MATH_SUCCESS;
@@ -188,7 +190,7 @@ arm_status arm_mat_cholesky_f32(
 #else
 #if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
 
-arm_status arm_mat_cholesky_f32(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_cholesky_f32(
   const arm_matrix_instance_f32 * pSrc,
         arm_matrix_instance_f32 * pDst)
 {
@@ -350,10 +352,7 @@ arm_status arm_mat_cholesky_f32(
        }
 
        invSqrtVj = 1.0f/sqrtf(pG[i * n + i]);
-       for(j=i; j < n ; j++)
-       {
-         pG[j * n + i] = pG[j * n + i] * invSqrtVj ;
-       }
+       SCALE_COL_F32(pDst,i,invSqrtVj,i);
     }
 
     status = ARM_MATH_SUCCESS;
@@ -366,7 +365,7 @@ arm_status arm_mat_cholesky_f32(
 }
 
 #else
-arm_status arm_mat_cholesky_f32(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_cholesky_f32(
   const arm_matrix_instance_f32 * pSrc,
         arm_matrix_instance_f32 * pDst)
 {
@@ -416,10 +415,8 @@ arm_status arm_mat_cholesky_f32(
        }
 
        invSqrtVj = 1.0f/sqrtf(pG[i * n + i]);
-       for(j=i ; j < n ; j++)
-       {
-         pG[j * n + i] = pG[j * n + i] * invSqrtVj ;
-       }
+       SCALE_COL_F32(pDst,i,invSqrtVj,i);
+      
     }
 
     status = ARM_MATH_SUCCESS;

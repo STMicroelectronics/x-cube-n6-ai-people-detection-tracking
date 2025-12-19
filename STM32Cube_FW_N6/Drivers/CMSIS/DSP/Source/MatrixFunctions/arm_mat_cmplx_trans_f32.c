@@ -38,7 +38,23 @@
   Tranposes a complex matrix.
 
   Transposing an <code>M x N</code> matrix flips it around the center diagonal and results in an <code>N x M</code> matrix.
-  \image html MatrixTranspose.gif "Transpose of a 3 x 3 matrix"
+ 
+  @par Transpose of a 3 x 3 matrix
+  
+  \f[
+  \begin{pmatrix}
+   a_{1,1} & a_{1,2} & a_{1,3} \\
+   a_{2,1} & a_{2,2} & a_{2,3} \\
+   a_{3,1} & a_{3,2} & a_{3,3} \\
+  \end{pmatrix}^T
+   =
+  \begin{pmatrix}
+   a_{1,1} & a_{2,1} & a_{3,1} \\
+   a_{1,2} & a_{2,2} & a_{3,2} \\
+   a_{1,3} & a_{2,3} & a_{3,3} \\
+  \end{pmatrix}
+  \f]
+
  */
 
 /**
@@ -58,14 +74,14 @@
 
 #include "arm_helium_utils.h"
 
-arm_status arm_mat_cmplx_trans_f32(const arm_matrix_instance_f32 * pSrc, arm_matrix_instance_f32 * pDst)
+ARM_DSP_ATTRIBUTE arm_status arm_mat_cmplx_trans_f32(const arm_matrix_instance_f32 * pSrc, arm_matrix_instance_f32 * pDst)
 {
     return arm_mat_cmplx_trans_32bit(pSrc->numRows, pSrc->numCols, (uint32_t *) pSrc->pData,
                                    pDst->numRows, pDst->numCols, (uint32_t *) pDst->pData);
 }
 
 #else
-arm_status arm_mat_cmplx_trans_f32(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_cmplx_trans_f32(
   const arm_matrix_instance_f32 * pSrc,
   arm_matrix_instance_f32 * pDst)
 {

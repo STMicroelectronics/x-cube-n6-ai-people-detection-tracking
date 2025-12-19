@@ -20,11 +20,7 @@
 
 #include <stdint.h>
 
-#ifdef STM32N6570_DK_REV
-#define CAMERA_FPS 20
-#else
 #define CAMERA_FPS 30
-#endif
 
 void CAM_Init(void);
 void CAM_DisplayPipe_Start(uint8_t *display_pipe_dst, uint32_t cam_mode);

@@ -1,7 +1,7 @@
 /* ----------------------------------------------------------------------
  * Project:      CMSIS DSP Library
  * Title:        arm_atan2_q15.c
- * Description:  float32 Arc tangent of y/x
+ * Description:  q15 Arc tangent of y/x
  *
  * $Date:        22 April 2022
  * $Revision:    V1.10.0
@@ -43,16 +43,17 @@ atan for argument between in [0, 1.0]
 
 #define ATAN2_NB_COEFS_Q15 10
 
-static const q15_t atan2_coefs_q15[ATAN2_NB_COEFS_Q15]={0x0000
-,0x7fff
-,0xffff
-,0xd567
-,0xff70
-,0x1bad
-,0xfd58
-,0xe9a9
-,0x1129
-,0xfbdb
+static const q15_t atan2_coefs_q15[ATAN2_NB_COEFS_Q15]={
+     0, // 0x0000
+ 32767, // 0x7fff
+    -1, // 0xffff
+-10905, // 0xd567
+  -144, // 0xff70
+  7085, // 0x1bad
+  -680, // 0xfd58
+ -5719, // 0xe9a9
+  4393, // 0x1129
+ -1061  // 0xfbdb
 };
 
 __STATIC_FORCEINLINE q15_t arm_atan_limited_q15(q15_t x)
@@ -79,14 +80,26 @@ __STATIC_FORCEINLINE q15_t arm_atan_q15(q15_t y,q15_t x)
 
    if (y<0)
    {
-     arm_negate_q15(&y,&y,1);
+     /* Negate y */
+#if defined (ARM_MATH_DSP)
+     y = __QSUB16(0, y);
+#else 
+     y = (y == (q15_t) 0x8000) ? (q15_t) 0x7fff : -y;
+#endif
+
      sign=1-sign;
    }
 
    if (x < 0)
    {
       sign=1 - sign;
-      arm_negate_q15(&x,&x,1);
+     
+      /* Negate x */
+#if defined (ARM_MATH_DSP)
+     x = __QSUB16(0, x);
+#else 
+     x = (x == (q15_t) 0x8000) ? (q15_t) 0x7fff : -x;
+#endif
    }
 
    if (y > x)
@@ -96,7 +109,15 @@ __STATIC_FORCEINLINE q15_t arm_atan_q15(q15_t y,q15_t x)
 
     arm_divide_q15(x,y,&ratio,&shift);
 
-    arm_shift_q15(&ratio,shift,&ratio,1);
+    /* Shift ratio by shift */
+    if (shift >=0)
+    {
+       ratio = __SSAT(((q31_t) ratio << shift), 16);
+    }
+    else
+    {
+       ratio = (ratio >> -shift);
+    }
    
     res = PIHALFQ13 - arm_atan_limited_q15(ratio);
       
@@ -108,7 +129,16 @@ __STATIC_FORCEINLINE q15_t arm_atan_q15(q15_t y,q15_t x)
 
     arm_divide_q15(y,x,&ratio,&shift);
 
-    arm_shift_q15(&ratio,shift,&ratio,1);
+    /* Shift ratio by shift */
+    if (shift >=0)
+    {
+       ratio = __SSAT(((q31_t) ratio << shift), 16);
+    }
+    else
+    {
+       ratio = (ratio >> -shift);
+    }
+   
 
     res = arm_atan_limited_q15(ratio);
 
@@ -117,7 +147,12 @@ __STATIC_FORCEINLINE q15_t arm_atan_q15(q15_t y,q15_t x)
 
    if (sign)
    {
-     arm_negate_q15(&res,&res,1);
+     /* Negate res */
+#if defined (ARM_MATH_DSP)
+     res = __QSUB16(0, res);
+#else 
+     res = (res == (q15_t) 0x8000) ? (q15_t) 0x7fff : -res;
+#endif
    }
 
    return(res);
@@ -143,11 +178,11 @@ __STATIC_FORCEINLINE q15_t arm_atan_q15(q15_t y,q15_t x)
  
   @par         Compute the Arc tangent of y/x:
                    The sign of y and x are used to determine the right quadrant
-                   and compute the right angle.
+                   and compute the right angle. Returned value is between -Pi and Pi.
 */
 
 
-arm_status arm_atan2_q15(q15_t y,q15_t x,q15_t *result)
+ARM_DSP_ATTRIBUTE arm_status arm_atan2_q15(q15_t y,q15_t x,q15_t *result)
 {
     if (x > 0)
     {
@@ -166,14 +201,7 @@ arm_status arm_atan2_q15(q15_t y,q15_t x,q15_t *result)
         }
         else
         {
-            if (y<0)
-            {
-               *result= -PIQ13;
-            }
-            else
-            {
-               *result= PIQ13;
-            }
+            *result= PIQ13;
         }
         return(ARM_MATH_SUCCESS);
     }

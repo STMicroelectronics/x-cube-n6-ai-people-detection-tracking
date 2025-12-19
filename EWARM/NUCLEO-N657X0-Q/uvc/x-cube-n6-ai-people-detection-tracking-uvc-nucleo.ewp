@@ -234,6 +234,7 @@
                     <state>USE_IMX335_SENSOR</state>
                     <state>USE_VD66GY_SENSOR</state>
                     <state>USE_VD55G1_SENSOR</state>
+                    <state>USE_VD1943_SENSOR</state>
                     <state>STM32N6570_NUCLEO_REV</state>
                     <state>TX_MAX_PARALLEL_NETWORKS=1</state>
                     <state>LL_ATON_PLATFORM=LL_ATON_PLAT_STM32N6</state>
@@ -382,7 +383,7 @@
                     <state>$PROJ_DIR$\..\..\..\STM32Cube_FW_N6\Utilities\lcd</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton</state>
-                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6XX</state>
+                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6xx</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\lib_vision_models_pp\lib_vision_models_pp\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware</state>
@@ -390,6 +391,7 @@
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\imx335</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd55g1</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd6g</state>
+                    <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd1943</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\evision\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\FreeRTOS\Source\include</state>
@@ -589,6 +591,7 @@
                     <state>USE_IMX335_SENSOR</state>
                     <state>USE_VD66GY_SENSOR</state>
                     <state>USE_VD55G1_SENSOR</state>
+                    <state>USE_VD1943_SENSOR</state>
                     <state>STM32N6570_NUCLEO_REV</state>
                     <state>TX_MAX_PARALLEL_NETWORKS=1</state>
                     <state>LL_ATON_PLATFORM=LL_ATON_PLAT_STM32N6</state>
@@ -708,7 +711,7 @@
                     <state>$PROJ_DIR$\..\..\..\STM32Cube_FW_N6\Utilities\lcd</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton</state>
-                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6XX</state>
+                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6xx</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\lib_vision_models_pp\lib_vision_models_pp\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware</state>
@@ -716,6 +719,7 @@
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\imx335</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd55g1</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd6g</state>
+                    <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd1943</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\evision\Inc</state>
                     <state>$PROJ_DIR$\..\..\..\Lib\FreeRTOS\Source\include</state>
@@ -921,9 +925,7 @@
                 </option>
                 <option>
                     <name>IlinkAdditionalLibs</name>
-                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Lib\ABI2.1\ARMCortexM55\NetworkRuntime1020_CM55_IAR.a</state>
-                    <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\evision\Lib\libn6-evision-awb_iar.a</state>
-                    <state>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\evision\Lib\libn6-evision-st-ae_iar.a</state>
+                    <state>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Lib\ABI2.1\ARMCortexM55\NetworkRuntime1100_CM55_IAR.a</state>
                 </option>
                 <option>
                     <name>IlinkOverrideProgramEntryLabel</name>
@@ -1220,6 +1222,12 @@
         <group>
             <name>ai-postprocessing-wrapper</name>
             <file>
+                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_fd_blazeface_ui.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_fd_yunet_ui.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_iseg_yolo_v8_ui.c</name>
             </file>
             <file>
@@ -1232,13 +1240,13 @@
                 <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_mpe_yolo_v8_ui.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_fd_blazeface_uf.c</name>
+                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_blazeface_uf.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_fd_blazeface_ui.c</name>
+                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_blazeface_ui.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_fd_blazeface_uu.c</name>
+                <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_blazeface_uu.c</name>
             </file>
             <file>
                 <name>$PROJ_DIR$\..\..\..\Lib\ai-postprocessing-wrapper\app_postprocess_od_st_ssd_uf.c</name>
@@ -1287,12 +1295,12 @@
                 <group>
                     <name>Devices</name>
                     <group>
-                        <name>STM32N6XX</name>
+                        <name>STM32N6xx</name>
                         <file>
-                            <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6XX\mcu_cache.c</name>
+                            <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6xx\mcu_cache.c</name>
                         </file>
                         <file>
-                            <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6XX\npu_cache.c</name>
+                            <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\Devices\STM32N6xx\npu_cache.c</name>
                         </file>
                     </group>
                 </group>
@@ -1303,6 +1311,9 @@
                     </file>
                     <file>
                         <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton.c</name>
+                    </file>
+                    <file>
+                        <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton_cipher.c</name>
                     </file>
                     <file>
                         <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton_debug.c</name>
@@ -1321,6 +1332,9 @@
                     </file>
                     <file>
                         <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton_runtime.c</name>
+                    </file>
+                    <file>
+                        <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton_stai_internal.c</name>
                     </file>
                     <file>
                         <name>$PROJ_DIR$\..\..\..\Lib\AI_Runtime\Npu\ll_aton\ll_aton_util.c</name>
@@ -1343,7 +1357,13 @@
                     <group>
                         <name>Src</name>
                         <file>
+                            <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Src\isp_ae_algo.c</name>
+                        </file>
+                        <file>
                             <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Src\isp_algo.c</name>
+                        </file>
+                        <file>
+                            <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Src\isp_awb_algo.c</name>
                         </file>
                         <file>
                             <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\ISP_Library\isp\Src\isp_cmd_parser.c</name>
@@ -1372,6 +1392,12 @@
                     </file>
                 </group>
                 <group>
+                    <name>vd1943</name>
+                    <file>
+                        <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd1943\vd1943.c</name>
+                    </file>
+                </group>
+                <group>
                     <name>vd55g1</name>
                     <file>
                         <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\vd55g1\vd55g1.c</name>
@@ -1385,6 +1411,9 @@
                 </group>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\cmw_imx335.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\cmw_vd1943.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\Lib\Camera_Middleware\sensors\cmw_vd55g1.c</name>
@@ -1512,6 +1541,9 @@
             <name>NUCLEO-N657X0-Q</name>
             <file>
                 <name>$PROJ_DIR$\..\..\..\Model\NUCLEO-N657X0-Q\network.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\..\..\Model\NUCLEO-N657X0-Q\stai_network.c</name>
             </file>
         </group>
     </group>

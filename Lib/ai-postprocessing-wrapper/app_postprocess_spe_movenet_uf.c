@@ -25,7 +25,7 @@
 #if POSTPROCESS_TYPE == POSTPROCESS_SPE_MOVENET_UF
 static spe_pp_outBuffer_t out_detections[AI_POSE_PP_POSE_KEYPOINTS_NB];
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_SPE_POSTPROCESS_ERROR_NO;
   spe_movenet_pp_static_param_t *params = (spe_movenet_pp_static_param_t *) params_postprocess;

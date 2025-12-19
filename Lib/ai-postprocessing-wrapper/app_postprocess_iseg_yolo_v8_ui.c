@@ -28,7 +28,7 @@ iseg_yolov8_pp_scratchBuffer_s8_t scratch_detections[AI_YOLOV8_SEG_PP_TOTAL_BOXE
 float32_t _out_buf_mask[AI_YOLOV8_SEG_PP_MASK_NB];
 int8_t _out_buf_mask_s8[AI_YOLOV8_SEG_PP_MASK_NB * AI_YOLOV8_SEG_PP_TOTAL_BOXES];
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_ISEG_POSTPROCESS_ERROR_NO;
   iseg_yolov8_pp_static_param_t *params = (iseg_yolov8_pp_static_param_t *) params_postprocess;

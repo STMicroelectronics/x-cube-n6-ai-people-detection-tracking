@@ -26,8 +26,8 @@
  * limitations under the License.
  */
 
-#ifndef _ARM_UTILS_HELIUM_H_
-#define _ARM_UTILS_HELIUM_H_
+#ifndef ARM_UTILS_HELIUM_H_
+#define ARM_UTILS_HELIUM_H_
 
 
 #ifdef   __cplusplus
@@ -112,7 +112,7 @@ __STATIC_FORCEINLINE float16x8_t __mve_cmplx_sum_intra_vec_f16(
     float16x8_t   vecIn)
 {
     float16x8_t   vecTmp, vecOut;
-    uint32_t    tmp;
+    uint32_t    tmp = 0;
 
     vecTmp = (float16x8_t) vrev64q_s32((int32x4_t) vecIn);
     // TO TRACK : using canonical addition leads to unefficient code generation for f16
@@ -609,7 +609,6 @@ Definitions available for MVEI only
 #define MVE_ASRL_SAT32(acc, shift)          ((sqrshrl(acc, -(32-shift)) >> 32) & 0xffffffff)
 
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_FAST_SQRT_Q31_MVE)
 __STATIC_INLINE q31x4_t FAST_VSQRT_Q31(q31x4_t vecIn)
 {
     q63x2_t         vecTmpLL;
@@ -675,9 +674,7 @@ __STATIC_INLINE q31x4_t FAST_VSQRT_Q31(q31x4_t vecIn)
 
     return vecDst;
 }
-#endif
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_FAST_SQRT_Q15_MVE)
 __STATIC_INLINE q15x8_t FAST_VSQRT_Q15(q15x8_t vecIn)
 {
     q31x4_t         vecTmpLev, vecTmpLodd, vecSignL;
@@ -742,7 +739,6 @@ __STATIC_INLINE q15x8_t FAST_VSQRT_Q15(q15x8_t vecIn)
 
     return vecDst;
 }
-#endif
 
 #endif /* defined (ARM_MATH_HELIUM) || defined(ARM_MATH_MVEI) */
 

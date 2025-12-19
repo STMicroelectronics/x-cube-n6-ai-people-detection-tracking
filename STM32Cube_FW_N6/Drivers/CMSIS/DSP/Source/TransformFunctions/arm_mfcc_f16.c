@@ -52,7 +52,7 @@
 
 
 /**
-  @addtogroup MFCC
+  @addtogroup MFCCF16
   @{
  */
 
@@ -62,8 +62,6 @@
   @param[in]     pSrc points to the input samples
   @param[out]     pDst  points to the output MFCC values
   @param[inout]     pTmp  points to a temporary buffer of complex
-
-  @return        none
 
   @par           Description
                    The number of input samples if the FFT length used
@@ -77,7 +75,7 @@
                    The source buffer is modified by this function.
 
  */
-void arm_mfcc_f16(
+ARM_DSP_ATTRIBUTE void arm_mfcc_f16(
   const arm_mfcc_instance_f16 * S,
   float16_t *pSrc,
   float16_t *pDst,
@@ -94,7 +92,10 @@ void arm_mfcc_f16(
   /* Normalize */
   arm_absmax_f16(pSrc,S->fftLen,&maxValue,&index);
 
-  arm_scale_f16(pSrc,1.0f16/(_Float16)maxValue,pSrc,S->fftLen);
+  if ((_Float16)maxValue != 0.0f16)
+  {
+     arm_scale_f16(pSrc,1.0f16/(_Float16)maxValue,pSrc,S->fftLen);
+  }
 
   /* Multiply by window */
   arm_mult_f16(pSrc,S->windowCoefs,pSrc,S->fftLen);
@@ -125,6 +126,10 @@ void arm_mfcc_f16(
   pTmp[1]=0.0f;
 #endif
   arm_cmplx_mag_f16(pTmp,pSrc,S->fftLen);
+  if ((_Float16)maxValue != 0.0f16)
+  {
+     arm_scale_f16(pSrc,maxValue,pSrc,S->fftLen);
+  }
 
   /* Apply MEL filters */
   for(i=0; i<S->nbMelFilters; i++)

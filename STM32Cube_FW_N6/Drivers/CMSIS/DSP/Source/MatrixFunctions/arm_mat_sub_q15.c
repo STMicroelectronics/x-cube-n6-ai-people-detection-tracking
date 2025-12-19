@@ -52,14 +52,14 @@
  */
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 
-arm_status arm_mat_sub_q15(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_sub_q15(
   const arm_matrix_instance_q15 * pSrcA,
   const arm_matrix_instance_q15 * pSrcB,
         arm_matrix_instance_q15 * pDst)
 {
     uint32_t        numSamples;       /* total number of elements in the matrix  */
     q15_t          *pDataA, *pDataB, *pDataDst;
-    q15x8_t       vecA, vecB, vecDst;
+    q15x8_t       vecA, vecB, vecDst = { 0 };
     q15_t const   *pSrcAVec;
     q15_t const   *pSrcBVec;
     uint32_t        blkCnt;           /* loop counters */
@@ -125,7 +125,7 @@ arm_status arm_mat_sub_q15(
 }
 
 #else
-arm_status arm_mat_sub_q15(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_sub_q15(
   const arm_matrix_instance_q15 * pSrcA,
   const arm_matrix_instance_q15 * pSrcB,
         arm_matrix_instance_q15 * pDst)

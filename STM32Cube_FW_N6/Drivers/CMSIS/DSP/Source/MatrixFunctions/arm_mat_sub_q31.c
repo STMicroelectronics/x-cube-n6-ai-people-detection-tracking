@@ -51,14 +51,14 @@
                    Results outside of the allowable Q31 range [0x80000000 0x7FFFFFFF] are saturated.
  */
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
-arm_status arm_mat_sub_q31(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_sub_q31(
   const arm_matrix_instance_q31 * pSrcA,
   const arm_matrix_instance_q31 * pSrcB,
         arm_matrix_instance_q31 * pDst)
 {
     uint32_t        numSamples;       /* total number of elements in the matrix  */
     q31_t          *pDataA, *pDataB, *pDataDst;
-    q31x4_t       vecA, vecB, vecDst;
+    q31x4_t       vecA, vecB, vecDst = { 0 };
     q31_t const   *pSrcAVec;
     q31_t const   *pSrcBVec;
     uint32_t        blkCnt;           /* loop counters */
@@ -129,7 +129,7 @@ arm_status arm_mat_sub_q31(
 }
 
 #else
-arm_status arm_mat_sub_q31(
+ARM_DSP_ATTRIBUTE arm_status arm_mat_sub_q31(
   const arm_matrix_instance_q31 * pSrcA,
   const arm_matrix_instance_q31 * pSrcB,
         arm_matrix_instance_q31 * pDst)

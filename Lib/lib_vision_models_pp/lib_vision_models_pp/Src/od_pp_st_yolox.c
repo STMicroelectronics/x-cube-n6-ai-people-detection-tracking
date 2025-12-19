@@ -256,7 +256,7 @@ int32_t st_yolox_pp_level_decode_and_store_is8(int8_t *pInbuff,
   if ( 1 == pInput_static_param->nb_classes) {
 
     float32_t computedThreshold = -logf( 1 / pInput_static_param->conf_threshold - 1);
-    int8_t threshold_s8  = (int8_t)(computedThreshold / raw_scale + 0.5 + raw_zp);
+    int8_t threshold_s8  = (int8_t)(computedThreshold / raw_scale + 0.5f + raw_zp);
 
     for (int32_t row = 0; row < grid_width; ++row)
     {

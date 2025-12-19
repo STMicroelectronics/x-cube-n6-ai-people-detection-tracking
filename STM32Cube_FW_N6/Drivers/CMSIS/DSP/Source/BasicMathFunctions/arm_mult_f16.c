@@ -32,17 +32,6 @@
   @ingroup groupMath
  */
 
-/**
-  @defgroup BasicMult Vector Multiplication
-
-  Element-by-element multiplication of two vectors.
-
-  <pre>
-      pDst[n] = pSrcA[n] * pSrcB[n],   0 <= n < blockSize.
-  </pre>
-
-  There are separate functions for floating-point, Q7, Q15, and Q31 data types.
- */
 
 /**
   @addtogroup BasicMult
@@ -55,7 +44,6 @@
   @param[in]     pSrcB      points to the second input vector.
   @param[out]    pDst       points to the output vector.
   @param[in]     blockSize  number of samples in each vector.
-  @return        none
  */
 
 
@@ -63,7 +51,7 @@
 
 #include "arm_helium_utils.h"
 
-void arm_mult_f16(
+ARM_DSP_ATTRIBUTE void arm_mult_f16(
   const float16_t * pSrcA,
   const float16_t * pSrcB,
         float16_t * pDst,
@@ -111,7 +99,7 @@ void arm_mult_f16(
 
 #else
 #if defined(ARM_FLOAT16_SUPPORTED)
-void arm_mult_f16(
+ARM_DSP_ATTRIBUTE void arm_mult_f16(
   const float16_t * pSrcA,
   const float16_t * pSrcB,
         float16_t * pDst,

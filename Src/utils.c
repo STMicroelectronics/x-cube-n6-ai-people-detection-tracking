@@ -18,17 +18,18 @@
 
 #include "utils.h"
 
-void Run_Inference(NN_Instance_TypeDef *network_instance)
+#include "stai_network.h"
+
+void Run_Inference(stai_network *network_instance)
 {
-  LL_ATON_RT_RetValues_t ll_aton_rt_ret;
+  stai_return_code ret;
 
   do {
-    /* Execute first/next step of Cube.AI/ATON runtime */
-    ll_aton_rt_ret = LL_ATON_RT_RunEpochBlock(network_instance);
-    /* Wait for next event */
-    if (ll_aton_rt_ret == LL_ATON_RT_WFE)
+    ret = stai_network_run(network_instance, STAI_MODE_ASYNC);
+    if (ret == STAI_RUNNING_WFE)
       LL_ATON_OSAL_WFE();
-  } while (ll_aton_rt_ret != LL_ATON_RT_DONE);
+  } while (ret == STAI_RUNNING_WFE || ret == STAI_RUNNING_NO_WFE);
 
-  LL_ATON_RT_Reset_Network(network_instance);
+  ret = stai_ext_network_new_inference(network_instance);
+  assert(ret == STAI_SUCCESS);
 }

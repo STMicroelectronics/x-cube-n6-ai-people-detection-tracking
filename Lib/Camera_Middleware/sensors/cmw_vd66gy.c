@@ -34,7 +34,9 @@
 
 #define container_of(ptr, type, member) (type *) ((unsigned char *)ptr - offsetof(type,member))
 
+#ifndef MIN
 #define MIN(a, b)                           ((a) < (b) ?  (a) : (b))
+#endif
 #define MDECIBEL_TO_LINEAR(mdB)             (pow(10.0, (mdB / 1000.0) / 20.0))
 #define LINEAR_TO_MDECIBEL(linearValue)     (1000 * (20.0 * log10(linearValue)))
 #define FLOAT_TO_FP58(x)                    (((uint16_t)(x) << 8) | ((uint16_t)((x - (uint16_t)(x)) * 256.0f) & 0xFF))
@@ -234,8 +236,12 @@ static int32_t CMW_VD66GY_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
   VD6G_Config_t config = { 0 };
   int ret;
   int i;
-
-  assert(initSensor != NULL);
+  CMW_VD66GY_config_t *sensor_config;
+  sensor_config = (CMW_VD66GY_config_t*)(initSensor->sensor_config);
+  if (sensor_config == NULL)
+  {
+    return CMW_ERROR_WRONG_PARAM;
+  }
 
   if (((CMW_VD66GY_t *)io_ctx)->IsInitialized)
   {
@@ -249,19 +255,13 @@ static int32_t CMW_VD66GY_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
     return CMW_ERROR_WRONG_PARAM;
   }
 
-  CMW_VD66GY_config_t default_sensor_config;
-  CMW_VD66GY_config_t *sensor_config;
-
-  CMW_VD66GY_SetDefaultSensorValues(&default_sensor_config);
-  sensor_config = initSensor->sensor_config ? (CMW_VD66GY_config_t*)(initSensor->sensor_config) : &default_sensor_config;
-
-  config.ext_clock_freq_in_hz = sensor_config->ext_clock_freq_in_hz;
+  config.ext_clock_freq_in_hz = CAMERA_VD66GY_FREQ_IN_HZ; /* Default clock frequency */
   config.line_len = sensor_config->line_len;
-  config.out_itf.datalane_nb = sensor_config->csiconfig.datalane_nb;
-  config.out_itf.clock_lane_swap_enable = sensor_config->csiconfig.clock_lane_swap_enable;
-  config.out_itf.data_lane0_swap_enable = sensor_config->csiconfig.data_lane0_swap_enable;
-  config.out_itf.data_lane1_swap_enable = sensor_config->csiconfig.data_lane1_swap_enable;
-  config.out_itf.data_lanes_mapping_swap_enable = sensor_config->csiconfig.data_lanes_mapping_swap_enable;
+  config.out_itf.datalane_nb = 2;
+  config.out_itf.clock_lane_swap_enable = 1;
+  config.out_itf.data_lane0_swap_enable = 1;
+  config.out_itf.data_lane1_swap_enable = 1;
+  config.out_itf.data_lanes_mapping_swap_enable = 0;
 
   config.flip_mirror_mode = CMW_VD66GY_getMirrorFlipConfig(initSensor->mirrorFlip);
   config.patgen = VD6G_PATGEN_DISABLE;
@@ -291,14 +291,8 @@ static int32_t CMW_VD66GY_Init(void *io_ctx, CMW_Sensor_Init_t *initSensor)
 void CMW_VD66GY_SetDefaultSensorValues(CMW_VD66GY_config_t *vd66gy_config)
 {
   assert(vd66gy_config != NULL);
-
-  vd66gy_config->ext_clock_freq_in_hz = CAMERA_VD66GY_FREQ_IN_HZ; // Default clock frequency
-  vd66gy_config->line_len = 0; // Default line length
-  vd66gy_config->csiconfig.datalane_nb = 2;
-  vd66gy_config->csiconfig.clock_lane_swap_enable = 1;
-  vd66gy_config->csiconfig.data_lane0_swap_enable = 1;
-  vd66gy_config->csiconfig.data_lane1_swap_enable = 1;
-  vd66gy_config->csiconfig.data_lanes_mapping_swap_enable = 0;
+  vd66gy_config->line_len = 0;
+  vd66gy_config->pixel_format = CMW_PIXEL_FORMAT_RAW8;
 }
 
 static int32_t CMW_VD66GY_Start(void *io_ctx)
@@ -562,6 +556,7 @@ int32_t CMW_VD66GY_GetSensorInfo(void *io_ctx, ISP_SensorInfoTypeDef *info)
 
   info->gain_min = again_min_mdB + dgain_min_mdB;
   info->gain_max = again_max_mdB + dgain_max_mdB;
+  info->again_max = again_max_mdB;
 
   /* Get exposure range */
   ret = VD6G_GetExposureRegRange(&((CMW_VD66GY_t *)io_ctx)->ctx_driver, &info->exposure_min, &info->exposure_max);

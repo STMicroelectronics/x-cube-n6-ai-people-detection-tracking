@@ -24,11 +24,11 @@ extern "C"
 {
 #endif
 
-#include "ll_aton_rt_user_api.h"
+#include "stai.h"
 
 #include "od_yolov2_pp_if.h"
 #include "od_yolov5_pp_if.h"
-#include "od_fd_blazeface_pp_if.h"
+#include "od_blazeface_pp_if.h"
 #include "od_yolov8_pp_if.h"
 #include "od_st_yolox_pp_if.h"
 #include "od_centernet_pp_if.h"
@@ -45,6 +45,9 @@ extern "C"
 #include "iseg_pp_output_if.h"
 #include "sseg_deeplabv3_pp_if.h"
 #include "sseg_pp_output_if.h"
+#include "fd_blazeface_pp_if.h"
+#include "fd_yunet_pp_if.h"
+#include "fd_pp_output_if.h"
 
 #define POSTPROCESS_OD_YOLO_V2_UF       (100)  /* Yolov2 postprocessing; Input model: uint8; output: float32         */
 #define POSTPROCESS_OD_YOLO_V2_UI       (101)  /* Yolov2 postprocessing; Input model: uint8; output: int8            */
@@ -54,9 +57,9 @@ extern "C"
 #define POSTPROCESS_OD_ST_YOLOX_UF      (105)  /* ST YoloX postprocessing; Input model: uint8; output: float32       */
 #define POSTPROCESS_OD_ST_YOLOX_UI      (106)  /* ST YoloX postprocessing; Input model: uint8; output: int8          */
 #define POSTPROCESS_OD_ST_SSD_UF        (107)  /* ST SSD postprocessing; Input model: uint8; output: float32         */
-#define POSTPROCESS_OD_FD_BLAZEFACE_UF  (110)  /* blazeface postprocessing; Input model: uint8; output: float32      */
-#define POSTPROCESS_OD_FD_BLAZEFACE_UU  (111)  /* blazeface postprocessing; Input model: uint8; output: uint8        */
-#define POSTPROCESS_OD_FD_BLAZEFACE_UI  (112)  /* blazeface postprocessing; Input model: uint8; output: int8         */
+#define POSTPROCESS_OD_BLAZEFACE_UF     (110)  /* blazeface postprocessing; Input model: uint8; output: float32      */
+#define POSTPROCESS_OD_BLAZEFACE_UU     (111)  /* blazeface postprocessing; Input model: uint8; output: uint8        */
+#define POSTPROCESS_OD_BLAZEFACE_UI     (112)  /* blazeface postprocessing; Input model: uint8; output: int8         */
 #define POSTPROCESS_MPE_YOLO_V8_UF      (200)  /* Yolov8 postprocessing; Input model: uint8; output: float32         */
 #define POSTPROCESS_MPE_YOLO_V8_UI      (201)  /* Yolov8 postprocessing; Input model: uint8; output: int8            */
 #define POSTPROCESS_MPE_PD_UF           (202)  /* Palm detector postprocessing; Input model: uint8; output: float32  */
@@ -65,10 +68,12 @@ extern "C"
 #define POSTPROCESS_ISEG_YOLO_V8_UI     (300)  /* Yolov8 Seg postprocessing; Input model: uint8; output: int8        */
 #define POSTPROCESS_SSEG_DEEPLAB_V3_UF  (400)  /* Deeplabv3 Seg postprocessing; Input model: uint8; output: float32  */
 #define POSTPROCESS_SSEG_DEEPLAB_V3_UI  (401)  /* Deeplabv3 Seg postprocessing; Input model: uint8; output: int8     */
+#define POSTPROCESS_FD_BLAZEFACE_UI     (500)  /* BlazeFace postprocessing; Input model: uint8; output: int8         */
+#define POSTPROCESS_FD_YUNET_UI         (501)  /* Yunet postprocessing; Input model: uint8; output: int8             */
 #define POSTPROCESS_CUSTOM              (1000) /* Custom post processing which needs to be implemented by user       */
 
 /* Exported functions ------------------------------------------------------- */
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance);
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info);
 int32_t app_postprocess_run(void *pInput[], int nb_input, void *pOutput, void *pInput_param);
 
 #ifdef __cplusplus

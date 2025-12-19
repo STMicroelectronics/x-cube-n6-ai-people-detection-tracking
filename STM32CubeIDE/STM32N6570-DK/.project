@@ -47,6 +47,16 @@
       <locationURI>PARENT-2-PROJECT_LOC/Gcc/Src/syscalls.c</locationURI>
     </link>
     <link>
+      <name>Lib/ai-postprocessing-wrapper/app_postprocess_fd_blazeface_ui.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_fd_blazeface_ui.c</locationURI>
+    </link>
+    <link>
+      <name>Lib/ai-postprocessing-wrapper/app_postprocess_fd_yunet_ui.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_fd_yunet_ui.c</locationURI>
+    </link>
+    <link>
       <name>Lib/ai-postprocessing-wrapper/app_postprocess_iseg_yolo_v8_ui.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_iseg_yolo_v8_ui.c</locationURI>
@@ -67,19 +77,19 @@
       <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_mpe_yolo_v8_ui.c</locationURI>
     </link>
     <link>
-      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_uf.c</name>
+      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_uf.c</name>
       <type>1</type>
-      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_uf.c</locationURI>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_uf.c</locationURI>
     </link>
     <link>
-      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_ui.c</name>
+      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_ui.c</name>
       <type>1</type>
-      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_ui.c</locationURI>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_ui.c</locationURI>
     </link>
     <link>
-      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_uu.c</name>
+      <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_uu.c</name>
       <type>1</type>
-      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_fd_blazeface_uu.c</locationURI>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_od_blazeface_uu.c</locationURI>
     </link>
     <link>
       <name>Lib/ai-postprocessing-wrapper/app_postprocess_od_st_ssd_uf.c</name>
@@ -147,14 +157,14 @@
       <locationURI>PARENT-2-PROJECT_LOC/Lib/ai-postprocessing-wrapper/app_postprocess_template.c</locationURI>
     </link>
     <link>
-      <name>Lib/AI_Runtime/Npu/Devices/STM32N6XX/mcu_cache.c</name>
+      <name>Lib/AI_Runtime/Npu/Devices/STM32N6xx/mcu_cache.c</name>
       <type>1</type>
-      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/Devices/STM32N6XX/mcu_cache.c</locationURI>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/Devices/STM32N6xx/mcu_cache.c</locationURI>
     </link>
     <link>
-      <name>Lib/AI_Runtime/Npu/Devices/STM32N6XX/npu_cache.c</name>
+      <name>Lib/AI_Runtime/Npu/Devices/STM32N6xx/npu_cache.c</name>
       <type>1</type>
-      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/Devices/STM32N6XX/npu_cache.c</locationURI>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/Devices/STM32N6xx/npu_cache.c</locationURI>
     </link>
     <link>
       <name>Lib/AI_Runtime/Npu/ll_aton/ecloader.c</name>
@@ -165,6 +175,11 @@
       <name>Lib/AI_Runtime/Npu/ll_aton/ll_aton.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/ll_aton/ll_aton.c</locationURI>
+    </link>
+    <link>
+      <name>Lib/AI_Runtime/Npu/ll_aton/ll_aton_cipher.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/ll_aton/ll_aton_cipher.c</locationURI>
     </link>
     <link>
       <name>Lib/AI_Runtime/Npu/ll_aton/ll_aton_debug.c</name>
@@ -197,6 +212,11 @@
       <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/ll_aton/ll_aton_runtime.c</locationURI>
     </link>
     <link>
+      <name>Lib/AI_Runtime/Npu/ll_aton/ll_aton_stai_internal.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/ll_aton/ll_aton_stai_internal.c</locationURI>
+    </link>
+    <link>
       <name>Lib/AI_Runtime/Npu/ll_aton/ll_aton_util.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/AI_Runtime/Npu/ll_aton/ll_aton_util.c</locationURI>
@@ -222,9 +242,19 @@
       <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/cmw_utils.c</locationURI>
     </link>
     <link>
+      <name>Lib/Camera_Middleware/ISP_Library/isp/Src/isp_ae_algo.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/ISP_Library/isp/Src/isp_ae_algo.c</locationURI>
+    </link>
+    <link>
       <name>Lib/Camera_Middleware/ISP_Library/isp/Src/isp_algo.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/ISP_Library/isp/Src/isp_algo.c</locationURI>
+    </link>
+    <link>
+      <name>Lib/Camera_Middleware/ISP_Library/isp/Src/isp_awb_algo.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/ISP_Library/isp/Src/isp_awb_algo.c</locationURI>
     </link>
     <link>
       <name>Lib/Camera_Middleware/ISP_Library/isp/Src/isp_cmd_parser.c</name>
@@ -252,6 +282,11 @@
       <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/sensors/cmw_imx335.c</locationURI>
     </link>
     <link>
+      <name>Lib/Camera_Middleware/sensors/cmw_vd1943.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/sensors/cmw_vd1943.c</locationURI>
+    </link>
+    <link>
       <name>Lib/Camera_Middleware/sensors/cmw_vd55g1.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/sensors/cmw_vd55g1.c</locationURI>
@@ -270,6 +305,11 @@
       <name>Lib/Camera_Middleware/sensors/imx335/imx335_reg.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/sensors/imx335/imx335_reg.c</locationURI>
+    </link>
+    <link>
+      <name>Lib/Camera_Middleware/sensors/vd1943/vd1943.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Lib/Camera_Middleware/sensors/vd1943/vd1943.c</locationURI>
     </link>
     <link>
       <name>Lib/Camera_Middleware/sensors/vd55g1/vd55g1.c</name>
@@ -380,6 +420,11 @@
       <name>Model/STM32N6570-DK/network.c</name>
       <type>1</type>
       <locationURI>PARENT-2-PROJECT_LOC/Model/STM32N6570-DK/network.c</locationURI>
+    </link>
+    <link>
+      <name>Model/STM32N6570-DK/stai_network.c</name>
+      <type>1</type>
+      <locationURI>PARENT-2-PROJECT_LOC/Model/STM32N6570-DK/stai_network.c</locationURI>
     </link>
     <link>
       <name>Src/app.c</name>

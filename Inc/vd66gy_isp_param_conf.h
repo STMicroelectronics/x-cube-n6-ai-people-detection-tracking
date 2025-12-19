@@ -23,13 +23,13 @@
 
 /* DCMIPP ISP configuration for VD66GY sensor */
 #if CAMERA_FLIP == CMW_MIRRORFLIP_NONE
-  #define BAYER_TYPE ISP_DEMOS_TYPE_GRBG
+  #define VD66GY_BAYER_TYPE ISP_DEMOS_TYPE_GRBG
 #elif CAMERA_FLIP == CMW_MIRRORFLIP_FLIP
-  #define BAYER_TYPE ISP_DEMOS_TYPE_BGGR
+  #define VD66GY_BAYER_TYPE ISP_DEMOS_TYPE_BGGR
 #elif CAMERA_FLIP == CMW_MIRRORFLIP_MIRROR
-  #define BAYER_TYPE ISP_DEMOS_TYPE_RGGB
+  #define VD66GY_BAYER_TYPE ISP_DEMOS_TYPE_RGGB
 #elif CAMERA_FLIP == CMW_MIRRORFLIP_FLIP_MIRROR
-  #define BAYER_TYPE ISP_DEMOS_TYPE_GBRG
+  #define VD66GY_BAYER_TYPE ISP_DEMOS_TYPE_GBRG
 #endif
 
 /* copy of vd66gy_JudgeIIBox_isp_param_conf.h so we can change bayer type.
@@ -45,7 +45,7 @@ static const ISP_IQParamTypeDef ISP_IQParamCacheInit_VD66GY = {
     .AECAlgo = {
         .enable = 0,
         .exposureCompensation = EXPOSURE_TARGET_0_0_EV,
-        .antiFlickerFreq = 0,
+        .antiFlickerFreq = ANTIFLICKER_NONE,
     },
     .statRemoval = {
         .enable = 0,
@@ -68,7 +68,7 @@ static const ISP_IQParamTypeDef ISP_IQParamCacheInit_VD66GY = {
     },
     .demosaicing = {
         .enable = 1,
-        .type = BAYER_TYPE,
+        .type = VD66GY_BAYER_TYPE,
         .peak = 2,
         .lineV = 4,
         .lineH = 4,
@@ -86,7 +86,7 @@ static const ISP_IQParamTypeDef ISP_IQParamCacheInit_VD66GY = {
     },
     .AWBAlgo = {
         .enable = 1,
-        .id = { "JudgeII-A", "JudgeII-TL84", "JudgeII-DAY", "", "", },
+        .label = { "JudgeII-A", "JudgeII-TL84", "JudgeII-DAY", "", "", },
         .referenceColorTemp = { 2750, 4150, 6750, 0, 0, },
         .ispGainR = { 95000000, 117000000, 156000000, 0, 0, },
         .ispGainG = { 100000000, 100000000, 100000000, 0, 0, },
@@ -97,6 +97,13 @@ static const ISP_IQParamTypeDef ISP_IQParamCacheInit_VD66GY = {
             { { 146010000, -39280000, -14060000, }, { -26750000, 152490000, -42520000, }, { 1160000, -55410000, 143910000, }, },
             { { 0, 0, 0, }, { 0, 0, 0, }, { 0, 0, 0, }, },
             { { 0, 0, 0, }, { 0, 0, 0, }, { 0, 0, 0, }, },
+        },
+        .referenceRGB = {
+            { 80, 65, 30 },
+            { 69, 70, 38 },
+            { 54, 70, 45 },
+            { 0, 0, 0 },
+            { 0, 0, 0 },
         },
     },
     .contrast = {
@@ -122,6 +129,19 @@ static const ISP_IQParamTypeDef ISP_IQParamCacheInit_VD66GY = {
     },
     .sensorDelay = {
         .delay = 4,
+    },
+    .luxRef = {
+        .HL_LuxRef = 1400,
+        .HL_Expo1 = 2000,
+        .HL_Lum1 = 42,
+        .HL_Expo2 = 20000,
+        .HL_Lum2 = 200,
+        .LL_LuxRef = 300,
+        .LL_Expo1 = 5000,
+        .LL_Lum1 = 20,
+        .LL_Expo2 = 29827,
+        .LL_Lum2 = 111,
+        .calibFactor = 0.738f,
     },
 };
 

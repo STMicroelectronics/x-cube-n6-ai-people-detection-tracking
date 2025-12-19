@@ -42,7 +42,6 @@
   @param[in]     pSrc       points to the floating-point input vector
   @param[out]    pDst       points to the Q15 output vector
   @param[in]     blockSize  number of samples in each vector
-  @return        none
 
   @par           Details
                    The equation used for the conversion process is:
@@ -60,7 +59,7 @@
  */
 
 #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
-void arm_float_to_q15(
+ARM_DSP_ATTRIBUTE void arm_float_to_q15(
   const float32_t * pSrc,
   q15_t * pDst,
   uint32_t blockSize)
@@ -68,7 +67,7 @@ void arm_float_to_q15(
     uint32_t         blkCnt;
     float32_t       maxQ = (float32_t) Q15_MAX;
     f32x4x2_t       tmp;
-    q15x8_t         vecDst;
+    q15x8_t         vecDst = { 0 };
 #ifdef ARM_MATH_ROUNDING
     float32_t in;
 #endif
@@ -122,7 +121,7 @@ void arm_float_to_q15(
 
 #else
 #if defined(ARM_MATH_NEON_EXPERIMENTAL)
-void arm_float_to_q15(
+ARM_DSP_ATTRIBUTE void arm_float_to_q15(
   const float32_t * pSrc,
   q15_t * pDst,
   uint32_t blockSize)
@@ -213,7 +212,7 @@ void arm_float_to_q15(
   }
 }
 #else
-void arm_float_to_q15(
+ARM_DSP_ATTRIBUTE void arm_float_to_q15(
   const float32_t * pSrc,
         q15_t * pDst,
         uint32_t blockSize)

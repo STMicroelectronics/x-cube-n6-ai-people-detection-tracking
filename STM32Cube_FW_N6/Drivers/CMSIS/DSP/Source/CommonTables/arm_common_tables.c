@@ -64,10 +64,7 @@
 /**
   @brief  Table for bit reversal process
 */
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FFT_ALLOW_TABLES)
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREV_1024)
-const uint16_t armBitRevTable[1024] = {
+const uint16_t armBitRevTable[1024] ARM_DSP_TABLE_ATTRIBUTE = {
    0x400, 0x200, 0x600, 0x100, 0x500, 0x300, 0x700, 0x080, 0x480, 0x280,
    0x680, 0x180, 0x580, 0x380, 0x780, 0x040, 0x440, 0x240, 0x640, 0x140,
    0x540, 0x340, 0x740, 0x0c0, 0x4c0, 0x2c0, 0x6c0, 0x1c0, 0x5c0, 0x3c0,
@@ -172,13 +169,11 @@ const uint16_t armBitRevTable[1024] = {
    0x67e, 0x17e, 0x57e, 0x37e, 0x77e, 0x0fe, 0x4fe, 0x2fe, 0x6fe, 0x1fe,
    0x5fe, 0x3fe, 0x7fe, 0x001
 };
-#endif
 
 /**
   @brief  Double Precision Floating-point Twiddle factors Table Generation
 */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_16)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -193,7 +188,7 @@ const uint16_t armBitRevTable[1024] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_16[32] = {
+const uint64_t twiddleCoefF64_16[32] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,    0x0000000000000000,     //       1,       0'
     0x3fed906bcf328d46,    0x3fd87de2a6aea963,     // 0.92388, 0.38268'
     0x3fe6a09e667f3bcc,    0x3fe6a09e667f3bcc,     // 0.70711, 0.70711'
@@ -212,10 +207,6 @@ const uint64_t twiddleCoefF64_16[32] = {
     0x3fed906bcf328d46,    0xbfd87de2a6aea963,     // 0.92388,-0.38268'
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_32)
-
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -230,7 +221,7 @@ const uint64_t twiddleCoefF64_16[32] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_32[64] = {
+const uint64_t twiddleCoefF64_32[64] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //       1,       0'
     0x3fef6297cff75cb0,     0x3fc8f8b83c69a60a,     // 0.98079, 0.19509'
     0x3fed906bcf328d46,     0x3fd87de2a6aea963,     // 0.92388, 0.38268'
@@ -265,9 +256,6 @@ const uint64_t twiddleCoefF64_32[64] = {
     0x3fef6297cff75cb0,     0xbfc8f8b83c69a60a,     // 0.98079,-0.19509'
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_64)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -282,7 +270,7 @@ const uint64_t twiddleCoefF64_32[64] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_64[128] = {
+const uint64_t twiddleCoefF64_64[128] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //        1,        0'
     0x3fefd88da3d12526,     0x3fb917a6bc29b42c,     //  0.99518, 0.098017'
     0x3fef6297cff75cb0,     0x3fc8f8b83c69a60a,     //  0.98079,  0.19509'
@@ -349,9 +337,6 @@ const uint64_t twiddleCoefF64_64[128] = {
     0x3fefd88da3d12526,     0xbfb917a6bc29b42c,     //  0.99518,-0.098017'
     };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_128)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -366,7 +351,7 @@ const uint64_t twiddleCoefF64_64[128] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_128[256] = {
+const uint64_t twiddleCoefF64_128[256] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //        1,        0'
     0x3feff621e3796d7e,     0x3fa91f65f10dd814,     //   0.9988, 0.049068'
     0x3fefd88da3d12526,     0x3fb917a6bc29b42c,     //  0.99518, 0.098017'
@@ -497,9 +482,6 @@ const uint64_t twiddleCoefF64_128[256] = {
     0x3feff621e3796d7e,     0xbfa91f65f10dd814,     //   0.9988,-0.049068'
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_256)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -514,7 +496,7 @@ const uint64_t twiddleCoefF64_128[256] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_256[512] = {
+const uint64_t twiddleCoefF64_256[512] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //        1,        0
     0x3feffd886084cd0d,     0x3f992155f7a3667e,     //   0.9997, 0.024541
     0x3feff621e3796d7e,     0x3fa91f65f10dd814,     //   0.9988, 0.049068
@@ -773,9 +755,6 @@ const uint64_t twiddleCoefF64_256[512] = {
     0x3feffd886084cd0d,     0xbf992155f7a3667e,     //   0.9997,-0.024541
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_512)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -790,7 +769,7 @@ const uint64_t twiddleCoefF64_256[512] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_512[1024] = {
+const uint64_t twiddleCoefF64_512[1024] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //        1,        0
     0x3fefff62169b92db,     0x3f8921d1fcdec784,     //  0.99992, 0.012272
     0x3feffd886084cd0d,     0x3f992155f7a3667e,     //   0.9997, 0.024541
@@ -1305,9 +1284,6 @@ const uint64_t twiddleCoefF64_512[1024] = {
     0x3fefff62169b92db,     0xbf8921d1fcdec784,     //  0.99992,-0.012272
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_1024)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -1322,7 +1298,7 @@ const uint64_t twiddleCoefF64_512[1024] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_1024[2048] = {
+const uint64_t twiddleCoefF64_1024[2048] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,    0x0000000000000000,     //         1,         0
     0x3fefffd8858e8a92,    0x3f7921f0fe670071,     //   0.99998, 0.0061359
     0x3fefff62169b92db,    0x3f8921d1fcdec784,     //   0.99992,  0.012272
@@ -2349,9 +2325,6 @@ const uint64_t twiddleCoefF64_1024[2048] = {
     0x3fefffd8858e8a92,    0xbf7921f0fe670071,     //   0.99998,-0.0061359
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_2048)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -2366,7 +2339,7 @@ const uint64_t twiddleCoefF64_1024[2048] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_2048[4096] = {
+const uint64_t twiddleCoefF64_2048[4096] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //         1,         0
     0x3feffff621621d02,     0x3f6921f8becca4ba,     //         1,  0.003068
     0x3fefffd8858e8a92,     0x3f7921f0fe670071,     //   0.99998, 0.0061359
@@ -4418,9 +4391,6 @@ const uint64_t twiddleCoefF64_2048[4096] = {
 
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F64_4096)
 /**
   @par
   Example code for Double Precision Floating-point Twiddle factors Generation:
@@ -4435,7 +4405,7 @@ const uint64_t twiddleCoefF64_2048[4096] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_4096[8192] = {
+const uint64_t twiddleCoefF64_4096[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     0x3ff0000000000000,     0x0000000000000000,     //         1,         0
     0x3feffffd88586ee6,     0x3f5921faaee6472d,     //         1,  0.001534
     0x3feffff621621d02,     0x3f6921f8becca4ba,     //         1,  0.003068
@@ -8536,9 +8506,6 @@ const uint64_t twiddleCoefF64_4096[8192] = {
 
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_16)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -8553,7 +8520,7 @@ const uint64_t twiddleCoefF64_4096[8192] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_16[32] = {
+const float32_t twiddleCoef_16[32] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.923879533f,  0.382683432f,
     0.707106781f,  0.707106781f,
@@ -8572,10 +8539,6 @@ const float32_t twiddleCoef_16[32] = {
     0.923879533f, -0.382683432f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_32)
-
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -8590,7 +8553,7 @@ const float32_t twiddleCoef_16[32] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_32[64] = {
+const float32_t twiddleCoef_32[64] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.980785280f,  0.195090322f,
     0.923879533f,  0.382683432f,
@@ -8625,9 +8588,6 @@ const float32_t twiddleCoef_32[64] = {
     0.980785280f, -0.195090322f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_64)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -8642,7 +8602,7 @@ const float32_t twiddleCoef_32[64] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_64[128] = {
+const float32_t twiddleCoef_64[128] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.995184727f,  0.098017140f,
     0.980785280f,  0.195090322f,
@@ -8709,9 +8669,6 @@ const float32_t twiddleCoef_64[128] = {
     0.995184727f, -0.098017140f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_128)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -8726,7 +8683,7 @@ const float32_t twiddleCoef_64[128] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_128[256] = {
+const float32_t twiddleCoef_128[256] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.998795456f,  0.049067674f,
     0.995184727f,  0.098017140f,
@@ -8857,9 +8814,6 @@ const float32_t twiddleCoef_128[256] = {
     0.998795456f, -0.049067674f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_256)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -8874,7 +8828,7 @@ const float32_t twiddleCoef_128[256] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_256[512] = {
+const float32_t twiddleCoef_256[512] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.999698819f,  0.024541229f,
     0.998795456f,  0.049067674f,
@@ -9133,9 +9087,6 @@ const float32_t twiddleCoef_256[512] = {
     0.999698819f, -0.024541229f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_512)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -9150,7 +9101,7 @@ const float32_t twiddleCoef_256[512] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_512[1024] = {
+const float32_t twiddleCoef_512[1024] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.999924702f,  0.012271538f,
     0.999698819f,  0.024541229f,
@@ -9665,9 +9616,6 @@ const float32_t twiddleCoef_512[1024] = {
     0.999924702f, -0.012271538f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_1024)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -9682,7 +9630,7 @@ const float32_t twiddleCoef_512[1024] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_1024[2048] = {
+const float32_t twiddleCoef_1024[2048] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.999981175f,  0.006135885f,
     0.999924702f,  0.012271538f,
@@ -10709,9 +10657,6 @@ const float32_t twiddleCoef_1024[2048] = {
     0.999981175f, -0.006135885f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_2048)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -10726,7 +10671,7 @@ const float32_t twiddleCoef_1024[2048] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_2048[4096] = {
+const float32_t twiddleCoef_2048[4096] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.999995294f,  0.003067957f,
     0.999981175f,  0.006135885f,
@@ -12777,9 +12722,6 @@ const float32_t twiddleCoef_2048[4096] = {
     0.999995294f, -0.003067957f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_F32_4096)
 /**
   @par
   Example code for Floating-point Twiddle factors Generation:
@@ -12794,7 +12736,7 @@ const float32_t twiddleCoef_2048[4096] = {
   @par
   Cos and Sin values are in interleaved fashion
 */
-const float32_t twiddleCoef_4096[8192] = {
+const float32_t twiddleCoef_4096[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     1.000000000f,  0.000000000f,
     0.999998823f,  0.001533980f,
     0.999995294f,  0.003067957f,
@@ -16893,15 +16835,11 @@ const float32_t twiddleCoef_4096[8192] = {
     0.999998823f, -0.001533980f
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-
 
 /**
   @brief  Q31 Twiddle factors Table
 */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_16)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -16919,7 +16857,7 @@ const float32_t twiddleCoef_4096[8192] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_16_q31[24] = {
+const q31_t twiddleCoef_16_q31[24] ARM_DSP_TABLE_ATTRIBUTE = {
     (q31_t)0x7FFFFFFF, (q31_t)0x00000000,
     (q31_t)0x7641AF3C, (q31_t)0x30FBC54D,
     (q31_t)0x5A82799A, (q31_t)0x5A82799A,
@@ -16934,9 +16872,7 @@ const q31_t twiddleCoef_16_q31[24] = {
     (q31_t)0xCF043AB2, (q31_t)0x89BE50C3
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_32)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -16954,7 +16890,7 @@ const q31_t twiddleCoef_16_q31[24] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_32_q31[48] = {
+const q31_t twiddleCoef_32_q31[48] ARM_DSP_TABLE_ATTRIBUTE = {
     (q31_t)0x7FFFFFFF, (q31_t)0x00000000,
     (q31_t)0x7D8A5F3F, (q31_t)0x18F8B83C,
     (q31_t)0x7641AF3C, (q31_t)0x30FBC54D,
@@ -16981,9 +16917,6 @@ const q31_t twiddleCoef_32_q31[48] = {
     (q31_t)0xE70747C3, (q31_t)0x8275A0C0
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_64)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -17001,7 +16934,7 @@ const q31_t twiddleCoef_32_q31[48] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_64_q31[96] = {
+const q31_t twiddleCoef_64_q31[96] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7F62368F,
 	(q31_t)0x0C8BD35E, (q31_t)0x7D8A5F3F, (q31_t)0x18F8B83C,
 	(q31_t)0x7A7D055B, (q31_t)0x25280C5D, (q31_t)0x7641AF3C,
@@ -17036,9 +16969,6 @@ const q31_t twiddleCoef_64_q31[96] = {
 	(q31_t)0x8275A0C0, (q31_t)0xF3742CA1, (q31_t)0x809DC970
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_128)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -17056,7 +16986,7 @@ const q31_t twiddleCoef_64_q31[96] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_128_q31[192] = {
+const q31_t twiddleCoef_128_q31[192] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FD8878D,
 	(q31_t)0x0647D97C, (q31_t)0x7F62368F, (q31_t)0x0C8BD35E,
 	(q31_t)0x7E9D55FC, (q31_t)0x12C8106E, (q31_t)0x7D8A5F3F,
@@ -17123,9 +17053,6 @@ const q31_t twiddleCoef_128_q31[192] = {
 	(q31_t)0x809DC970, (q31_t)0xF9B82683, (q31_t)0x80277872
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_256)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -17144,7 +17071,7 @@ const q31_t twiddleCoef_128_q31[192] = {
  	round(twiddleCoefQ31(i) * pow(2, 31))
  
  */
-const q31_t twiddleCoef_256_q31[384] = {
+const q31_t twiddleCoef_256_q31[384] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FF62182,
 	(q31_t)0x03242ABF, (q31_t)0x7FD8878D, (q31_t)0x0647D97C,
 	(q31_t)0x7FA736B4, (q31_t)0x096A9049, (q31_t)0x7F62368F,
@@ -17275,9 +17202,6 @@ const q31_t twiddleCoef_256_q31[384] = {
 	(q31_t)0x80277872, (q31_t)0xFCDBD541, (q31_t)0x8009DE7D
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_512)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -17296,7 +17220,7 @@ const q31_t twiddleCoef_256_q31[384] = {
  	round(twiddleCoefQ31(i) * pow(2, 31))
  
  */
-const q31_t twiddleCoef_512_q31[768] = {
+const q31_t twiddleCoef_512_q31[768] ARM_DSP_TABLE_ATTRIBUTE = {
     (q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FFD885A,
 	(q31_t)0x01921D1F, (q31_t)0x7FF62182, (q31_t)0x03242ABF,
 	(q31_t)0x7FE9CBC0, (q31_t)0x04B6195D, (q31_t)0x7FD8878D,
@@ -17555,9 +17479,6 @@ const q31_t twiddleCoef_512_q31[768] = {
 	(q31_t)0x8009DE7D, (q31_t)0xFE6DE2E0, (q31_t)0x800277A5
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_1024)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -17576,7 +17497,7 @@ const q31_t twiddleCoef_512_q31[768] = {
  	round(twiddleCoefQ31(i) * pow(2, 31))
  
  */
-const q31_t twiddleCoef_1024_q31[1536] = {
+const q31_t twiddleCoef_1024_q31[1536] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FFF6216,
 	(q31_t)0x00C90F88, (q31_t)0x7FFD885A, (q31_t)0x01921D1F,
 	(q31_t)0x7FFA72D1, (q31_t)0x025B26D7, (q31_t)0x7FF62182,
@@ -18091,9 +18012,6 @@ const q31_t twiddleCoef_1024_q31[1536] = {
 	(q31_t)0x800277A5, (q31_t)0xFF36F078, (q31_t)0x80009DE9
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_2048)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -18111,7 +18029,7 @@ const q31_t twiddleCoef_1024_q31[1536] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_2048_q31[3072] = {
+const q31_t twiddleCoef_2048_q31[3072] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FFFD885,
 	(q31_t)0x006487E3, (q31_t)0x7FFF6216, (q31_t)0x00C90F88,
 	(q31_t)0x7FFE9CB2, (q31_t)0x012D96B0, (q31_t)0x7FFD885A,
@@ -19137,9 +19055,7 @@ const q31_t twiddleCoef_2048_q31[3072] = {
 	(q31_t)0xFED2694F, (q31_t)0x8001634D, (q31_t)0xFF36F078,
 	(q31_t)0x80009DE9, (q31_t)0xFF9B781D, (q31_t)0x8000277A
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q31_4096)
 /**
   @par
   Example code for Q31 Twiddle factors Generation::
@@ -19157,7 +19073,7 @@ const q31_t twiddleCoef_2048_q31[3072] = {
   Convert Floating point to Q31(Fixed point 1.31):
  	round(twiddleCoefQ31(i) * pow(2, 31))
  */
-const q31_t twiddleCoef_4096_q31[6144] =
+const q31_t twiddleCoef_4096_q31[6144] ARM_DSP_TABLE_ATTRIBUTE =
 {
 	(q31_t)0x7FFFFFFF, (q31_t)0x00000000, (q31_t)0x7FFFF621,
 	(q31_t)0x003243F5, (q31_t)0x7FFFD885, (q31_t)0x006487E3,
@@ -21209,13 +21125,9 @@ const q31_t twiddleCoef_4096_q31[6144] =
 	(q31_t)0x8000277A, (q31_t)0xFFCDBC0A, (q31_t)0x800009DE
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
 /**
   @brief  q15 Twiddle factors Table
 */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_16)
 
 /**
   @par
@@ -21234,7 +21146,7 @@ const q31_t twiddleCoef_4096_q31[6144] =
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_16_q15[24] = {
+const q15_t twiddleCoef_16_q15[24] ARM_DSP_TABLE_ATTRIBUTE = {
     (q15_t)0x7FFF, (q15_t)0x0000,
     (q15_t)0x7641, (q15_t)0x30FB,
     (q15_t)0x5A82, (q15_t)0x5A82,
@@ -21248,9 +21160,7 @@ const q15_t twiddleCoef_16_q15[24] = {
     (q15_t)0xA57D, (q15_t)0xA57D,
     (q15_t)0xCF04, (q15_t)0x89BE
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_32)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21268,7 +21178,7 @@ const q15_t twiddleCoef_16_q15[24] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_32_q15[48] = {
+const q15_t twiddleCoef_32_q15[48] ARM_DSP_TABLE_ATTRIBUTE = {
     (q15_t)0x7FFF, (q15_t)0x0000,
     (q15_t)0x7D8A, (q15_t)0x18F8,
     (q15_t)0x7641, (q15_t)0x30FB,
@@ -21294,9 +21204,7 @@ const q15_t twiddleCoef_32_q15[48] = {
     (q15_t)0xCF04, (q15_t)0x89BE,
     (q15_t)0xE707, (q15_t)0x8275
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_64)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21314,7 +21222,7 @@ const q15_t twiddleCoef_32_q15[48] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_64_q15[96] = {
+const q15_t twiddleCoef_64_q15[96] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7F62, (q15_t)0x0C8B,
 	(q15_t)0x7D8A, (q15_t)0x18F8, (q15_t)0x7A7D, (q15_t)0x2528,
 	(q15_t)0x7641, (q15_t)0x30FB, (q15_t)0x70E2, (q15_t)0x3C56,
@@ -21340,9 +21248,7 @@ const q15_t twiddleCoef_64_q15[96] = {
 	(q15_t)0xCF04, (q15_t)0x89BE, (q15_t)0xDAD7, (q15_t)0x8582,
 	(q15_t)0xE707, (q15_t)0x8275, (q15_t)0xF374, (q15_t)0x809D
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_128)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21360,7 +21266,7 @@ const q15_t twiddleCoef_64_q15[96] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_128_q15[192] = {
+const q15_t twiddleCoef_128_q15[192] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FD8, (q15_t)0x0647,
 	(q15_t)0x7F62, (q15_t)0x0C8B, (q15_t)0x7E9D, (q15_t)0x12C8,
 	(q15_t)0x7D8A, (q15_t)0x18F8, (q15_t)0x7C29, (q15_t)0x1F19,
@@ -21410,9 +21316,7 @@ const q15_t twiddleCoef_128_q15[192] = {
 	(q15_t)0xE707, (q15_t)0x8275, (q15_t)0xED37, (q15_t)0x8162,
 	(q15_t)0xF374, (q15_t)0x809D, (q15_t)0xF9B8, (q15_t)0x8027
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_256)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21430,7 +21334,7 @@ const q15_t twiddleCoef_128_q15[192] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_256_q15[384] = {
+const q15_t twiddleCoef_256_q15[384] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FF6, (q15_t)0x0324,
 	(q15_t)0x7FD8, (q15_t)0x0647, (q15_t)0x7FA7, (q15_t)0x096A,
 	(q15_t)0x7F62, (q15_t)0x0C8B, (q15_t)0x7F09, (q15_t)0x0FAB,
@@ -21528,9 +21432,7 @@ const q15_t twiddleCoef_256_q15[384] = {
 	(q15_t)0xF374, (q15_t)0x809D, (q15_t)0xF695, (q15_t)0x8058,
 	(q15_t)0xF9B8, (q15_t)0x8027, (q15_t)0xFCDB, (q15_t)0x8009
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_512)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21548,7 +21450,7 @@ const q15_t twiddleCoef_256_q15[384] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_512_q15[768] = {
+const q15_t twiddleCoef_512_q15[768] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FFD, (q15_t)0x0192,
 	(q15_t)0x7FF6, (q15_t)0x0324, (q15_t)0x7FE9, (q15_t)0x04B6,
 	(q15_t)0x7FD8, (q15_t)0x0647, (q15_t)0x7FC2, (q15_t)0x07D9,
@@ -21742,9 +21644,7 @@ const q15_t twiddleCoef_512_q15[768] = {
 	(q15_t)0xF9B8, (q15_t)0x8027, (q15_t)0xFB49, (q15_t)0x8016,
 	(q15_t)0xFCDB, (q15_t)0x8009, (q15_t)0xFE6D, (q15_t)0x8002
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_1024)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -21763,7 +21663,7 @@ const q15_t twiddleCoef_512_q15[768] = {
  	round(twiddleCoefq15(i) * pow(2, 15))
  
  */
-const q15_t twiddleCoef_1024_q15[1536] = {
+const q15_t twiddleCoef_1024_q15[1536] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FFF, (q15_t)0x00C9,
 	(q15_t)0x7FFD, (q15_t)0x0192, (q15_t)0x7FFA, (q15_t)0x025B,
 	(q15_t)0x7FF6, (q15_t)0x0324, (q15_t)0x7FF0, (q15_t)0x03ED,
@@ -22149,9 +22049,7 @@ const q15_t twiddleCoef_1024_q15[1536] = {
 	(q15_t)0xFCDB, (q15_t)0x8009, (q15_t)0xFDA4, (q15_t)0x8005,
 	(q15_t)0xFE6D, (q15_t)0x8002, (q15_t)0xFF36, (q15_t)0x8000
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_2048)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -22169,7 +22067,7 @@ const q15_t twiddleCoef_1024_q15[1536] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_2048_q15[3072] = {
+const q15_t twiddleCoef_2048_q15[3072] ARM_DSP_TABLE_ATTRIBUTE = {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FFF, (q15_t)0x0064,
 	(q15_t)0x7FFF, (q15_t)0x00C9, (q15_t)0x7FFE, (q15_t)0x012D,
 	(q15_t)0x7FFD, (q15_t)0x0192, (q15_t)0x7FFC, (q15_t)0x01F6,
@@ -22939,9 +22837,7 @@ const q15_t twiddleCoef_2048_q15[3072] = {
 	(q15_t)0xFE6D, (q15_t)0x8002, (q15_t)0xFED2, (q15_t)0x8001,
 	(q15_t)0xFF36, (q15_t)0x8000, (q15_t)0xFF9B, (q15_t)0x8000
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_Q15_4096)
 /**
   @par
   Example code for q15 Twiddle factors Generation::
@@ -22959,7 +22855,7 @@ const q15_t twiddleCoef_2048_q15[3072] = {
   Convert Floating point to q15(Fixed point 1.15):
  	round(twiddleCoefq15(i) * pow(2, 15))
  */
-const q15_t twiddleCoef_4096_q15[6144] =
+const q15_t twiddleCoef_4096_q15[6144] ARM_DSP_TABLE_ATTRIBUTE =
 {
 	(q15_t)0x7FFF, (q15_t)0x0000, (q15_t)0x7FFF, (q15_t)0x0032,
 	(q15_t)0x7FFF, (q15_t)0x0064, (q15_t)0x7FFF, (q15_t)0x0096,
@@ -24499,42 +24395,34 @@ const q15_t twiddleCoef_4096_q15[6144] =
 	(q15_t)0xFF9B, (q15_t)0x8000, (q15_t)0xFFCD, (q15_t)0x8000
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
 /**
   @} end of CFFT_CIFFT group
 */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_16)
 
-const uint16_t armBitRevIndexTableF64_16[ARMBITREVINDEXTABLEF64_16_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_16[ARMBITREVINDEXTABLEF64_16_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 12 */
    8,64, 16,32, 24,96, 40,80, 56,112, 88,104
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_32)
-const uint16_t armBitRevIndexTableF64_32[ARMBITREVINDEXTABLEF64_32_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_32[ARMBITREVINDEXTABLEF64_32_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 24 */
    8,128, 16,64, 24,192, 40,160, 48,96, 56,224, 72,144,
    88,208, 104,176, 120,240, 152,200, 184,232
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_64)
-const uint16_t armBitRevIndexTableF64_64[ARMBITREVINDEXTABLEF64_64_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_64[ARMBITREVINDEXTABLEF64_64_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 56 */
    8,256, 16,128, 24,384, 32,64, 40,320, 48,192, 56,448, 72,288, 80,160, 88,416, 104,352,
    112,224, 120,480, 136,272, 152,400, 168,336, 176,208, 184,464, 200,304, 216,432,
    232,368, 248,496, 280,392, 296,328, 312,456, 344,424, 376,488, 440,472
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_128)
-const uint16_t armBitRevIndexTableF64_128[ARMBITREVINDEXTABLEF64_128_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_128[ARMBITREVINDEXTABLEF64_128_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 112 */
    8,512, 16,256, 24,768, 32,128, 40,640, 48,384, 56,896, 72,576, 80,320, 88,832, 96,192,
@@ -24544,10 +24432,8 @@ const uint16_t armBitRevIndexTableF64_128[ARMBITREVINDEXTABLEF64_128_TABLE_LENGT
    472,880, 488,752, 504,1008, 536,776, 552,648, 568,904, 600,840, 616,712, 632,968,
    664,808, 696,936, 728,872, 760,1000, 824,920, 888,984
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_256)
-const uint16_t armBitRevIndexTableF64_256[ARMBITREVINDEXTABLEF64_256_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_256[ARMBITREVINDEXTABLEF64_256_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 240 */
    8,1024, 16,512, 24,1536, 32,256, 40,1280, 48,768, 56,1792, 64,128, 72,1152, 80,640,
@@ -24565,10 +24451,8 @@ const uint16_t armBitRevIndexTableF64_256[ARMBITREVINDEXTABLEF64_256_TABLE_LENGT
    1368,1704, 1384,1448, 1400,1960, 1432,1640, 1464,1896, 1496,1768, 1528,2024, 1592,1816,
    1624,1688, 1656,1944, 1720,1880, 1784,2008, 1912,1976
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_512)
-const uint16_t armBitRevIndexTableF64_512[ARMBITREVINDEXTABLEF64_512_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_512[ARMBITREVINDEXTABLEF64_512_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 480 */
    8,2048, 16,1024, 24,3072, 32,512, 40,2560, 48,1536, 56,3584, 64,256, 72,2304, 80,1280,
@@ -24601,10 +24485,8 @@ const uint16_t armBitRevIndexTableF64_512[ARMBITREVINDEXTABLEF64_512_TABLE_LENGT
    3128,3608, 3160,3352, 3192,3864, 3256,3736, 3288,3480, 3320,3992, 3384,3672, 3448,3928,
    3512,3800, 3576,4056, 3704,3896, 3832,4024
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_1024)
-const uint16_t armBitRevIndexTableF64_1024[ARMBITREVINDEXTABLEF64_1024_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_1024[ARMBITREVINDEXTABLEF64_1024_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* radix 4, size 992 */
     8,4096, 16,2048, 24,6144, 32,1024, 40,5120, 48,3072, 56,7168, 64,512, 72,4608,
@@ -24677,10 +24559,8 @@ const uint16_t armBitRevIndexTableF64_1024[ARMBITREVINDEXTABLEF64_1024_TABLE_LEN
     6872,7000, 6904,8024, 6968,7384, 7032,7896, 7096,7640, 7160,8152, 7288,7736,
     7352,7480, 7416,7992, 7544,7864, 7672,8120, 7928,8056
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_2048)
-const uint16_t armBitRevIndexTableF64_2048[ARMBITREVINDEXTABLEF64_2048_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_2048[ARMBITREVINDEXTABLEF64_2048_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* 4x2, size 1984 */
     8,8192, 16,4096, 24,12288, 32,2048, 40,10240, 48,6144, 56,14336, 64,1024,
@@ -24835,10 +24715,8 @@ const uint16_t armBitRevIndexTableF64_2048[ARMBITREVINDEXTABLEF64_2048_TABLE_LEN
     14456,15416, 14520,14904, 14584,15928, 14712,15672, 14776,15160, 14840,16184,
     14968,15544, 15096,16056, 15224,15800, 15352,16312, 15608,15992, 15864,16248
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT64_4096)
-const uint16_t armBitRevIndexTableF64_4096[ARMBITREVINDEXTABLEF64_4096_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTableF64_4096[ARMBITREVINDEXTABLEF64_4096_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* radix 4, size 4032 */
     8,16384, 16,8192, 24,24576, 32,4096, 40,20480, 48,12288, 56,28672, 64,2048,
@@ -25175,22 +25053,14 @@ const uint16_t armBitRevIndexTableF64_4096[ARMBITREVINDEXTABLEF64_4096_TABLE_LEN
     30456,32184, 30584,31672, 30712,32696, 30968,31864, 31096,31352, 31224,32376,
     31480,32120, 31736,32632, 32248,32504
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_16)
-
-const uint16_t armBitRevIndexTable16[ARMBITREVINDEXTABLE_16_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable16[ARMBITREVINDEXTABLE_16_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x2, size 20 */
    8,64, 24,72, 16,64, 40,80, 32,64, 56,88, 48,72, 88,104, 72,96, 104,112
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_32)
-
-const uint16_t armBitRevIndexTable32[ARMBITREVINDEXTABLE_32_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable32[ARMBITREVINDEXTABLE_32_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x4, size 48 */
    8,64, 16,128, 24,192, 32,64, 40,72, 48,136, 56,200, 64,128, 72,80, 88,208,
@@ -25198,11 +25068,7 @@ const uint16_t armBitRevIndexTable32[ARMBITREVINDEXTABLE_32_TABLE_LENGTH] =
    152,224, 176,208, 184,232, 216,240, 200,224, 232,240
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_64)
-
-const uint16_t armBitRevIndexTable64[ARMBITREVINDEXTABLE_64_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable64[ARMBITREVINDEXTABLE_64_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 8, size 56 */
    8,64, 16,128, 24,192, 32,256, 40,320, 48,384, 56,448, 80,136, 88,200,
@@ -25211,11 +25077,8 @@ const uint16_t armBitRevIndexTable64[ARMBITREVINDEXTABLE_64_TABLE_LENGTH] =
    368,424, 376,488, 440,496
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_128)
-
-const uint16_t armBitRevIndexTable128[ARMBITREVINDEXTABLE_128_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable128[ARMBITREVINDEXTABLE_128_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x2, size 208 */
    8,512, 16,64, 24,576, 32,128, 40,640, 48,192, 56,704, 64,256, 72,768,
@@ -25233,11 +25096,7 @@ const uint16_t armBitRevIndexTable128[ARMBITREVINDEXTABLE_128_TABLE_LENGTH] =
    904,928, 912,960, 920,992, 944,968, 952,1000, 968,992, 984,1008
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_256)
-
-const uint16_t armBitRevIndexTable256[ARMBITREVINDEXTABLE_256_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable256[ARMBITREVINDEXTABLE_256_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x4, size 440 */
    8,512, 16,1024, 24,1536, 32,64, 40,576, 48,1088, 56,1600, 64,128, 72,640,
@@ -25275,11 +25134,7 @@ const uint16_t armBitRevIndexTable256[ARMBITREVINDEXTABLE_256_TABLE_LENGTH] =
    1960,1968, 2008,2032, 1992,2016, 2024,2032
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_512)
-
-const uint16_t armBitRevIndexTable512[ARMBITREVINDEXTABLE_512_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable512[ARMBITREVINDEXTABLE_512_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 8, size 448 */
    8,512, 16,1024, 24,1536, 32,2048, 40,2560, 48,3072, 56,3584, 72,576,
@@ -25319,11 +25174,7 @@ const uint16_t armBitRevIndexTable512[ARMBITREVINDEXTABLE_512_TABLE_LENGTH] =
    3448,3952, 3512,4016, 3576,4080
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_1024)
-
-const uint16_t armBitRevIndexTable1024[ARMBITREVINDEXTABLE_1024_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable1024[ARMBITREVINDEXTABLE_1024_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x2, size 1800 */
    8,4096, 16,512, 24,4608, 32,1024, 40,5120, 48,1536, 56,5632, 64,2048,
@@ -25475,11 +25326,7 @@ const uint16_t armBitRevIndexTable1024[ARMBITREVINDEXTABLE_1024_TABLE_LENGTH] =
    8112,8136, 8120,8168, 8136,8160, 8152,8176
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_2048)
-
-const uint16_t armBitRevIndexTable2048[ARMBITREVINDEXTABLE_2048_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable2048[ARMBITREVINDEXTABLE_2048_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 8x2, size 3808 */
    8,4096, 16,8192, 24,12288, 32,512, 40,4608, 48,8704, 56,12800, 64,1024,
@@ -25820,11 +25667,8 @@ const uint16_t armBitRevIndexTable2048[ARMBITREVINDEXTABLE_2048_TABLE_LENGTH] =
    16248,16368, 16264,16288, 16280,16296, 16296,16304, 16344,16368,
    16328,16352, 16360,16368
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FLT_4096)
-
-const uint16_t armBitRevIndexTable4096[ARMBITREVINDEXTABLE_4096_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable4096[ARMBITREVINDEXTABLE_4096_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 8, size 4032 */
    8,4096, 16,8192, 24,12288, 32,16384, 40,20480, 48,24576, 56,28672, 64,512,
@@ -26194,38 +26038,29 @@ const uint16_t armBitRevIndexTable4096[ARMBITREVINDEXTABLE_4096_TABLE_LENGTH] =
    31096,31544, 31160,32056, 31224,32568, 31672,32120, 31736,32632,
    32248,32696
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_16)
-
-const uint16_t armBitRevIndexTable_fixed_16[ARMBITREVINDEXTABLE_FIXED_16_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_16[ARMBITREVINDEXTABLE_FIXED_16_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 12 */
    8,64, 16,32, 24,96, 40,80, 56,112, 88,104
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_32)
-const uint16_t armBitRevIndexTable_fixed_32[ARMBITREVINDEXTABLE_FIXED_32_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_32[ARMBITREVINDEXTABLE_FIXED_32_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 24 */
    8,128, 16,64, 24,192, 40,160, 48,96, 56,224, 72,144,
    88,208, 104,176, 120,240, 152,200, 184,232
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_64)
-const uint16_t armBitRevIndexTable_fixed_64[ARMBITREVINDEXTABLE_FIXED_64_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_64[ARMBITREVINDEXTABLE_FIXED_64_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 56 */
    8,256, 16,128, 24,384, 32,64, 40,320, 48,192, 56,448, 72,288, 80,160, 88,416, 104,352,
    112,224, 120,480, 136,272, 152,400, 168,336, 176,208, 184,464, 200,304, 216,432,
    232,368, 248,496, 280,392, 296,328, 312,456, 344,424, 376,488, 440,472
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_128)
-const uint16_t armBitRevIndexTable_fixed_128[ARMBITREVINDEXTABLE_FIXED_128_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_128[ARMBITREVINDEXTABLE_FIXED_128_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 112 */
    8,512, 16,256, 24,768, 32,128, 40,640, 48,384, 56,896, 72,576, 80,320, 88,832, 96,192,
@@ -26235,10 +26070,8 @@ const uint16_t armBitRevIndexTable_fixed_128[ARMBITREVINDEXTABLE_FIXED_128_TABLE
    472,880, 488,752, 504,1008, 536,776, 552,648, 568,904, 600,840, 616,712, 632,968,
    664,808, 696,936, 728,872, 760,1000, 824,920, 888,984
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_256)
-const uint16_t armBitRevIndexTable_fixed_256[ARMBITREVINDEXTABLE_FIXED_256_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_256[ARMBITREVINDEXTABLE_FIXED_256_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* radix 4, size 240 */
    8,1024, 16,512, 24,1536, 32,256, 40,1280, 48,768, 56,1792, 64,128, 72,1152, 80,640,
@@ -26256,10 +26089,8 @@ const uint16_t armBitRevIndexTable_fixed_256[ARMBITREVINDEXTABLE_FIXED_256_TABLE
    1368,1704, 1384,1448, 1400,1960, 1432,1640, 1464,1896, 1496,1768, 1528,2024, 1592,1816,
    1624,1688, 1656,1944, 1720,1880, 1784,2008, 1912,1976
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_512)
-const uint16_t armBitRevIndexTable_fixed_512[ARMBITREVINDEXTABLE_FIXED_512_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_512[ARMBITREVINDEXTABLE_FIXED_512_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
    /* 4x2, size 480 */
    8,2048, 16,1024, 24,3072, 32,512, 40,2560, 48,1536, 56,3584, 64,256, 72,2304, 80,1280,
@@ -26292,10 +26123,8 @@ const uint16_t armBitRevIndexTable_fixed_512[ARMBITREVINDEXTABLE_FIXED_512_TABLE
    3128,3608, 3160,3352, 3192,3864, 3256,3736, 3288,3480, 3320,3992, 3384,3672, 3448,3928,
    3512,3800, 3576,4056, 3704,3896, 3832,4024
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_1024)
-const uint16_t armBitRevIndexTable_fixed_1024[ARMBITREVINDEXTABLE_FIXED_1024_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_1024[ARMBITREVINDEXTABLE_FIXED_1024_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* radix 4, size 992 */
     8,4096, 16,2048, 24,6144, 32,1024, 40,5120, 48,3072, 56,7168, 64,512, 72,4608,
@@ -26368,10 +26197,8 @@ const uint16_t armBitRevIndexTable_fixed_1024[ARMBITREVINDEXTABLE_FIXED_1024_TAB
     6872,7000, 6904,8024, 6968,7384, 7032,7896, 7096,7640, 7160,8152, 7288,7736,
     7352,7480, 7416,7992, 7544,7864, 7672,8120, 7928,8056
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_2048)
-const uint16_t armBitRevIndexTable_fixed_2048[ARMBITREVINDEXTABLE_FIXED_2048_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_2048[ARMBITREVINDEXTABLE_FIXED_2048_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* 4x2, size 1984 */
     8,8192, 16,4096, 24,12288, 32,2048, 40,10240, 48,6144, 56,14336, 64,1024,
@@ -26526,10 +26353,8 @@ const uint16_t armBitRevIndexTable_fixed_2048[ARMBITREVINDEXTABLE_FIXED_2048_TAB
     14456,15416, 14520,14904, 14584,15928, 14712,15672, 14776,15160, 14840,16184,
     14968,15544, 15096,16056, 15224,15800, 15352,16312, 15608,15992, 15864,16248
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_BITREVIDX_FXT_4096)
-const uint16_t armBitRevIndexTable_fixed_4096[ARMBITREVINDEXTABLE_FIXED_4096_TABLE_LENGTH] =
+const uint16_t armBitRevIndexTable_fixed_4096[ARMBITREVINDEXTABLE_FIXED_4096_TABLE_LENGTH] ARM_DSP_TABLE_ATTRIBUTE =
 {
     /* radix 4, size 4032 */
     8,16384, 16,8192, 24,24576, 32,4096, 40,20480, 48,12288, 56,28672, 64,2048,
@@ -26866,9 +26691,7 @@ const uint16_t armBitRevIndexTable_fixed_4096[ARMBITREVINDEXTABLE_FIXED_4096_TAB
     30456,32184, 30584,31672, 30712,32696, 30968,31864, 31096,31352, 31224,32376,
     31480,32120, 31736,32632, 32248,32504
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_32)
 /**
   @par
   Example code for Double Precision Floating-point RFFT Twiddle factors Generation:
@@ -26877,7 +26700,7 @@ const uint16_t armBitRevIndexTable_fixed_4096[ARMBITREVINDEXTABLE_FIXED_4096_TAB
   @par
   Real and Imag values are in interleaved fashion
 */
-const uint64_t twiddleCoefF64_rfft_32[32] = {
+const uint64_t twiddleCoefF64_rfft_32[32] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //      0,       1
     0x3fc8f8b83c69a60a,     0x3fef6297cff75cb0,     //0.19509, 0.98079
     0x3fd87de2a6aea963,     0x3fed906bcf328d46,     //0.38268, 0.92388
@@ -26895,10 +26718,8 @@ const uint64_t twiddleCoefF64_rfft_32[32] = {
     0x3fd87de2a6aea963,     0xbfed906bcf328d46,     //0.38268,-0.92388
     0x3fc8f8b83c69a60a,     0xbfef6297cff75cb0,     //0.19509,-0.98079
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_64)
-const uint64_t twiddleCoefF64_rfft_64[64] = {
+const uint64_t twiddleCoefF64_rfft_64[64] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //       0,        1'
     0x3fb917a6bc29b42c,     0x3fefd88da3d12526,     //0.098017,  0.99518'
     0x3fc8f8b83c69a60a,     0x3fef6297cff75cb0,     // 0.19509,  0.98079'
@@ -26932,10 +26753,8 @@ const uint64_t twiddleCoefF64_rfft_64[64] = {
     0x3fc8f8b83c69a60a,     0xbfef6297cff75cb0,     // 0.19509, -0.98079'
     0x3fb917a6bc29b42c,     0xbfefd88da3d12526,     //0.098017, -0.99518'
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_128)
-const uint64_t twiddleCoefF64_rfft_128[128] = {
+const uint64_t twiddleCoefF64_rfft_128[128] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //       0,        1'
     0x3fa91f65f10dd814,     0x3feff621e3796d7e,     //0.049068,   0.9988'
     0x3fb917a6bc29b42c,     0x3fefd88da3d12526,     //0.098017,  0.99518'
@@ -27001,10 +26820,8 @@ const uint64_t twiddleCoefF64_rfft_128[128] = {
     0x3fb917a6bc29b42c,     0xbfefd88da3d12526,     //0.098017, -0.99518'
     0x3fa91f65f10dd814,     0xbfeff621e3796d7e,     //0.049068,  -0.9988'
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_256)
-const uint64_t twiddleCoefF64_rfft_256[256] = {
+const uint64_t twiddleCoefF64_rfft_256[256] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //       0,        1
     0x3f992155f7a3667e,     0x3feffd886084cd0d,     //0.024541,   0.9997
     0x3fa91f65f10dd814,     0x3feff621e3796d7e,     //0.049068,   0.9988
@@ -27136,10 +26953,8 @@ const uint64_t twiddleCoefF64_rfft_256[256] = {
         
             
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_512)
-const uint64_t twiddleCoefF64_rfft_512[512] = {
+const uint64_t twiddleCoefF64_rfft_512[512] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //       0,        1'
     0x3f8921d1fcdec784,     0x3fefff62169b92db,     //0.012272,  0.99992'
     0x3f992155f7a3667e,     0x3feffd886084cd0d,     //0.024541,   0.9997'
@@ -27399,10 +27214,8 @@ const uint64_t twiddleCoefF64_rfft_512[512] = {
 
 
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_1024)
-const uint64_t twiddleCoefF64_rfft_1024[1024] = {
+const uint64_t twiddleCoefF64_rfft_1024[1024] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //        0,         1'
     0x3f7921f0fe670071,     0x3fefffd8858e8a92,     //0.0061359,   0.99998'
     0x3f8921d1fcdec784,     0x3fefff62169b92db,     // 0.012272,   0.99992'
@@ -27917,10 +27730,7 @@ const uint64_t twiddleCoefF64_rfft_1024[1024] = {
     0x3f7921f0fe670071,     0xbfefffd8858e8a92,     //0.0061359,  -0.99998'
 };
     
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_2048)
-const uint64_t twiddleCoefF64_rfft_2048[2048] = {
+const uint64_t twiddleCoefF64_rfft_2048[2048] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //        0,         1
     0x3f6921f8becca4ba,     0x3feffff621621d02,     // 0.003068,         1
     0x3f7921f0fe670071,     0x3fefffd8858e8a92,     //0.0061359,   0.99998
@@ -28946,10 +28756,8 @@ const uint64_t twiddleCoefF64_rfft_2048[2048] = {
     0x3f7921f0fe670071,     0xbfefffd8858e8a92,     //0.0061359,  -0.99998
     0x3f6921f8becca4ba,     0xbfeffff621621d02,     // 0.003068,        -1
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F64_4096)
-const uint64_t twiddleCoefF64_rfft_4096[4096] = {
+const uint64_t twiddleCoefF64_rfft_4096[4096] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0000000000000000,     0x3ff0000000000000,     //        0,         1
     0x3f5921faaee6472d,     0x3feffffd88586ee6,     // 0.001534,         1
     0x3f6921f8becca4ba,     0x3feffff621621d02,     // 0.003068,         1
@@ -31000,10 +30808,7 @@ const uint64_t twiddleCoefF64_rfft_4096[4096] = {
     0x3f5921faaee6472d,     0xbfeffffd88586ee6,     // 0.001534,        -1
 };
 
-#endif
 
-
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_32)
 /**
   @par
   Example code for Floating-point RFFT Twiddle factors Generation:
@@ -31012,7 +30817,7 @@ const uint64_t twiddleCoefF64_rfft_4096[4096] = {
   @par
   Real and Imag values are in interleaved fashion
 */
-const float32_t twiddleCoef_rfft_32[32] = {
+const float32_t twiddleCoef_rfft_32[32] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.195090322f,  0.980785280f,
     0.382683432f,  0.923879533f,
@@ -31030,10 +30835,8 @@ const float32_t twiddleCoef_rfft_32[32] = {
     0.382683432f, -0.923879533f,
     0.195090322f, -0.980785280f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_64)
-const float32_t twiddleCoef_rfft_64[64] = {
+const float32_t twiddleCoef_rfft_64[64] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000000000f,  1.000000000000000f,
     0.098017140329561f,  0.995184726672197f,
     0.195090322016128f,  0.980785280403230f,
@@ -31067,10 +30870,8 @@ const float32_t twiddleCoef_rfft_64[64] = {
     0.195090322016129f, -0.980785280403230f,
     0.098017140329561f, -0.995184726672197f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_128)
-const float32_t twiddleCoef_rfft_128[128] = {
+const float32_t twiddleCoef_rfft_128[128] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.049067674f,  0.998795456f,
     0.098017140f,  0.995184727f,
@@ -31136,10 +30937,8 @@ const float32_t twiddleCoef_rfft_128[128] = {
     0.098017140f, -0.995184727f,
     0.049067674f, -0.998795456f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_256)
-const float32_t twiddleCoef_rfft_256[256] = {
+const float32_t twiddleCoef_rfft_256[256] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.024541229f,  0.999698819f,
     0.049067674f,  0.998795456f,
@@ -31269,10 +31068,8 @@ const float32_t twiddleCoef_rfft_256[256] = {
     0.049067674f, -0.998795456f,
     0.024541229f, -0.999698819f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_512)
-const float32_t twiddleCoef_rfft_512[512] = {
+const float32_t twiddleCoef_rfft_512[512] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.012271538f,  0.999924702f,
     0.024541229f,  0.999698819f,
@@ -31530,10 +31327,8 @@ const float32_t twiddleCoef_rfft_512[512] = {
     0.024541229f, -0.999698819f,
     0.012271538f, -0.999924702f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_1024)
-const float32_t twiddleCoef_rfft_1024[1024] = {
+const float32_t twiddleCoef_rfft_1024[1024] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.006135885f,  0.999981175f,
     0.012271538f,  0.999924702f,
@@ -32047,10 +31842,8 @@ const float32_t twiddleCoef_rfft_1024[1024] = {
     0.012271538f, -0.999924702f,
     0.006135885f, -0.999981175f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_2048)
-const float32_t twiddleCoef_rfft_2048[2048] = {
+const float32_t twiddleCoef_rfft_2048[2048] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.003067957f,  0.999995294f,
     0.006135885f,  0.999981175f,
@@ -33076,10 +32869,8 @@ const float32_t twiddleCoef_rfft_2048[2048] = {
     0.006135885f, -0.999981175f,
     0.003067957f, -0.999995294f
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_TWIDDLECOEF_RFFT_F32_4096)
-const float32_t twiddleCoef_rfft_4096[4096] = {
+const float32_t twiddleCoef_rfft_4096[4096] ARM_DSP_TABLE_ATTRIBUTE = {
     0.000000000f,  1.000000000f,
     0.001533980f,  0.999998823f,
     0.003067957f,  0.999995294f,
@@ -35130,7 +34921,6 @@ const float32_t twiddleCoef_rfft_4096[4096] = {
     0.001533980f, -0.999998823f
 };
 
-#endif /* if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FFT_ALL_TABLES) */
 
 /**
   @ingroup RealFFT
@@ -35153,8 +34943,7 @@ const float32_t twiddleCoef_rfft_4096[4096] = {
   }</pre>
  */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_REALCOEF_F32)
-const float32_t realCoefA[8192] = {
+const float32_t realCoefA[8192] ARM_DSP_TABLE_ATTRIBUTE = {
   0.500000000000000f, -0.500000000000000f, 0.499616503715515f, -0.499999850988388f,
   0.499233007431030f, -0.499999403953552f, 0.498849511146545f, -0.499998688697815f,
   0.498466014862061f, -0.499997645616531f, 0.498082518577576f, -0.499996334314346f,
@@ -37218,7 +37007,7 @@ const float32_t realCoefA[8192] = {
   }</pre>
  */
 
-const float32_t realCoefB[8192] = {
+const float32_t realCoefB[8192] ARM_DSP_TABLE_ATTRIBUTE = {
   0.500000000000000f, 0.500000000000000f, 0.500383496284485f, 0.499999850988388f,
   0.500766992568970f, 0.499999403953552f, 0.501150488853455f, 0.499998688697815f,
   0.501533985137939f, 0.499997645616531f, 0.501917481422424f, 0.499996334314346f,
@@ -39268,9 +39057,7 @@ const float32_t realCoefB[8192] = {
   0.501533985137939f, -0.499997645616531f, 0.501150488853455f, -0.499998688697815f,
   0.500766992568970f, -0.499999403953552f, 0.500383496284485f, -0.499999850988388f,
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_REALCOEF_Q31)
 /**
   @par
   Generation fixed-point realCoefAQ31 array in Q31 format:
@@ -39285,7 +39072,7 @@ const float32_t realCoefB[8192] = {
   Convert to fixed point Q31 format
       round(pATable[i] * pow(2, 31))
 */
-const q31_t realCoefAQ31[8192] = {
+const q31_t realCoefAQ31[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     (q31_t)0x40000000, (q31_t)0xc0000000, (q31_t)0x3ff36f02, (q31_t)0xc000013c,
     (q31_t)0x3fe6de05, (q31_t)0xc00004ef, (q31_t)0x3fda4d09, (q31_t)0xc0000b1a,
     (q31_t)0x3fcdbc0f, (q31_t)0xc00013bd, (q31_t)0x3fc12b16, (q31_t)0xc0001ed8,
@@ -41352,7 +41139,7 @@ const q31_t realCoefAQ31[8192] = {
       round(pBTable[i] * pow(2, 31))
  */
 
-const q31_t realCoefBQ31[8192] = {
+const q31_t realCoefBQ31[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     (q31_t)0x40000000, (q31_t)0x40000000, (q31_t)0x400c90fe, (q31_t)0x3ffffec4,
     (q31_t)0x401921fb, (q31_t)0x3ffffb11, (q31_t)0x4025b2f7, (q31_t)0x3ffff4e6,
     (q31_t)0x403243f1, (q31_t)0x3fffec43, (q31_t)0x403ed4ea, (q31_t)0x3fffe128,
@@ -43402,9 +43189,7 @@ const q31_t realCoefBQ31[8192] = {
     (q31_t)0x403243f1, (q31_t)0xc00013bd, (q31_t)0x4025b2f7, (q31_t)0xc0000b1a,
     (q31_t)0x401921fb, (q31_t)0xc00004ef, (q31_t)0x400c90fe, (q31_t)0xc000013c,
 };
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_REALCOEF_Q15)
 /**
   @par
   Generation fixed-point realCoefAQ15 array in Q15 format:
@@ -43419,7 +43204,7 @@ const q31_t realCoefBQ31[8192] = {
   Convert to fixed point Q15 format
         round(pATable[i] * pow(2, 15))
  */
-const q15_t __ALIGNED(4) realCoefAQ15[8192] = {
+const q15_t __ALIGNED(4) realCoefAQ15[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     (q15_t)0x4000, (q15_t)0xc000, (q15_t)0x3ff3, (q15_t)0xc000, (q15_t)0x3fe7, (q15_t)0xc000, (q15_t)0x3fda, (q15_t)0xc000,
     (q15_t)0x3fce, (q15_t)0xc000, (q15_t)0x3fc1, (q15_t)0xc000, (q15_t)0x3fb5, (q15_t)0xc000, (q15_t)0x3fa8, (q15_t)0xc000,
     (q15_t)0x3f9b, (q15_t)0xc000, (q15_t)0x3f8f, (q15_t)0xc000, (q15_t)0x3f82, (q15_t)0xc000, (q15_t)0x3f76, (q15_t)0xc001,
@@ -44460,7 +44245,7 @@ const q15_t __ALIGNED(4) realCoefAQ15[8192] = {
   Convert to fixed point Q15 format
         round(pBTable[i] * pow(2, 15))
 */
-const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
+const q15_t __ALIGNED(4) realCoefBQ15[8192] ARM_DSP_TABLE_ATTRIBUTE = {
     (q15_t)0x4000, (q15_t)0x4000, (q15_t)0x400d, (q15_t)0x4000, (q15_t)0x4019, (q15_t)0x4000, (q15_t)0x4026, (q15_t)0x4000,
     (q15_t)0x4032, (q15_t)0x4000, (q15_t)0x403f, (q15_t)0x4000, (q15_t)0x404b, (q15_t)0x4000, (q15_t)0x4058, (q15_t)0x4000,
     (q15_t)0x4065, (q15_t)0x4000, (q15_t)0x4071, (q15_t)0x4000, (q15_t)0x407e, (q15_t)0x4000, (q15_t)0x408a, (q15_t)0x3fff,
@@ -45487,7 +45272,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
     (q15_t)0x4032, (q15_t)0xc000, (q15_t)0x4026, (q15_t)0xc000, (q15_t)0x4019, (q15_t)0xc000, (q15_t)0x400d, (q15_t)0xc000,
 };
 
-#endif
 /**
   @} end of RealFFT_Table group
  */
@@ -45537,7 +45321,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   @par
   where <code>N</code> is the number of factors to generate and <code>c</code> is <code>pi/(2*N)</code>
 */
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_128)
     const float32_t Weights_128[256] = {
   1.000000000000000000f, 0.000000000000000000f, 0.999924701839144500f,  -0.012271538285719925f,
   0.999698818696204250f, -0.024541228522912288f, 0.999322384588349540f, -0.036807222941358832f,
@@ -45672,9 +45455,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   0.006135884649154515f
 };
 
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_512)
     const float32_t Weights_512[1024] = {
   1.000000000000000000f,  0.000000000000000000f, 0.999995293809576190f, -0.003067956762965976f,
   0.999981175282601110f, -0.006135884649154475f, 0.999957644551963900f, -0.009203754782059819f,
@@ -46192,9 +45973,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   0.010737659167264572f, 0.007669828739531077f, 0.004601926120448672f,
   0.001533980186284766f
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_2048)
     const float32_t Weights_2048[4096] = {
   1.000000000000000000f, 0.000000000000000000f, 0.999999705862882230f,  -0.000766990318742704f,
   0.999998823451701880f, -0.001533980186284766f, 0.999997352766978210f,  -0.002300969151425805f,
@@ -49101,9 +48880,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   0.002684463154596083f, 0.001917474809855460f, 0.001150485337113809f,
   0.000383495187571497f
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_F32_8192)
     const float32_t Weights_8192[16384] = {
   1.000000000000000000f, -0.000000000000000000f, 0.999999981616429330f,
     -0.000191747597310703f,
@@ -61397,7 +61174,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   0.001342233088643682f, 0.000958737955710053f, 0.000575242787525925f,
     0.000191747598192208f
 };
-  #endif
 
 /**
   @brief  Weights Table
@@ -61439,7 +61215,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   Then converted to q15 format by multiplying with 2^31 and saturated if required.
 */
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q15_128)
 
     const q15_t __ALIGNED(4) WeightsQ15_128[256] = {
   (q15_t)0x7fff, (q15_t)0x0, (q15_t)0x7ffd, (q15_t)0xfe6e, (q15_t)0x7ff6, (q15_t)0xfcdc, (q15_t)0x7fe9, (q15_t)0xfb4a,
@@ -61493,9 +61268,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q15_t)0x1833, (q15_t)0x16a8, (q15_t)0x151b, (q15_t)0x138e, (q15_t)0x1201, (q15_t)0x1072, (q15_t)0xee3, (q15_t)0xd53,
   (q15_t)0xbc3, (q15_t)0xa33, (q15_t)0x8a2, (q15_t)0x710, (q15_t)0x57f, (q15_t)0x3ed, (q15_t)0x25b, (q15_t)0xc9
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q15_512)
     const q15_t __ALIGNED(4) WeightsQ15_512[1024] = {
   (q15_t)0x7fff, (q15_t)0x0, (q15_t)0x7fff, (q15_t)0xff9c, (q15_t)0x7fff, (q15_t)0xff37, (q15_t)0x7ffe, (q15_t)0xfed3,
   (q15_t)0x7ffd, (q15_t)0xfe6e, (q15_t)0x7ffc, (q15_t)0xfe0a, (q15_t)0x7ffa, (q15_t)0xfda5, (q15_t)0x7ff8, (q15_t)0xfd41,
@@ -61694,9 +61467,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q15_t)0x2f1, (q15_t)0x28d, (q15_t)0x228, (q15_t)0x1c4, (q15_t)0x15f, (q15_t)0xfb, (q15_t)0x96, (q15_t)0x32
 };
 
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q15_2048)
     const q15_t __ALIGNED(4) WeightsQ15_2048[4096] = {
   (q15_t)0x7fff, (q15_t)0x0, (q15_t)0x7fff, (q15_t)0xffe7, (q15_t)0x7fff, (q15_t)0xffce, (q15_t)0x7fff, (q15_t)0xffb5,
   (q15_t)0x7fff, (q15_t)0xff9c, (q15_t)0x7fff, (q15_t)0xff83, (q15_t)0x7fff, (q15_t)0xff6a, (q15_t)0x7fff, (q15_t)0xff51,
@@ -62470,9 +62241,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q15_t)0xbc, (q15_t)0xa3, (q15_t)0x8a, (q15_t)0x71, (q15_t)0x57, (q15_t)0x3e, (q15_t)0x25, (q15_t)0xc
 
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q15_8192)
     const q15_t __ALIGNED(4) WeightsQ15_8192[16384] = {
   (q15_t)0x7fff, (q15_t)0x0, (q15_t)0x7fff, (q15_t)0xfffa, (q15_t)0x7fff, (q15_t)0xfff4, (q15_t)0x7fff, (q15_t)0xffee,
   (q15_t)0x7fff, (q15_t)0xffe7, (q15_t)0x7fff, (q15_t)0xffe1, (q15_t)0x7fff, (q15_t)0xffdb, (q15_t)0x7fff, (q15_t)0xffd5,
@@ -65550,7 +65319,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q15_t)0x61, (q15_t)0x5b, (q15_t)0x54, (q15_t)0x4e, (q15_t)0x48, (q15_t)0x41, (q15_t)0x3b, (q15_t)0x35,
   (q15_t)0x2f, (q15_t)0x28, (q15_t)0x22, (q15_t)0x1c, (q15_t)0x15, (q15_t)0xf, (q15_t)0x9, (q15_t)0x3
 };
-  #endif
 
 /**
   @par
@@ -65588,7 +65356,6 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   Then converted to q31 format by multiplying with 2^31 and saturated if required.
 */
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_128)  
     const q31_t WeightsQ31_128[256] = {
   (q31_t)0x7fffffff, (q31_t)0x00000000, (q31_t)0x7ffd885a, (q31_t)0xfe6de2e0, (q31_t)0x7ff62182, (q31_t)0xfcdbd541, (q31_t)0x7fe9cbc0, (q31_t)0xfb49e6a3,
   (q31_t)0x7fd8878e, (q31_t)0xf9b82684, (q31_t)0x7fc25596, (q31_t)0xf826a462, (q31_t)0x7fa736b4, (q31_t)0xf6956fb7, (q31_t)0x7f872bf3, (q31_t)0xf50497fb,
@@ -65657,9 +65424,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q31_t)0xbc3ac35, (q31_t)0xa3308bd, (q31_t)0x8a2009a, (q31_t)0x710a345, (q31_t)0x57f0035, (q31_t)0x3ed26e6, (q31_t)0x25b26d7,
   (q31_t)0xc90f88
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_512) 
     const q31_t WeightsQ31_512[1024] = {
   (q31_t)0x7fffffff, (q31_t)0x00000000, (q31_t)0x7fffd886, (q31_t)0xff9b781d, (q31_t)0x7fff6216, (q31_t)0xff36f078, (q31_t)0x7ffe9cb2, (q31_t)0xfed2694f,
   (q31_t)0x7ffd885a, (q31_t)0xfe6de2e0, (q31_t)0x7ffc250f, (q31_t)0xfe095d69, (q31_t)0x7ffa72d1, (q31_t)0xfda4d929, (q31_t)0x7ff871a2, (q31_t)0xfd40565c,
@@ -65920,9 +65685,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q31_t)0x2f1ea6c, (q31_t)0x28d6870, (q31_t)0x228e4e2, (q31_t)0x1c45ffe, (q31_t)0x15fda03, (q31_t)0xfb5330, (q31_t)0x96cbc1,
   (q31_t)0x3243f5
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_2048) 
     const q31_t WeightsQ31_2048[4096] = {
   (q31_t)0x7fffffff, (q31_t)0x00000000, (q31_t)0x7ffffd88, (q31_t)0xffe6de05, (q31_t)0x7ffff621, (q31_t)0xffcdbc0b, (q31_t)0x7fffe9cb, (q31_t)0xffb49a12,
   (q31_t)0x7fffd886, (q31_t)0xff9b781d, (q31_t)0x7fffc251, (q31_t)0xff82562c, (q31_t)0x7fffa72c, (q31_t)0xff69343f, (q31_t)0x7fff8719, (q31_t)0xff501258,
@@ -66951,9 +66714,7 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q31_t)0xbc7e99, (q31_t)0xa35cb5, (q31_t)0x8a3acb, (q31_t)0x7118dc, (q31_t)0x57f6e9, (q31_t)0x3ed4f2, (q31_t)0x25b2f8,
   (q31_t)0xc90fe
 };
-  #endif
 
-  #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FFT_TABLES) || defined(ARM_TABLE_DCT4_Q31_8192) 
     const q31_t WeightsQ31_8192[16384] = {
   (q31_t)0x7fffffff, (q31_t)0x00000000, (q31_t)0x7fffffd9, (q31_t)0xfff9b781, (q31_t)0x7fffff62, (q31_t)0xfff36f02, (q31_t)0x7ffffe9d, (q31_t)0xffed2684,
   (q31_t)0x7ffffd88, (q31_t)0xffe6de05, (q31_t)0x7ffffc25, (q31_t)0xffe09586, (q31_t)0x7ffffa73, (q31_t)0xffda4d08, (q31_t)0x7ffff872, (q31_t)0xffd40489,
@@ -70030,21 +69791,17 @@ const q15_t __ALIGNED(4) realCoefBQ15[8192] = {
   (q31_t)0x6163a5, (q31_t)0x5b1b27, (q31_t)0x54d2aa, (q31_t)0x4e8a2c, (q31_t)0x4841af, (q31_t)0x41f931, (q31_t)0x3bb0b3, (q31_t)0x356835,
   (q31_t)0x2f1fb6, (q31_t)0x28d738, (q31_t)0x228eb9, (q31_t)0x1c463b, (q31_t)0x15fdbc, (q31_t)0xfb53d, (q31_t)0x96cbe, (q31_t)0x3243f
 };
-  #endif
 
 /**
   @} end of DCT4_IDCT4_Table group
  */
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FFT_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FAST_ALLOW_TABLES)
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_RECIP_Q15)
 /**
   @brief  Q15 table for reciprocal
 */
-const q15_t __ALIGNED(4) armRecipTableQ15[64] = {
+const q15_t __ALIGNED(4) armRecipTableQ15[64] ARM_DSP_TABLE_ATTRIBUTE = {
  0x7F03, 0x7D13, 0x7B31, 0x795E, 0x7798, 0x75E0,
  0x7434, 0x7294, 0x70FF, 0x6F76, 0x6DF6, 0x6C82,
  0x6B16, 0x69B5, 0x685C, 0x670C, 0x65C4, 0x6484,
@@ -70058,14 +69815,12 @@ const q15_t __ALIGNED(4) armRecipTableQ15[64] = {
  0x41CC, 0x4146, 0x40C2, 0x4040
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_RECIP_Q31)
 
 /**
   @brief  Q31 table for reciprocal
 */
-const q31_t armRecipTableQ31[64] = {
+const q31_t armRecipTableQ31[64] ARM_DSP_TABLE_ATTRIBUTE = {
   0x7F03F03F, 0x7D137420, 0x7B31E739, 0x795E9F94, 0x7798FD29, 0x75E06928,
   0x7434554D, 0x72943B4B, 0x70FF9C40, 0x6F760031, 0x6DF6F593, 0x6C8210E3,
   0x6B16EC3A, 0x69B526F6, 0x685C655F, 0x670C505D, 0x65C4952D, 0x6484E519,
@@ -70079,9 +69834,7 @@ const q31_t armRecipTableQ31[64] = {
   0x41CCDDB6, 0x4146A3C6, 0x40C28923, 0x40408102
 };
 
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SIN_F32)
 /**
   @par
   Example code for the generation of the floating-point sine table:
@@ -70094,7 +69847,7 @@ const q31_t armRecipTableQ31[64] = {
  @par
   where PI value is  3.14159265358979
  */
-const float32_t sinTable_f32[FAST_MATH_TABLE_SIZE + 1] = {
+const float32_t sinTable_f32[FAST_MATH_TABLE_SIZE + 1] ARM_DSP_TABLE_ATTRIBUTE = {
    0.00000000f, 0.01227154f, 0.02454123f, 0.03680722f, 0.04906767f, 0.06132074f,
    0.07356456f, 0.08579731f, 0.09801714f, 0.11022221f, 0.12241068f, 0.13458071f,
    0.14673047f, 0.15885814f, 0.17096189f, 0.18303989f, 0.19509032f, 0.20711138f,
@@ -70190,9 +69943,7 @@ const float32_t sinTable_f32[FAST_MATH_TABLE_SIZE + 1] = {
    -0.11022221f, -0.09801714f, -0.08579731f, -0.07356456f, -0.06132074f,
    -0.04906767f, -0.03680722f, -0.02454123f, -0.01227154f, -0.00000000f
 };
-#endif /* defined(ARM_ALL_FAST_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SIN_Q31)
 /**
   @par
   Table values are in Q31 (1.31 fixed-point format) and generation is done in
@@ -70211,7 +69962,7 @@ const float32_t sinTable_f32[FAST_MATH_TABLE_SIZE + 1] = {
   Finally, round to the nearest integer value:
   	sinTable[i] += (sinTable[i] > 0 ? 0.5 : -0.5);
  */
-const q31_t sinTable_q31[FAST_MATH_TABLE_SIZE + 1] = {
+const q31_t sinTable_q31[FAST_MATH_TABLE_SIZE + 1] ARM_DSP_TABLE_ATTRIBUTE = {
 	0L, 26352928L, 52701887L, 79042909L, 105372028L, 131685278L, 157978697L,
 	184248325L, 210490206L, 236700388L, 262874923L, 289009871L, 315101295L,
 	341145265L, 367137861L, 393075166L, 418953276L, 444768294L, 470516330L,
@@ -70305,9 +70056,7 @@ const q31_t sinTable_q31[FAST_MATH_TABLE_SIZE + 1] = {
 	-157978697L, -131685278L, -105372028L, -79042909L, -52701887L, -26352928L, 0
 };
 
-#endif /* defined(ARM_ALL_FAST_TABLES) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SIN_Q15)
 /**
   @par
   Table values are in Q15 (1.15 fixed-point format) and generation is done in
@@ -70326,7 +70075,7 @@ const q31_t sinTable_q31[FAST_MATH_TABLE_SIZE + 1] = {
   Finally, round to the nearest integer value:
   	sinTable[i] += (sinTable[i] > 0 ? 0.5 :-0.5);
  */
-const q15_t sinTable_q15[FAST_MATH_TABLE_SIZE + 1] = {
+const q15_t sinTable_q15[FAST_MATH_TABLE_SIZE + 1] ARM_DSP_TABLE_ATTRIBUTE = {
 	0, 402, 804, 1206, 1608, 2009, 2411, 2811, 3212, 3612, 4011, 4410, 4808,
 	5205, 5602, 5998, 6393, 6787, 7180, 7571, 7962, 8351, 8740, 9127, 9512,
 	9896, 10279, 10660, 11039, 11417, 11793, 12167, 12540, 12910, 13279,
@@ -70381,11 +70130,10 @@ const q15_t sinTable_q15[FAST_MATH_TABLE_SIZE + 1] = {
 	-5998, -5602, -5205, -4808, -4410, -4011, -3612, -3212, -2811, -2411,
 	-2009, -1608, -1206, -804, -402, 0
 };
-#endif /* defined(ARM_ALL_FAST_TABLES) */
 
-#if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
-     #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_FAST_SQRT_Q31_MVE)
-const q31_t sqrtTable_Q31[256] = {
+#if (defined(ARM_MATH_MVEI) || defined(ARM_MATH_HELIUM)) && !defined(ARM_MATH_AUTOVECTORIZE)
+
+const q31_t sqrtTable_Q31[256] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
@@ -70443,10 +70191,8 @@ const q31_t sqrtTable_Q31[256] = {
     0x30c49ed6, 0x10c7c88b, 0x309294ea, 0x10945653,
     0x306123cc, 0x1061e8e6, 0x30304878, 0x10307919
 };
-     #endif /* !defined(ARM_DSP_CONFIG_TABLES) defined(ARM_ALL_FAST_TABLES) */
 
-     #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_FAST_SQRT_Q15_MVE)
-const q15_t sqrtTable_Q15[256] = {
+const q15_t sqrtTable_Q15[256] ARM_DSP_TABLE_ATTRIBUTE = {
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
     0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
@@ -70504,10 +70250,16 @@ const q15_t sqrtTable_Q15[256] = {
     0x30c4, 0x10c7, 0x3092, 0x1094,
     0x3061, 0x1061, 0x3030, 0x1030
 };
-     #endif
-#endif /* defined(ARM_MATH_MVEI) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SQRT_Q31)
+/* haming weight LUT for bytes */
+#define B2(n) n, n + 1, n + 1, n + 2
+#define B4(n) B2(n) , B2(n + 1), B2(n + 1), B2(n + 2)
+#define B6(n) B4(n) , B4(n + 1), B4(n + 1), B4(n + 2)
+
+// Lookup table that store the reverse of each table 
+const unsigned char hwLUT[256] ARM_DSP_TABLE_ATTRIBUTE = { B6(0), B6(1), B6(1), B6(2) };
+
+#endif
 /*
 ClearAll[tofix];
 tofix[q_][a_] := With[{r = Round[a*2^q]},
@@ -70522,24 +70274,20 @@ With[{q = 15, nb = 4, q12quarter = 16^^2000},
   ] // CopyToClipboard
 
 */
-const q31_t sqrt_initial_lut_q31[32]={536870912, 506166750, 480191942, 457845052, 438353264, 421156193, \
+const q31_t sqrt_initial_lut_q31[32] ARM_DSP_TABLE_ATTRIBUTE = {536870912, 506166750, 480191942, 457845052, 438353264, 421156193, \
 405836263, 392075079, 379625062, 368290407, 357913941, 348367849, \
 339546978, 331363921, 323745341, 316629190, 309962566, 303700050, \
 297802400, 292235509, 286969573, 281978417, 277238947, 272730696, \
 268435456, 264336964, 260420644, 256673389, 253083375, 249639903, \
 246333269, 243154642};
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SQRT_Q31) */
 
-#if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SQRT_Q15)
-const q15_t sqrt_initial_lut_q15[16]={8192, 7327, 6689, 6193, 5793, 5461, 5181, 4940, 4730, 4544, 4379, \
+const q15_t sqrt_initial_lut_q15[16] ARM_DSP_TABLE_ATTRIBUTE ={8192, 7327, 6689, 6193, 5793, 5461, 5181, 4940, 4730, 4544, 4379, \
 4230, 4096, 3974, 3862, 3759};
-#endif /* !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_ALL_FAST_TABLES) || defined(ARM_TABLE_SQRT_Q15) */
 
-
-#endif /* #if !defined(ARM_DSP_CONFIG_TABLES) || defined(ARM_FAST_ALLOW_TABLES) */
 
 #if (defined(ARM_MATH_MVEF) || defined(ARM_MATH_HELIUM)) && !defined(ARM_MATH_AUTOVECTORIZE)
-const float32_t exp_tab[8] = {
+
+const float32_t exp_tab[8] ARM_DSP_TABLE_ATTRIBUTE = {
     (1.f),
     (0.0416598916054f),
     (0.500000596046f),
@@ -70550,7 +70298,7 @@ const float32_t exp_tab[8] = {
     (0.000195780929062f),
 };
 
-const float32_t __logf_lut_f32[8] = {
+const float32_t __logf_lut_f32[8] ARM_DSP_TABLE_ATTRIBUTE = {
     -2.295614848256274,         /*p0*/
     -2.470711633419806,         /*p4*/
     -5.686926051100417,         /*p2*/
@@ -70561,16 +70309,6 @@ const float32_t __logf_lut_f32[8] = {
     +0.014127821926000          /*p7*/
 };
 
-#endif /* (defined(ARM_MATH_MVEF) || defined(ARM_MATH_HELIUM)) && !defined(ARM_MATH_AUTOVECTORIZE) */
 
-#if (defined(ARM_MATH_MVEI) || defined(ARM_MATH_HELIUM))  && !defined(ARM_MATH_AUTOVECTORIZE)
+#endif
 
-/* haming weight LUT for bytes */
-#define B2(n) n, n + 1, n + 1, n + 2
-#define B4(n) B2(n) , B2(n + 1), B2(n + 1), B2(n + 2)
-#define B6(n) B4(n) , B4(n + 1), B4(n + 1), B4(n + 2)
-
-// Lookup table that store the reverse of each table 
-const unsigned char hwLUT[256] = { B6(0), B6(1), B6(1), B6(2) };
-
-#endif /* (defined(ARM_MATH_MVEI) || defined(ARM_MATH_HELIUM)) */

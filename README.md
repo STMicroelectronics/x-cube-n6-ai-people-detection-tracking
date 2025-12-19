@@ -51,6 +51,7 @@ Supported camera modules:
 - Provided IMX335 camera module
 - [STEVAL-55G1MBI](https://www.st.com/en/evaluation-tools/steval-55g1mbi.html)
 - [STEVAL-66GYMAI1](https://www.st.com/en/evaluation-tools/steval-66gymai.html)
+- [STEVAL-1943-MC1](https://www.st.com/en/evaluation-tools/steval-1943-mc1.html)
 
 For the Nucleo board, one of the following displays is required:
 
@@ -71,7 +72,7 @@ NUCLEO-N657X0-Q board with SPI display.
 - IAR Embedded Workbench for Arm (__EWARM 9.40.1__) + N6 patch ([__EWARMv9_STM32N6xx_V1.0.0__](STM32Cube_FW_N6/Utilities/PC_Software/EWARMv9_STM32N6xx_V1.0.0.zip))
 - [STM32CubeIDE](https://www.st.com/content/st_com/en/products/development-tools/software-development-tools/stm32-software-development-tools/stm32-ides/stm32cubeide.html) (__v1.17.0__)
 - [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html) (__v2.18.0__)
-- [STEdgeAI](https://www.st.com/en/development-tools/stedgeai-core.html) (__v2.2.0__)
+- [STEdgeAI](https://www.st.com/en/development-tools/stedgeai-core.html) (__v3.0.0__)
 
 ---
 
@@ -109,34 +110,33 @@ You can toggle tracking at runtime using button USER1 for STM32N6570-DK.
 
 ### Flash Prebuilt Binaries
 
-Three binaries must be programmed into the board's external flash using the following procedure:
-
 #### STM32N6570-DK
 
   1. Set the board to [development mode](#boot-modes).
-  2. Program `Binary/ai_fsbl.hex` (To be done once) (First stage boot loader).
-  3. Program `Binary/network_data-dk.hex` (parameters of the networks; To be changed only when the network is changed).
-  4. Program `Binary/x-cube-n6-ai-people-detection-tracking-dk.hex` (firmware application).
-  5. Set the board to [boot from flash mode](#boot-modes).
-  6. Power cycle the board.
+  2. Program `Binary/STM32N6570-DK/x-cube-n6-ai-people-detection-tracking-dk.hex`.
+  3. Set the board to [boot from flash mode](#boot-modes).
+  4. Power cycle the board.
+  5. The application will start, and you should see the camera output. Detected people are surrounded by a rectangle,
+     and their tracking ID is displayed.
 
 #### NUCLEO-N657X0-Q UVC flavor
 
   1. Set the board to [development mode](#boot-modes).
-  2. Program `Binary/ai_fsbl.hex` (To be done once) (First stage boot loader).
-  3. Program `Binary/network_data-nucleo.hex` (parameters of the networks; To be changed only when the network is changed).
-  4. Program `Binary/x-cube-n6-ai-people-detection-tracking-nucleo-uvc.hex` (firmware application).
-  5. Set the board to [boot from flash mode](#boot-modes).
-  6. Power cycle the board.
+  2. Program `Binary/NUCLEO-N657X0-Q/USB-UVC-Display/x-cube-n6-ai-people-detection-tracking-nucleo-uvc.hex`.
+  3. Set the board to [boot from flash mode](#boot-modes).
+  4. Power cycle the board.
+  5. Connect usb cable between host and USB OTG port CN8.
+  6. Launch your favorite webcam application. Detected people are surrounded by a rectangle, and their tracking ID is
+     displayed.
 
 #### NUCLEO-N657X0-Q SPI flavor
 
   1. Set the board to [development mode](#boot-modes).
-  2. Program `Binary/ai_fsbl.hex` (To be done once) (First stage boot loader).
-  3. Program `Binary/network_data-nucleo.hex` (parameters of the networks; To be changed only when the network is changed).
-  4. Program `Binary/x-cube-n6-ai-people-detection-tracking-nucleo-spi.hex` (firmware application).
-  5. Set the board to [boot from flash mode](#boot-modes).
-  6. Power cycle the board.
+  2. Program `Binary/NUCLEO-N657X0-Q/SPI-Display/x-cube-n6-ai-people-detection-tracking-nucleo-spi.hex`.
+  3. Set the board to [boot from flash mode](#boot-modes).
+  4. Power cycle the board.
+  5. The application will start, and you should see the camera output. Detected people are surrounded by a rectangle,
+     and their tracking ID is displayed.
 
 ---
 
@@ -155,14 +155,7 @@ Intructions below are for STM32N6570-DK. For NUCLEO-N657X0-Q you have to select 
 ```bash
 export DKEL="<STM32CubeProgrammer_N6 Install Folder>/bin/ExternalLoader/MX66UW1G45G_STM32N6570-DK.stldr"
 
-# First Stage Boot Loader
-STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w Binary/ai_fsbl.hex
-
-# Network Parameters and Biases
-STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w Binary/network_data-dk.hex
-
-# Application Firmware
-STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w Binary/x-cube-n6-ai-people-detection-tracking-dk.hex
+STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w Binary/STM32N6570-DK/x-cube-n6-ai-people-detection-tracking-dk.hex
 ```
 
 ---
@@ -247,10 +240,16 @@ Once your app is built with Makefile, STM32CubeIDE, or EWARM, you must add a sig
 STM32_SigningTool_CLI -bin build/Project.bin -nk -t ssbl -hv 2.3 -o build/Project_sign.bin
 ```
 
-You can program the signed bin file at the address `0x70100000`.
+You can program the FSBL, the signed bin file at the address 0x70100000 and the network parameters:
 
 ```bash
 export DKEL="<STM32CubeProgrammer_N6 Install Folder>/bin/ExternalLoader/MX66UW1G45G_STM32N6570-DK.stldr"
+
+# First Stage Boot Loader
+STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w FSBL/ai_fsbl.hex
+
+# Network Parameters and Biases
+STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w Model/STM32N6570-DK/network_data.hex
 
 # Adapt build path to your IDE
 STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w build/Project_sign.bin 0x70100000
@@ -259,3 +258,14 @@ STM32_Programmer_CLI -c port=SWD mode=HOTPLUG -el $DKEL -hardRst -w build/Projec
 __Note__: Only the application binary needs to be programmed if `fsbl` and `network_data.hex` have already been programmed.
 
 Set your board to [boot from flash](#boot-modes) mode and power cycle to boot from external flash.
+
+---
+
+## How to update my project with a new version of ST Edge AI
+
+The neural network model files (`network.c/h`, `stai_network.c/h`, etc.) included in this project were generated using [STEdgeAI](https://www.st.com/en/development-tools/stedgeai-core.html) version 3.0.0.
+
+Using a different version of STEdgeAI to generate these model files may result in the following compile-time error:  
+`Possible mismatch in ll_aton library used`.
+
+If you encounter this error, please follow the STEdgeAI instructions on [How to update my project with a new version of ST Edge AI Core](https://stedgeai-dc.st.com/assets/embedded-docs/stneuralart_faqs_update_version.html) to update your project.

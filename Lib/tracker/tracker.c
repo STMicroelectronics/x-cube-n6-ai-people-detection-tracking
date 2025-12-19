@@ -124,11 +124,8 @@ static void trk_tbox_set_tracking(trk_ctx_t *ctx, trk_dbox_t *dbox)
 {
   trk_tbox_t *tbox;
 
-  if (ulist_is_empty(&ctx->tfree)) {
-    /* FIXME : remove this for release. else detect this for checking with ref */
-    assert(0);
+  if (ulist_is_empty(&ctx->tfree))
     return ;
-  }
 
   tbox = ulist_entry(ctx->tfree.next, trk_tbox_t, list);
   trk_kalman_init(tbox, dbox);

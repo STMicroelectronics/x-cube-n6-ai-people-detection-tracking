@@ -1,13 +1,7 @@
-function(configDsp project root)
+function(configDsp project)
 
 if (HOST)
       target_compile_definitions(${project} PUBLIC __GNUC_PYTHON__)
-endif()
-
-if (CONFIGTABLE)
-    # Public because initialization for FFT may be defined in client code 
-    # and needs access to the table.
-    target_compile_definitions(${project} PUBLIC ARM_DSP_CONFIG_TABLES)
 endif()
 
 if (LOOPUNROLL)
@@ -26,17 +20,35 @@ if (AUTOVECTORIZE)
     target_compile_definitions(${project} PRIVATE ARM_MATH_AUTOVECTORIZE) 
 endif()
 
-if (NEON OR NEONEXPERIMENTAL)
+if (NEON)
     # Used in arm_vec_math.h
-    target_include_directories(${project} PUBLIC "${root}/CMSIS/DSP/ComputeLibrary/Include")
+    target_include_directories(${project} PUBLIC "${DSP}/ComputeLibrary/Include")
+    target_compile_definitions(${project} PRIVATE ARM_MATH_NEON)
+
+endif()
+
+if (NEONEXPERIMENTAL)
+    # Used in arm_vec_math.h
+    target_include_directories(${project} PUBLIC "${DSP}/ComputeLibrary/Include")
+    target_compile_definitions(${project} PRIVATE ARM_MATH_NEON_EXPERIMENTAL)
 endif()
 
 if (MVEFLOAT16)
     target_compile_definitions(${project} PRIVATE ARM_MATH_MVE_FLOAT16) 
 endif()
 
-if (HELIUM OR MVEF OR SUPPORT)
-   target_include_directories(${project} PRIVATE "${root}/CMSIS/DSP/PrivateInclude")
+target_include_directories(${project} PRIVATE "${DSP}/PrivateInclude")
+
+if (MVEI OR MVEF OR HELIUM)
+    # By default, GCC does not enable implicit conversion between vectors of different numbers or types of elements
+    # which is required by some code in CMSIS-DSP
+    if (LAXVECTORCONVERSIONS)
+       target_compile_options(${project} PRIVATE $<$<STREQUAL:${CMAKE_C_COMPILER_ID},GNU>:-flax-vector-conversions>)
+       target_compile_options(${project} PRIVATE $<$<STREQUAL:${CMAKE_C_COMPILER_ID},ARMClang>:-flax-vector-conversions=integer>)
+    else()
+       target_compile_options(${project} PRIVATE $<$<STREQUAL:${CMAKE_C_COMPILER_ID},GNU>:-fno-lax-vector-conversions>)
+       target_compile_options(${project} PRIVATE $<$<STREQUAL:${CMAKE_C_COMPILER_ID},ARMClang>:-flax-vector-conversions=none>)
+    endif()
 endif()
 
 if (DISABLEFLOAT16)

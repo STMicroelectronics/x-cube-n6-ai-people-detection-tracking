@@ -10,6 +10,10 @@ Tracker Library implement a box tracking algorithm based on ByteTrack.
 
 ## Update history
 
+### V1.0.1 / October 2025
+
+Remove useless assert that may hang application
+
 ### V1.0.0 / April 2025
 
 Initial Version

@@ -32,21 +32,30 @@
 <div class="col-sm-12 col-lg-8">
 <h1 id="update-history">Update history</h1>
 <div class="collapse">
-<input type="checkbox" id="collapse-section6" checked aria-hidden="true"> <label for="collapse-section6" aria-hidden="true"><strong>V1.3.1-cmw-patch / November-2024</strong></label>
+<input type="checkbox" id="collapse-section7" checked aria-hidden="true"> <label for="collapse-section7" aria-hidden="true"><strong>V1.3.2-cmw-patch / December-2025</strong></label>
 <div>
 <h2 id="main-changes">Main changes</h2>
 <ul>
 <li>Remove IMX335_CAMERA_Driver and IMX335_GetSensorInfo.</li>
 <li>Add start and stop functions.</li>
+<li>Fix min exposure value.</li>
+<li>Add max analog gain definition.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>This software release is compatible with:
+<ul>
+<li>Camera Middleware v1.5.0</li>
+</ul></li>
 </ul>
 </div>
 </div>
 <div class="collapse">
-<input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" aria-hidden="true"><strong>V1.3.1 / 22-October-2024</strong></label>
+<input type="checkbox" id="collapse-section6" aria-hidden="true"> <label for="collapse-section6" aria-hidden="true"><strong>V1.3.2 / 16-September-2025</strong></label>
 <div>
 <h2 id="main-changes-1">Main changes</h2>
 <ul>
-<li>Fix Misra-C:2012 compilation warnings</li>
+<li>Add README.md file</li>
 </ul>
 <h2 id="backward-compatibility">Backward Compatibility</h2>
 <p>None</p>
@@ -60,13 +69,11 @@
 </div>
 </div>
 <div class="collapse">
-<input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true"><strong>V1.3.0 / 21-June-2024</strong></label>
+<input type="checkbox" id="collapse-section5"  aria-hidden="true"> <label for="collapse-section5" aria-hidden="true"><strong>V1.3.1 / 22-October-2024</strong></label>
 <div>
 <h2 id="main-changes-2">Main changes</h2>
 <ul>
-<li>Adjust the camera resolution to 2592x1944 (Sensor native)</li>
-<li>Add the GetSensorInfo API</li>
-<li>Support test pattern generation</li>
+<li>Fix Misra-C:2012 compilation warnings</li>
 </ul>
 <h2 id="backward-compatibility-1">Backward Compatibility</h2>
 <p>None</p>
@@ -80,17 +87,13 @@
 </div>
 </div>
 <div class="collapse">
-<input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true"><strong>V1.2.0 / 26-April-2024</strong></label>
+<input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" aria-hidden="true"><strong>V1.3.0 / 21-June-2024</strong></label>
 <div>
 <h2 id="main-changes-3">Main changes</h2>
 <ul>
-<li>Add support of new services:
-<ul>
-<li>IMX335_SetFramerate()</li>
-<li>IMX335_SetResolution()</li>
-<li>IMX335_MirrorFlipConfig()</li>
-</ul></li>
-<li>Add 24 MHz as possible camera frequency</li>
+<li>Adjust the camera resolution to 2592x1944 (Sensor native)</li>
+<li>Add the GetSensorInfo API</li>
+<li>Support test pattern generation</li>
 </ul>
 <h2 id="backward-compatibility-2">Backward Compatibility</h2>
 <p>None</p>
@@ -104,16 +107,17 @@
 </div>
 </div>
 <div class="collapse">
-<input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true"><strong>V1.1.0 / 28-September-2023</strong></label>
+<input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" aria-hidden="true"><strong>V1.2.0 / 26-April-2024</strong></label>
 <div>
 <h2 id="main-changes-4">Main changes</h2>
 <ul>
 <li>Add support of new services:
 <ul>
-<li>IMX335_SetGain()</li>
-<li>IMX335_SetExposure()</li>
-<li>IMX335_SetFrequency</li>
+<li>IMX335_SetFramerate()</li>
+<li>IMX335_SetResolution()</li>
+<li>IMX335_MirrorFlipConfig()</li>
 </ul></li>
+<li>Add 24 MHz as possible camera frequency</li>
 </ul>
 <h2 id="backward-compatibility-3">Backward Compatibility</h2>
 <p>None</p>
@@ -127,9 +131,32 @@
 </div>
 </div>
 <div class="collapse">
-<input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true"><strong>V1.0.0 / 01-February-2023</strong></label>
+<input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" aria-hidden="true"><strong>V1.1.0 / 28-September-2023</strong></label>
 <div>
 <h2 id="main-changes-5">Main changes</h2>
+<ul>
+<li>Add support of new services:
+<ul>
+<li>IMX335_SetGain()</li>
+<li>IMX335_SetExposure()</li>
+<li>IMX335_SetFrequency</li>
+</ul></li>
+</ul>
+<h2 id="backward-compatibility-4">Backward Compatibility</h2>
+<p>None</p>
+<h2 id="dependencies-4">Dependencies</h2>
+<ul>
+<li>This software release is compatible with:
+<ul>
+<li>BSP Common v7.3.0 or above</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" aria-hidden="true"><strong>V1.0.0 / 01-February-2023</strong></label>
+<div>
+<h2 id="main-changes-6">Main changes</h2>
 <p>First Official release of IMX335 camera sensor Component drivers in line with STM32Cube BSP drivers development guidelines (UM2298)</p>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -139,9 +166,9 @@
 <li>component register drivers files: imx335_reg.h/.c</li>
 </ul></li>
 </ul>
-<h2 id="backward-compatibility-4">Backward Compatibility</h2>
+<h2 id="backward-compatibility-5">Backward Compatibility</h2>
 <p>None</p>
-<h2 id="dependencies-4">Dependencies</h2>
+<h2 id="dependencies-5">Dependencies</h2>
 <ul>
 <li>This software release is compatible with:
 <ul>

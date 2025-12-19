@@ -56,6 +56,12 @@
   @par           Opt Versions
                    Opt versions are supported for Q15 and Q7. Design uses internal scratch buffer for getting good optimisation.
                    These versions are optimised in cycles and consumes more memory (Scratch memory) compared to Q15 and Q7 versions of partial convolution
+ 
+  @par           Long versions:
+                   For convolution of long vectors, those functions are
+                   no more adapted and will be very slow.
+                   An implementation based upon FFTs should be used.
+
  */
 
 /**
@@ -77,7 +83,7 @@
                    - \ref ARM_MATH_ARGUMENT_ERROR : requested subset is not in the range [0 srcALen+srcBLen-2]
  */
 
-arm_status arm_conv_partial_f32(
+ARM_DSP_ATTRIBUTE arm_status arm_conv_partial_f32(
   const float32_t * pSrcA,
         uint32_t srcALen,
   const float32_t * pSrcB,

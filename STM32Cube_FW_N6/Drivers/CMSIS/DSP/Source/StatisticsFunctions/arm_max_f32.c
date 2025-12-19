@@ -54,11 +54,10 @@
   @param[in]     blockSize  number of samples in input vector
   @param[out]    pResult    maximum value returned here
   @param[out]    pIndex     index of maximum value returned here
-  @return        none
  */
 
 #if defined(ARM_MATH_MVEF) && !defined(ARM_MATH_AUTOVECTORIZE)
-void arm_max_f32(
+ARM_DSP_ATTRIBUTE void arm_max_f32(
   const float32_t * pSrc,
   uint32_t blockSize,
   float32_t * pResult,
@@ -143,7 +142,7 @@ void arm_max_f32(
 
 #else
 #if defined(ARM_MATH_NEON) && !defined(ARM_MATH_AUTOVECTORIZE)
-void arm_max_f32(
+ARM_DSP_ATTRIBUTE void arm_max_f32(
   const float32_t * pSrc,
   uint32_t blockSize,
   float32_t * pResult,
@@ -165,7 +164,7 @@ void arm_max_f32(
   uint32x4_t countV;
   uint32x2_t countV2;
 
-  maxIdx = vdupq_n_u32(ULONG_MAX);
+  maxIdx = vdupq_n_u32(UINT_MAX);
   delta = vdupq_n_u32(4);
   index = vld1q_u32(indexInit);
   countV = vld1q_u32(countVInit);
@@ -260,7 +259,7 @@ void arm_max_f32(
   *pIndex = outIndex;
 }
 #else
-void arm_max_f32(
+ARM_DSP_ATTRIBUTE void arm_max_f32(
   const float32_t * pSrc,
         uint32_t blockSize,
         float32_t * pResult,

@@ -19,6 +19,11 @@
 #ifndef APP_H
 #define APP_H
 
+#include "stai_network.h"
+
+#define NN_WIDTH STAI_NETWORK_IN_1_WIDTH
+#define NN_HEIGHT STAI_NETWORK_IN_1_HEIGHT
+
 void app_run(void);
 
 #endif

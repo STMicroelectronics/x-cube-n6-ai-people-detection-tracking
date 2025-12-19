@@ -25,13 +25,13 @@
 static int8_t scratch_buffer[AI_OD_YOLOV8_PP_TOTAL_BOXES * 6];
 static od_pp_outBuffer_t out_detections[AI_OD_YOLOV8_PP_TOTAL_BOXES];
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_OD_POSTPROCESS_ERROR_NO;
   od_yolov8_pp_static_param_t *params = (od_yolov8_pp_static_param_t *) params_postprocess;
-  const LL_Buffer_InfoTypeDef *buffers_info = LL_ATON_Output_Buffers_Info(NN_Instance);
-  params->raw_output_scale = *(buffers_info[0].scale);
-  params->raw_output_zero_point = *(buffers_info[0].offset);
+
+  params->raw_output_scale = NN_Info->outputs[0].scale.data[0];
+  params->raw_output_zero_point = NN_Info->outputs[0].zeropoint.data[0];
   params->nb_classes = AI_OD_YOLOV8_PP_NB_CLASSES;
   params->nb_total_boxes = AI_OD_YOLOV8_PP_TOTAL_BOXES;
   params->max_boxes_limit = AI_OD_YOLOV8_PP_MAX_BOXES_LIMIT;

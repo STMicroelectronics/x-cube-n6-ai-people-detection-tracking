@@ -43,7 +43,6 @@
   @param[in]     pSrc      points to the block of input data
   @param[out]    pDst      points to the block of output data
   @param[in]     blockSize  number of samples to process
-  @return        none
 
   @par           Scaling and Overflow Behavior
                    The function is implemented using an internal 64-bit accumulator.
@@ -57,7 +56,7 @@
  */
 #if defined(ARM_MATH_MVEI) && !defined(ARM_MATH_AUTOVECTORIZE)
 
-void arm_biquad_cascade_df1_q31(
+ARM_DSP_ATTRIBUTE void arm_biquad_cascade_df1_q31(
   const arm_biquad_casd_df1_inst_q31 * S,
   const q31_t * pSrc,
         q31_t * pDst,
@@ -69,7 +68,7 @@ void arm_biquad_cascade_df1_q31(
     uint32_t        stages = S->numStages;      /*  loop counters                 */
     int             postShift = S->postShift;
     q31x4_t         b0Coeffs, b1Coeffs, a0Coeffs, a1Coeffs;     /*  Coefficients vector           */
-    q31x4_t         stateVec;
+    q31x4_t         stateVec = { 0 };
     q31_t          *pState = S->pState; /*  pState pointer initialization */
     q31x4_t         inVec0;
     int64_t         acc;
@@ -318,7 +317,7 @@ void arm_biquad_cascade_df1_q31(
     while (--stages);
 }
 #else
-void arm_biquad_cascade_df1_q31(
+ARM_DSP_ATTRIBUTE void arm_biquad_cascade_df1_q31(
   const arm_biquad_casd_df1_inst_q31 * S,
   const q31_t * pSrc,
         q31_t * pDst,

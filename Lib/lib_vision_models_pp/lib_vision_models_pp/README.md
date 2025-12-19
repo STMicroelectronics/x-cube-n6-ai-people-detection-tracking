@@ -6,24 +6,43 @@ This readme explains how to use the different available post-processing code.
 ## Available post-processings
 
 
-| Models        | Task                 |
-|---------------|----------------------|
-| ST YOLOX      | person_detection     |
-| YOLOv8        | person_detection     |
-| YOLOv5        | person_detection     |
-| YOLOv4        | person_detection     |
-| Tiny Yolo V2  | person_detection     |
-| Standard SSD  | person_detection     |
-| ST SSD        | person_detection     |
-| Centernet     | person_detection     |
-| Blazeface     | face_detection       |
-| YOLOv8 Seg    | instance_segmentation |
-| Deeplabv3     | semantic_segmentation |
-| YOLOv8 Pose   | mpe_estimation       |
-| MoveNet       | spe_estimation       |
-| CNN_pd     | palm_detection |
+| Models        | Task                        |
+|---------------|-----------------------------|
+| ST YOLOX      | person detection            |
+| YOLOv8        | person detection            |
+| YOLOv5        | person detection            |
+| YOLOv4        | person detection            |
+| Tiny Yolo V2  | person detection            |
+| Standard SSD  | person detection            |
+| ST SSD        | person detection            |
+| Centernet     | person detection            |
+| Blazeface     | face detection              |
+| Yunet         | face detection              |
+| YOLOv8 Seg    | instance segmentation       |
+| Deeplabv3     | semantic segmentation       |
+| YOLOv8 Pose   | multi pose estimation       |
+| BlazeFace     | face detection + keypoints  |
+| MoveNet       | single pose estimation      |
+| CNN_pd        | palm detection              |
 
 ## Version History
+
+### v0.13.0 - 2025-11-21
+
+- **Improvements:**
+  - added fd_yunet_pp
+  - few compilation warning correction (IAR)
+
+### v0.12.0 - 2025-09-17
+
+- **Improvements:**
+  - Renamed od_fd_blazeface to od_blazeface (ouput is od_pp_out_t)
+  - Renamed mpe_fd_blazeface to fd_blazeface (ouput is fd_pp_out_t)
+
+### v0.11.0 - 2025-09-16
+
+- **Improvements:**
+  - multi-pose Blazeface face detection post-processing int8 (outputs keypoints)
 
 ### v0.10.0 - 2025-07-10
 
@@ -280,19 +299,60 @@ Parameters:
 
 </details>
 
+## Face detection post-processing Output Structures
+
+<details>
+
+---
+### `fd_pp_keyPoints_t`
+
+This structure is used to represent key points in a post-processing context. Each key point consists of an x-coordinate, a y-coordinate.
+
+Parameters:
+
+- **float32_t x**: The normalized x-coordinate of the keypoint.
+- **float32_t y**: The normalized y-coordinate of the keypoint.
+
+---
+### `fd_pp_outBuffer_t`
+
+This structure represents the output buffer for a single face detection result. It contains information about the detected object's position, size, confidence score, class index and key points.
+
+Parameters:
+
+- **float32_t x_center**: The normalized x-coordinate of the center of the detected object.
+- **float32_t y_center**: The normalized y-coordinate of the center of the detected object.
+- **float32_t width**: The normalized width of the detected object.
+- **float32_t height**: The normalized height of the detected object.
+- **float32_t conf**: The confidence (between 0.0 and 1.0) score of the detection.
+- **int32_t class_index**: The index of the detected object's class.
+- **fd_pp_keyPoints_t \*pKeyPoints**: The pointer to the array of key points.
+
+---
+### `fd_pp_out_t`
+
+This structure represents the overall output of the face detection post-processing step. It contains a pointer to an array of fd_pp_outBuffer_t structures and the number of detections.
+
+Parameters:
+
+- **fd_pp_outBuffer_t \*pOutBuff**: Pointer to an array of fd_pp_outBuffer_t structures.
+- **int32_t nb_detect**: The number of detections in the output buffer.
+
+</details>
+
 </details>
 
 # Object Detection Post-Processings
 
 <details>
 
-# YOLOV8 Object Detection Post-Processing
+## YOLOV8 Object Detection Post-Processing
 
 <details>
 
-## YOLOv8 Structures
+### YOLOv8 Structures
 ---
-### `od_yolov8_pp_in_centroid_t`
+#### `od_yolov8_pp_in_centroid_t`
 
 This structure is used for YOLOv8 post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -300,7 +360,7 @@ Parameters:
 
 - **void_t \*pRaw_detections**: Pointer to raw detection data in float32_t format.
 ---
-### `od_yolov8_pp_static_param_t`
+#### `od_yolov8_pp_static_param_t`
 
 This structure holds the static parameters required for YOLOv8 post-processing.
 
@@ -316,9 +376,9 @@ Parameters:
 - **int32_t nb_detect**: Number of detections after post-processing.
 - **void \*pScratchBuff**: pointer to scratch buffer whose size is AI_OD_YOLOV8_PP_TOTAL_BOXES * 6 * sizeof(int8_t)
 ---
-## YOLOv8 Routines
+### YOLOv8 Routines
 ---
-### Pointer initialization
+#### Pointer initialization
 
 Scratch buffer pointer in od_yolov8_pp_static_param_t when using int8_t input data to reduce memory usage:
 ```c
@@ -332,7 +392,7 @@ y8_input_param.pScratchBuff = scratch_buffer;
 
 ```
 
-### `od_yolov8_pp_reset`
+#### `od_yolov8_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for YOLOv8 post-processing.
@@ -353,7 +413,7 @@ This function initializes the static parameters for the YOLOv8 post-processing b
 
 ---
 
-### `od_yolov8_pp_process`
+#### `od_yolov8_pp_process`
 
 **Purpose**:  
 Processes the YOLOv8 post-processing pipeline for float32_t input data.
@@ -378,7 +438,7 @@ This function performs the post-processing steps for YOLOv8 object detection. It
 
 ---
 
-### `od_yolov8_pp_process_int8`
+#### `od_yolov8_pp_process_int8`
 
 **Purpose**:  
 Processes the YOLOv8 post-processing pipeline for int8_t input data.
@@ -412,12 +472,12 @@ This function performs the post-processing steps for YOLOv8 object detection wit
 
 </details>
 
-# YOLOV5 Object Detection Post-Processing
+## YOLOV5 Object Detection Post-Processing
 <details>
 
-## YOLOv5 Structures
+### YOLOv5 Structures
 ---
-### `od_yolov5_pp_in_centroid_t`
+#### `od_yolov5_pp_in_centroid_t`
 
 This structure is used for YOLOv5 post-processing input where the raw detections are in float32_t/uint8_t format.
 
@@ -425,7 +485,7 @@ Parameters:
 
 - **void \*pRaw_detections**: Pointer to raw detection data in float32_t/uint8_t format.
 ---
-### `od_yolov5_pp_static_param_t`
+#### `od_yolov5_pp_static_param_t`
 
 This structure holds the static parameters required for YOLOv5 post-processing.
 
@@ -440,9 +500,9 @@ Parameters:
 - **int8_t raw_output_zero_point**: Zero point for moldel quantized raw output values.
 - **int32_t nb_detect**: Number of detections after post-processing.
 ---
-## YOLOv5 Routines
+### YOLOv5 Routines
 ---
-### `od_yolov5_pp_reset`
+#### `od_yolov5_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for YOLOv5 post-processing.
@@ -463,7 +523,7 @@ This function initializes the static parameters for the YOLOv5 post-processing b
 
 ---
 
-### `od_yolov5_pp_process`
+#### `od_yolov5_pp_process`
 
 **Purpose**:  
 Processes the YOLOv5 post-processing pipeline for float32_t input data.
@@ -523,12 +583,12 @@ This function performs the post-processing steps for YOLOv5 object detection wit
 </details>
 
 
-# YOLOV4 Object Detection Post Processing
+## YOLOV4 Object Detection Post Processing
 <details>
 
-## YOLOv4 Structures
+### YOLOv4 Structures
 ---
-### `od_yolov4_pp_in_centroid_t`
+#### `od_yolov4_pp_in_centroid_t`
 
 This structure is used for YOLOv4 post-processing input where the raw detections are in float32/int8 format.
 
@@ -538,7 +598,7 @@ Parameters:
 - **void *\*pRaw_probas**: Pointer to raw detection probas in float32/int8 format (output of the model).
 ---
 
-### `od_yolov4_pp_static_param_t`
+#### `od_yolov4_pp_static_param_t`
 
 This structure holds the static parameters required for YOLOv4 post-processing.
 
@@ -558,9 +618,9 @@ Parameters:
 - **int8_t boxe_zero_point**: Zero point for boxe quantized tensor values.
 
 ---
-## YOLOv4 Routines
+### YOLOv4 Routines
 ---
-### `od_yolov4_pp_reset`
+#### `od_yolov4_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for YOLOv4 post-processing.
@@ -581,7 +641,7 @@ This function initializes the static parameters for the YOLOv4 post-processing b
 
 ---
 
-### `od_yolov4_pp_process`
+#### `od_yolov4_pp_process`
 
 **Purpose**:  
 Processes the YOLOv4 post-processing pipeline for float32 input data.
@@ -639,12 +699,12 @@ This function performs the post-processing steps for YOLOv4 object detection wit
 
 </details>
 
-# Tiny YOLOV2 Object Detection Post Processing
+## Tiny YOLOV2 Object Detection Post Processing
 <details>
 
-## Tiny YOLOV2 Structures
+### Tiny YOLOV2 Structures
 ---
-### `od_yolov2_pp_in_t`
+#### `od_yolov2_pp_in_t`
 
 This structure is used for Tiny YOLOV2 post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -652,7 +712,7 @@ Parameters:
 
 - **void \*pRaw_detections**: Pointer to raw detection data in float32_t/int8_t format.
 ---
-### `od_yolov2_pp_static_param_t`
+#### `od_yolov2_pp_static_param_t`
 
 This structure holds the static parameters required for Tiny YOLOV2 post-processing.
 
@@ -673,9 +733,9 @@ Parameters:
 - **void \*pScratchBuffer**: pointer to scratch buffer used for temporary data (AI_OD_YOLOV2_PP_GRID_WIDTH * AI_OD_YOLOV2_PP_GRID_HEIGHT * AI_OD_YOLOV2_PP_NB_ANCHORS * sizeof(od_pp_outBuffer_t)). If set to NULL, and sizeof input (i.e. AI_YOLOV2_PP_CLASSPROB + AI_OD_YOLOV2_PP_NB_CLASSES * sizeof(<input_data>) >= sizeof(od_pp_outBuffer_t)), would be overlayed with input data buffer.
 
 ---
-## Tiny YOLOV2 Routines
+### Tiny YOLOV2 Routines
 ---
-### `od_yolov2_pp_reset`
+#### `od_yolov2_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for Tiny YOLOV2 post-processing.
@@ -697,7 +757,7 @@ This function initializes the static parameters for the Tiny YOLOV2 post-process
 
 ---
 
-### `od_yolov2_pp_process`
+#### `od_yolov2_pp_process`
 
 **Purpose**:  
 Processes the Tiny YOLOV2 post-processing pipeline for float32_t input data.
@@ -722,7 +782,7 @@ This function performs the post-processing steps for Tiny YOLOV2 object detectio
 
 ---
 
-### `od_yolov2_pp_process_int8`
+#### `od_yolov2_pp_process_int8`
 
 **Purpose**:  
 Processes the Tiny YOLOV2 post-processing pipeline for int8_t input data.
@@ -756,12 +816,12 @@ This function performs the post-processing steps for Tiny YOLOV2 object detectio
 
 </details>
 
-# Standard SSD Object Detection Post-Processing
+## Standard SSD Object Detection Post-Processing
 <details>
 
-## Standard SSD Structures
+### Standard SSD Structures
 ---
-### `od_ssd_pp_in_centroid_t`
+#### `od_ssd_pp_in_centroid_t`
 
 This structure is used for Standard SSD post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -771,7 +831,7 @@ Parameters:
 - **void \*pAnchors**: Pointer to the Anchors data in float32_t/int8_t format.
 - **void \*pScores**: Pointer to the Scores data in float32_t/int8_t format.
 ---
-### `od_ssd_pp_static_param_t`
+#### `od_ssd_pp_static_param_t`
 
 This structure holds the static parameters required for Standard SSD post-processing.
 
@@ -794,9 +854,9 @@ Parameters:
 - **int8_t score_zero_point**: Zero point for moldel quantized raw output scores values
 
 ---
-## Standard SSD Routines
+### Standard SSD Routines
 ---
-### `od_ssd_pp_reset`
+#### `od_ssd_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for Standard SSD post-processing.
@@ -818,7 +878,7 @@ This function initializes the static parameters for the Standard SSD post-proces
 
 ---
 
-### `od_ssd_pp_process`
+#### `od_ssd_pp_process`
 
 **Purpose**:  
 Processes the Standard SSD post-processing pipeline for float32_t input data.
@@ -843,7 +903,7 @@ This function performs the post-processing steps for Standard SSD object detecti
 
 ---
 
-### `od_ssd_pp_process_int8`
+#### `od_ssd_pp_process_int8`
 
 **Purpose**:  
 Processes the Standard SSD post-processing pipeline for int8_t input data.
@@ -877,12 +937,12 @@ This function performs the post-processing steps for Standard SSD object detecti
 
 </details>
 
-# ST SSD Object Detection Post-Processing
+## ST SSD Object Detection Post-Processing
 <details>
 
-## ST SSD Structures
+### ST SSD Structures
 ---
-### `od_ssd_st_pp_in_centroid_t`
+#### `od_ssd_st_pp_in_centroid_t`
 
 This structure is used for ST SSD post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -892,7 +952,7 @@ Parameters:
 - **void \*pAnchors**: Pointer to the Anchors data in float32_t/int8_t format.
 - **void \*pScores**: Pointer to the Scores data in float32_t/int8_t format.
 ---
-### `od_ssd_st_pp_static_param_t`
+#### `od_ssd_st_pp_static_param_t`
 
 This structure holds the static parameters required for ST SSD post-processing.
 
@@ -912,9 +972,9 @@ Parameters:
 - **int8_t anchor_zero_point**: Zero point for moldel quantized raw output anchors values
 - **int8_t score_zero_point**: Zero point for moldel quantized raw output scores values
 ---
-## ST SSD Routines
+### ST SSD Routines
 ---
-### `od_ssd_st_pp_reset`
+#### `od_ssd_st_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for ST SSD post-processing.
@@ -936,7 +996,7 @@ This function initializes the static parameters for the ST SSD post-processing b
 
 ---
 
-### `od_ssd_st_pp_process`
+#### `od_ssd_st_pp_process`
 
 **Purpose**:  
 Processes the ST SSD post-processing pipeline for float32_t input data.
@@ -961,7 +1021,7 @@ This function performs the post-processing steps for ST SSD object detection. It
 
 ---
 
-### `od_ssd_st_pp_process_int8`
+#### `od_ssd_st_pp_process_int8`
 
 **Purpose**:  
 Processes the ST SSD post-processing pipeline for int8_t input data.
@@ -996,12 +1056,12 @@ This function performs the post-processing steps for ST SSD object detection. It
 </details>
 
 
-# ST YOLOX Object Detection Post-Processing
+## ST YOLOX Object Detection Post-Processing
 <details>
 
-## ST YOLOX Structures
+### ST YOLOX Structures
 ---
-### `od_st_yolox_pp_in_t`
+#### `od_st_yolox_pp_in_t`
 
 This structure is used for ST YOLOX post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -1011,7 +1071,7 @@ Parameters:
 - **void \*pRaw_detections_M**: Pointer to the medium raw detection data in float32_t/int8_t format.
 - **void \*pRaw_detections_S**: Pointer to the small raw detection data in float32_t/int8_t format.
 ---
-### `od_st_yolox_pp_static_param_t`
+#### `od_st_yolox_pp_static_param_t`
 
 This structure holds the static parameters required for ST YOLOX post-processing.
 
@@ -1040,9 +1100,9 @@ Parameters:
 - **int8_t raw_m_zero_point: Zero point for raw model medium ouput values (**int8** input data).
 - **int8_t raw_s_zero_point: Zero point for raw model small ouput values (**int8** input data).
 ---
-## ST YOLOX Routines
+### ST YOLOX Routines
 ---
-### `od_st_yolox_pp_reset`
+#### `od_st_yolox_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for ST YOLOX post-processing.
@@ -1064,7 +1124,7 @@ This function initializes the static parameters for the ST YOLOX post-processing
 
 ---
 
-### `od_st_yolox_pp_process`
+#### `od_st_yolox_pp_process`
 
 **Purpose**:  
 Processes the ST YOLOX post-processing pipeline for float32_t input data.
@@ -1089,7 +1149,7 @@ This function performs the post-processing steps for ST YOLOX object detection. 
 
 ---
 
-### `od_st_yolox_pp_process`
+#### `od_st_yolox_pp_process`
 
 **Purpose**:  
 Processes the ST YOLOX post-processing pipeline for int8_t input data.
@@ -1123,13 +1183,13 @@ This function performs the post-processing steps for ST YOLOX object detection. 
 
 </details>
 
-# Blazeface Face-Detection Post-Processing
+## Blazeface Face-Detection Post-Processing
 
 <details>
 
-## Blazeface Structures
+### Blazeface Structures
 ---
-### `od_fd_blazeface_pp_in_t`
+#### `od_blazeface_pp_in_t`
 
 This structure is used for Blazeface post-processing input where the raw detections are in float32_t/uint8_t format.
 
@@ -1141,7 +1201,7 @@ Parameters:
 - **void_t \*pScores_1**: Pointer to raw probabilities in float32_t/uint8_t/int8_t format.
 
 ---
-### `od_fd_blazeface_pp_static_param_t`
+#### `od_blazeface_pp_static_param_t`
 
 This structure holds the static parameters required for Blazeface post-processing.
 
@@ -1167,17 +1227,17 @@ Parameters:
 - **uint8_t boxe_1_zero_point**: Zero point for quantized second raw boxes output values.
 - **uint8_t proba_1_zero_point**: Zero point for quantized seconf raw probabilities output values.
 ---
-## Blazeface Routines
+### Blazeface Routines
 ---
 
-### `od_fd_blazeface_pp_reset`
+#### `od_blazeface_pp_reset`
 
 **Purpose**:
 Resets the static parameters for Blazeface post-processing.
 
 **Prototype**:
 ```c
-int32_t od_fd_blazeface_pp_reset(od_fd_blazeface_pp_static_param_t *pInput_static_param);
+int32_t od_blazeface_pp_reset(od_blazeface_pp_static_param_t *pInput_static_param);
 ```
 
 **Parameters**:
@@ -1191,16 +1251,16 @@ This function initializes the static parameters for the Blazeface post-processin
 
 ---
 
-### `od_fd_blazeface_pp_process`
+#### `od_blazeface_pp_process`
 
 **Purpose**:
 Processes the Blazeface post-processing pipeline for float32_t input data.
 
 **Prototype**:
 ```c
-int32_t od_fd_blazeface_pp_process(od_fd_blazeface_pp_in_t *pInput,
+int32_t od_blazeface_pp_process(od_blazeface_pp_in_t *pInput,
                                    od_pp_out_t *pOutput,
-                                   od_fd_blazeface_pp_static_param_t *pInput_static_param);
+                                   od_blazeface_pp_static_param_t *pInput_static_param);
 ```
 
 **Parameters**:
@@ -1216,16 +1276,16 @@ This function performs the post-processing steps for Blazeface object detection.
 
 ---
 
-### `od_fd_blazeface_pp_process_uint8`
+#### `od_blazeface_pp_process_uint8`
 
 **Purpose**:
 Processes the Blazeface post-processing pipeline for uint8_t input data.
 
 **Prototype**:
 ```c
-int32_t od_fd_blazeface_pp_process_uint8(od_fd_blazeface_pp_in_t *pInput,
+int32_t od_blazeface_pp_process_uint8(od_blazeface_pp_in_t *pInput,
                                   od_pp_out_t *pOutput,
-                                  od_fd_blazeface_pp_static_param_t *pInput_static_param);
+                                  od_blazeface_pp_static_param_t *pInput_static_param);
 ```
 
 **Parameters**:
@@ -1241,16 +1301,16 @@ This function performs the post-processing steps for Blazeface object detection 
 
 ---
 
-### `od_fd_blazeface_pp_process_int8`
+#### `od_blazeface_pp_process_int8`
 
 **Purpose**:
 Processes the Blazeface post-processing pipeline for int8_t input data.
 
 **Prototype**:
 ```c
-int32_t od_fd_blazeface_pp_process_int8(od_fd_blazeface_pp_in_t *pInput,
+int32_t od_blazeface_pp_process_int8(od_blazeface_pp_in_t *pInput,
                                   od_pp_out_t *pOutput,
-                                  od_fd_blazeface_pp_static_param_t *pInput_static_param);
+                                  od_blazeface_pp_static_param_t *pInput_static_param);
 ```
 
 **Parameters**:
@@ -1280,12 +1340,12 @@ This function performs the post-processing steps for Blazeface object detection 
 # Instance Segmentation Post-Processings
 <details>
 
-# YOLOV8 Instance Segmentation Post-Processing
+## YOLOV8 Instance Segmentation Post-Processing
 <details>
 
-## YOLOv8 Instance Segmentation Structures
+### YOLOv8 Instance Segmentation Structures
 ---
-### `iseg_yolov8_pp_in_centroid_t`
+#### `iseg_yolov8_pp_in_centroid_t`
 
 This structure is used for YOLOv8 Seg post-processing input with the raw detections and the raw masks.
 
@@ -1295,7 +1355,7 @@ Parameters:
 - **void \*pRaw_masks**: Pointer to raw detection data in int8_t format.
 
 ---
-### `iseg_yolov8_pp_static_param_t`
+#### `iseg_yolov8_pp_static_param_t`
 
 This structure holds the static parameters required for YOLOv8 Seg post-processing.
 
@@ -1330,10 +1390,10 @@ Parameters:
 - **int8_t \*pMask**: Pointer to int8_t temporary data mask buffer (AI_YOLOV8_SEG_PP_MASK_NB)
 
 ---
-## YOLOv8 Seg Routines
+### YOLOv8 Seg Routines
 ---
 
-### Pointer initialization
+#### Pointer initialization
 
 Pointers in iseg_pp_outBuffer_t, iseg_pp_scratchBuffer_s8_t and iseg_yolov8_pp_static_param_t needs to be initialized.
 
@@ -1360,7 +1420,7 @@ iseg_pp_outBuffer_t out_detections[AI_YOLOV8_SEG_PP_MAX_BOXES_LIMIT];
   y8_input_param.pTmpBuff = scratch_detections;
 
 ``` 
-### `iseg_yolov8_pp_reset`
+#### `iseg_yolov8_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for YOLOv8 seg post-processing.
@@ -1381,7 +1441,7 @@ This function initializes the static parameters for the YOLOv8 seg post-processi
 
 ---
 
-### `iseg_yolov8_pp_process`
+#### `iseg_yolov8_pp_process`
 
 **Purpose**:  
 Processes the YOLOv8 iseg post-processing pipeline for int8_t input data.
@@ -1421,12 +1481,12 @@ This function performs the post-processing steps for YOLOv8 seg object detection
 
 <details>
 
-# Deeplabv3 Semantic segmentation
+## Deeplabv3 Semantic segmentation
 <details>
 
-## Deeplabv3 Semantic segmentation Structures
+### Deeplabv3 Semantic segmentation Structures
 ---
-### `sseg_deeplabv3_pp_in_t`
+#### `sseg_deeplabv3_pp_in_t`
 
 This structure is used for Deeplabv3 pose post-processing input where the raw detections are in float32/uint8/int8_t format.
 
@@ -1435,7 +1495,7 @@ Parameters:
 - **void \*pRaw_detections**: Pointer to raw detection data in float32_t or uint8_t format.
 
 ---
-### `sseg_deeplabv3_pp_static_param_t`
+#### `sseg_deeplabv3_pp_static_param_t`
 
 This structure holds the static parameters required for Deeplabv3 pose post-processing.
 
@@ -1446,9 +1506,9 @@ Parameters:
 - **uint32_t nb_classes**: classes number of the model output. To extract fom the model output shape.
 
 ---
-## Deeplabv3 Semantic segmentation Routines
+### Deeplabv3 Semantic segmentation Routines
 ---
-### `sseg_deeplabv3_pp_reset`
+#### `sseg_deeplabv3_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for Deeplabv3 semantic segmentation post-processing.
@@ -1469,7 +1529,7 @@ This function initializes the static parameters for the Deeplabv3 but is current
 
 ---
 
-### `sseg_deeplabv3_pp_process`
+#### `sseg_deeplabv3_pp_process`
 
 **Purpose**:  
 Processes the Deeplabv3 semantic segmentation post-processing pipeline for float32_t input data.
@@ -1494,7 +1554,7 @@ This function performs the post-processing steps for Deeplabv3 single semantic s
 
 ---
 
-### `sseg_deeplabv3_pp_process_int8`
+#### `sseg_deeplabv3_pp_process_int8`
 
 **Purpose**:  
 Processes the Deeplabv3 semantic segmentation post-processing pipeline for int8_t input data.
@@ -1519,7 +1579,7 @@ This function performs the post-processing steps for Deeplabv3 single semantic s
 
 ---
 
-### `sseg_deeplabv3_pp_process_uint8`
+#### `sseg_deeplabv3_pp_process_uint8`
 
 **Purpose**:  
 Processes the Deeplabv3 semantic segmentation post-processing pipeline for uint8_t input data.
@@ -1560,12 +1620,12 @@ This function performs the post-processing steps for Deeplabv3 single semantic s
 
 <details>
 
-# YOLOV8 Multi-Pose Post-Processing
+## YOLOV8 Multi-Pose Post-Processing
 <details>
 
-## YOLOv8 Pose Structures
+### YOLOv8 Pose Structures
 ---
-### `mpe_yolov8_pp_in_centroid_t`
+#### `mpe_yolov8_pp_in_centroid_t`
 
 This structure is used for YOLOv8 pose post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -1575,7 +1635,7 @@ Parameters:
 
 
 ---
-### `mpe_yolov8_pp_static_param_t`
+#### `mpe_yolov8_pp_static_param_t`
 
 This structure holds the static parameters required for YOLOv8 pose post-processing.
 
@@ -1591,10 +1651,10 @@ Parameters:
 - **int32_t nb_detect**: Number of detections after post-processing.
 - **mpe_pp_scratchBuffer_s8_t \*pScratchBuffer**: pointer to scratch buffer containing structure with int8_t elements (AI_MPE_YOLOV8_PP_TOTAL_BOXES, **int8** input data).
 ---
-## YOLOv8 Pose Routines
+### YOLOv8 Pose Routines
 
 ---
-### Pointers initialization 
+#### Pointers initialization 
 ```c
 mpe_pp_outBuffer_t out_detections[AI_MPE_YOLOV8_PP_TOTAL_BOXES];
 mpe_pp_keyPoints_t out_keyPoints[AI_MPE_YOLOV8_PP_TOTAL_BOXES*AI_MPE_YOLOV8_PP_KEYPOINTS_NB];
@@ -1620,7 +1680,7 @@ mpe_yolov8_pp_static_param_t y8_input_param;
 
 
 ---
-### `mpe_yolov8_pp_reset`
+#### `mpe_yolov8_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for YOLOv8 pose post-processing.
@@ -1641,7 +1701,7 @@ This function initializes the static parameters for the YOLOv8 pose post-process
 
 ---
 
-### `mpe_yolov8_pp_process`
+#### `mpe_yolov8_pp_process`
 
 **Purpose**:  
 Processes the YOLOv8 pose post-processing pipeline for float32_t input data.
@@ -1666,7 +1726,7 @@ This function performs the post-processing steps for YOLOv8 pose object detectio
 
 ---
 
-### `mpe_yolov8_pp_process_int8`
+#### `mpe_yolov8_pp_process_int8`
 
 **Purpose**:  
 Processes the YOLOv8 pose post-processing pipeline for int8_t input data.
@@ -1702,17 +1762,301 @@ This function performs the post-processing steps for YOLOv8 pose object detectio
 
 </details>
 
+# Face-Detection Post-Processings
+
+<details>
+
+## BlazeFace face detection Post-Processing
+<details>
+
+### BlazeFace Structures
+---
+#### `fd_blazeface_pp_in_t`
+
+This structure is used for BlazeFace post-processing input where the raw detections are in int8_t format.
+
+Parameters:
+
+- **void_t \*pRaw_detections_0**: Pointer to raw detection data in int8_t format.
+- **void_t \*pRaw_detections_1**: Pointer to raw detection data in int8_t format.
+- **void_t \*pScores_0**: Pointer to raw probabilities in int8_t format.
+- **void_t \*pScores_1**: Pointer to raw probabilities in int8_t format.
+
+
+---
+#### `fd_blazeface_pp_static_param_t`
+
+This structure holds the static parameters required for BlazeFace post-processing.
+
+Parameters:
+
+- **int32_t nb_classes**: Number of classes in the detection model. To extract fom the model output shape.
+- **int32_t nb_keypoints**: Number of keypoints in raw detections. To extract fom the model output shape.
+- **int32_t nb_detections_0**: Total number of boxes predicted first output from the model. To extract fom the model output shape.
+- **int32_t nb_detections_1**: Total number of boxes predicted second output from the model. To extract fom the model output shape.
+- **int32_t in_size**: size of of the input image of the model (in_size x in_size as squared). To extract fom the model output shape.
+- **int32_t max_boxes_limit**: Maximum number of boxes per class to be considered after post-processing.
+- **float32_t conf_threshold**: Confidence threshold for filtering detections. High confidence helps filtering out low-confidence detections (False positives), However, it is essential to balance the threshold value to ensure that you do not miss too many true positives.
+- **float32_t iou_threshold**: Intersection over Union (IoU) threshold for Non-Maximum Suppression (NMS).A high IoU threshold means that more overlapping will be allowed between boxes, while a lower threshold will allow less boxes to be retained.
+- **int32_t nb_detect**: Number of detections after post-processing. To be resetted before each process.
+- **const void *pAnchors_0**: Pointer to anchors for first output. To compute fom the model.
+- **const void *pAnchors_1**: Pointer to anchors for second output. To compute fom the model.
+- **float32_t boxe_0_scale**: Scale factor for first raw boxes output values.
+- **float32_t proba_0_scale**: Scale factor for first scores output values.
+- **float32_t boxe_1_scale**: Scale factor for second raw boxes output values.
+- **float32_t proba_1_scale**: Scale factor for second scores output values.
+- **uint8_t boxe_0_zero_point**: Zero point for quantized first raw boxes output values.
+- **uint8_t proba_0_zero_point**: Zero point for quantized first raw probabilities output values.
+- **uint8_t boxe_1_zero_point**: Zero point for quantized second raw boxes output values.
+- **uint8_t proba_1_zero_point**: Zero point for quantized seconf raw probabilities output values.
+---
+### BlazeFace Routines
+---
+#### Pointers initialization
+```c
+#define AI_FD_BLAZEFACE_PP_MAX_BOXES MAX(AI_FD_BLAZEFACE_PP_MAX_BOXES_LIMIT, AI_FD_BLAZEFACE_PP_OUT_0_NB_BOXES + AI_FD_BLAZEFACE_PP_OUT_1_NB_BOXES)
+fd_pp_outBuffer_t out_detections[AI_FD_BLAZEFACE_PP_MAX_BOXES];
+fd_pp_keyPoints_t out_keyPoints[AI_FD_BLAZEFACE_PP_MAX_BOXES*AI_FD_BLAZEFACE_PP_NB_KEYPOINTS];
+```
+```c
+ for (int i = 0; i < AI_FD_BLAZEFACE_PP_MAX_BOXES; i++) {
+    out_detections[i].pKeyPoints = &out_keyPoints[i*AI_FD_BLAZEFACE_PP_NB_KEYPOINTS];
+ }
+```
+
+#### `fd_blazeface_pp_reset`
+
+**Purpose**:
+Resets the static parameters for Blazeface post-processing.
+
+**Prototype**:
+```c
+int32_t fd_blazeface_pp_reset(fd_blazeface_pp_static_param_t *pInput_static_param);
+```
+
+**Parameters**:
+- **pInput_static_param**: Pointer to the static parameters structure.
+
+**Returns**:
+- **AI_FD_PP_ERROR_NO** on success.
+
+**Description**:
+This function initializes the static parameters for the Blazeface post-processing by setting the number of detected objects to zero.
+
+---
+
+#### `fd_blazeface_pp_process_int8`
+
+**Purpose**:
+Processes the Blazeface post-processing pipeline for int8_t input data.
+
+**Prototype**:
+```c
+int32_t fd_blazeface_pp_process_int8(fd_blazeface_pp_in_t *pInput,
+                                     fd_pp_out_t *pOutput,
+                                     fd_blazeface_pp_static_param_t *pInput_static_param);
+```
+
+**Parameters**:
+- **pInput**: Pointer to the post-processing input structure.
+- **pOutput**: Pointer to the post-processing output structure.
+- **pInput_static_param**: Pointer to the static parameters structure.
+
+**Returns**:
+- **AI_FD_PP_ERROR_NO** on success, or an error code on failure.
+
+**Description**:
+This function performs the post-processing steps for Blazeface face detection with int8_t input data. It first retrieves the neural network boxes, then applies Non-Maximum Suppression (NMS), and finally performs score re-filtering.
+
+---
+
+#### Error Codes
+
+- **AI_FD_PP_ERROR_NO**: Indicates successful execution of the function.
+- **AI_FD_PP_ERROR**: Indicates an error occured during execution of the function.
+
+---
+
+</details>
+
+## Yunet face detection Post-Processing
+<details>
+
+### Yunet Structures
+---
+#### `fd_yunet_pp_in_t`
+
+This structure is used for Yunet post-processing input where the raw detections are in float/int8_t format.
+
+Parameters:
+
+- **void_t \*pCls_32**: Pointer to raw cls scores in float/int8_t format for stride of 32.
+- **void_t \*pObj_32**: Pointer to raw obj scores in float/int8_t format for stride of 32.
+- **void_t \*pBBoxRaw_32**: Pointer to raw bounding boxes coordinates in float/int8_t format for stride of 32.
+- **void_t \*pKpsRaw_32**: Pointer to raw keypoints coordinates in float/int8_t format for stride of 32.
+- **void_t \*pCls_16**: Pointer to raw cls scores in float/int8_t format for stride of 16.
+- **void_t \*pObj_16**: Pointer to raw obj scores in float/int8_t format for stride of 16.
+- **void_t \*pBBoxRaw_16**: Pointer to raw bounding boxes coordinates in float/int8_t format for stride of 16.
+- **void_t \*pKpsRaw_16**: Pointer to raw keypoints coordinates in float/int8_t format for stride of 16.
+- **void_t \*pCls_8**: Pointer to raw cls scores in float/int8_t format for stride of 8.
+- **void_t \*pObj_8**: Pointer to raw obj scores in float/int8_t format for stride of 8.
+- **void_t \*pBBoxRaw_8**: Pointer to raw bounding boxes coordinates in float/int8_t format for stride of 8.
+- **void_t \*pKpsRaw_8**: Pointer to raw keypoints coordinates in float/int8_t format for stride of 8.
+
+---
+#### `fd_yunet_pp_static_param_t`
+
+This structure holds the static parameters required for Yunet post-processing.
+
+Parameters:
+
+- **int32_t nb_keypoints**: Number of keypoints in raw detections. To extract fom the model output shape.
+- **int32_t nb_detections_32**: Total number of boxes predicted output from the model for stride of 32. To extract fom the model output shape.
+- **int32_t nb_detections_16**: Total number of boxes predicted output from the model for stride of 16. To extract fom the model output shape.
+- **int32_t nb_detections_8**: Total number of boxes predicted output from the model for stride of 8. To extract fom the model output shape.
+- **int32_t in_size**: size of of the input image of the model (in_size x in_size as squared). To extract fom the model output shape.
+- **uint32_t max_boxes_limit**: Maximum number of boxes per class to be considered after post-processing.
+- **uint32_t allocated_boxes**: number of allocted boxes: maximum number of detection (even temporary) could not exceed this number. It should be greater than max_boxes_limit). If more detections are done there will be skipped.
+- **float32_t conf_threshold**: Confidence threshold for filtering detections. High confidence helps filtering out low-confidence detections (False positives), However, it is essential to balance the threshold value to ensure that you do not miss too many true positives.
+- **float32_t iou_threshold**: Intersection over Union (IoU) threshold for Non-Maximum Suppression (NMS).A high IoU threshold means that more overlapping will be allowed between boxes, while a lower threshold will allow less boxes to be retained.
+- **int32_t nb_detect**: Number of detections after post-processing. To be resetted before each process.
+- **const void *pAnchors_32**: Pointer to anchors for first output for stride of 32. To compute fom the model.
+- **const void *pAnchors_16**: Pointer to anchors for second output for stride of 16. To compute fom the model.
+- **const void *pAnchors_8**: Pointer to anchors for second output for stride of 8. To compute fom the model.
+- **float32_t cls_32_scale**: Scale factor for cls scores raw output values for stride of 32.
+- **float32_t obj_32_scale**: Scale factor for obj scores raw output values for stride of 32.
+- **float32_t bbx_32_scale**: Scale factor for bounding boxes raw output values for stride of 32.
+- **float32_t kps_32_scale**: Scale factor for keypoints raw output values for stride of 32.
+- **float32_t bbx_16_scale**: Scale factor for cls scores raw output values for stride of 16.
+- **float32_t kps_16_scale**: Scale factor for obj scores raw output values for stride of 16.
+- **float32_t cls_16_scale**: Scale factor for bounding boxes raw output values for stride of 16.
+- **float32_t obj_16_scale**: Scale factor for keypoints raw output values for stride of 16.
+- **float32_t bbx_8_scale**: Scale factor for cls scores raw output values for stride of 8.
+- **float32_t kps_8_scale**: Scale factor for obj scores raw output values for stride of 8.
+- **float32_t cls_8_scale**: Scale factor for bounding boxes raw output values for stride of 8.
+- **float32_t obj_8_scale**: Scale factor for keypoints raw output values for stride of 8.
+- **int8_t bbx_32_zero_point**: Zero point for cls scores raw output values for stride of 32.
+- **int8_t kps_32_zero_point**: Zero point for obj scores raw output values for stride of 32.
+- **int8_t cls_32_zero_point**: Zero point for bounding boxes raw output values for stride of 32.
+- **int8_t obj_32_zero_point**: Zero point for keypoints raw output values for stride of 32.
+- **int8_t bbx_16_zero_point**: Zero point for cls scores raw output values for stride of 16.
+- **int8_t kps_16_zero_point**: Zero point for obj scores raw output values for stride of 16.
+- **int8_t cls_16_zero_point**: Zero point for bounding boxes raw output values for stride of 16.
+- **int8_t obj_16_zero_point**: Zero point for keypoints raw output values for stride of 16.
+- **int8_t bbx_8_zero_point**: Zero point for cls scores raw output values for stride of 8.
+- **int8_t kps_8_zero_point**: Zero point for obj scores raw output values for stride of 8.
+- **int8_t cls_8_zero_point**: Zero point for bounding boxes raw output values for stride of 8.
+- **int8_t obj_8_zero_point**: Zero point for keypoints raw output values for stride of 8.
+
+---
+### Yunet Routines
+---
+#### Pointers initialization
+
+Output buffer must be allocated to support all detections above threshold before nms is performed. The worst case is described as the sum of the detection for each stride (if all is detected)
+```c
+#define AI_FD_YUNET_PP_MAX_BOXES MAX(AI_FD_YUNET_PP_MAX_BOXES_LIMIT, AI_FD_YUNET_PP_OUT_32_NB_BOXES + AI_FD_YUNET_PP_OUT_16_NB_BOXES + AI_FD_YUNET_PP_OUT_8_NB_BOXES)
+fd_pp_outBuffer_t out_detections[AI_FD_YUNET_PP_MAX_BOXES];
+fd_pp_keyPoints_t out_keyPoints[AI_FD_YUNET_PP_MAX_BOXES*2*AI_FD_YUNET_PP_NB_KEYPOINTS];
+```
+```c
+ for (int i = 0; i < AI_FD_YUNET_PP_MAX_BOXES; i++) {
+    out_detections[i].pKeyPoints = &out_keyPoints[i*2*AI_FD_YUNET_PP_NB_KEYPOINTS];
+ }
+```
+
+#### `fd_yunet_pp_reset`
+
+**Purpose**:
+Resets the static parameters for Yunet post-processing.
+
+**Prototype**:
+```c
+int32_t fd_yunet_pp_reset(fd_yunet_pp_static_param_t *pInput_static_param);
+```
+
+**Parameters**:
+- **pInput_static_param**: Pointer to the static parameters structure.
+
+**Returns**:
+- **AI_FD_PP_ERROR_NO** on success.
+
+**Description**:
+This function initializes the static parameters for the Yunet post-processing by setting the number of detected objects to zero.
+
+---
+
+#### `fd_yunet_pp_process`
+
+**Purpose**:
+Processes the Yunet post-processing pipeline for float input data.
+
+**Prototype**:
+```c
+int32_t fd_yunet_pp_process_int8(fd_yunet_pp_in_t *pInput,
+                                     fd_pp_out_t *pOutput,
+                                     fd_yunet_pp_static_param_t *pInput_static_param);
+```
+
+**Parameters**:
+- **pInput**: Pointer to the post-processing input structure.
+- **pOutput**: Pointer to the post-processing output structure.
+- **pInput_static_param**: Pointer to the static parameters structure.
+
+**Returns**:
+- **AI_FD_PP_ERROR_NO** on success, or an error code on failure.
+
+**Description**:
+This function performs the post-processing steps for Yunet face detection with float input data. It first retrieves the neural network scores (cls and obj), boxes and keypoints, then applies Non-Maximum Suppression (NMS), and finally performs score re-filtering.
+
+#### `fd_yunet_pp_process_int8`
+
+**Purpose**:
+Processes the Yunet post-processing pipeline for int8_t input data.
+
+**Prototype**:
+```c
+int32_t fd_yunet_pp_process_int8(fd_yunet_pp_in_t *pInput,
+                                     fd_pp_out_t *pOutput,
+                                     fd_yunet_pp_static_param_t *pInput_static_param);
+```
+
+**Parameters**:
+- **pInput**: Pointer to the post-processing input structure.
+- **pOutput**: Pointer to the post-processing output structure.
+- **pInput_static_param**: Pointer to the static parameters structure.
+
+**Returns**:
+- **AI_FD_PP_ERROR_NO** on success, or an error code on failure.
+
+**Description**:
+This function performs the post-processing steps for Yunet face detection with int8_t input data. It first retrieves the neural network scores (cls and obj), boxes and keypoints, then applies Non-Maximum Suppression (NMS), and finally performs score re-filtering.
+
+---
+
+### Error Codes
+
+- **AI_FD_PP_ERROR_NO**: Indicates successful execution of the function.
+- **AI_FD_PP_ERROR**: Indicates an error occured during execution of the function.
+- **AI_FD_PP_ERROR_TRUNCATED**: Indicates an error occured during execution of the function some detections have been skipped because output buffer is not large enough.
+
+---
+
+</details>
+
+</details>
+
 
 # Single-Pose Post-Processings
 
 <details>
 
-# MoveNet Single-Pose Post-Processing
+## MoveNet Single-Pose Post-Processing
 <details>
 
-## MoveNet Single Pose Structures
+### MoveNet Single Pose Structures
 ---
-### `spe_movenet_pp_in_t`
+#### `spe_movenet_pp_in_t`
 
 This structure is used for MoveNet pose post-processing input where the raw detections are in float32_t/int8_t format.
 
@@ -1722,7 +2066,7 @@ Parameters:
 
 
 ---
-### `spe_movenet_pp_static_param_t`
+#### `spe_movenet_pp_static_param_t`
 
 This structure holds the static parameters required for MoveNet pose post-processing.
 
@@ -1735,9 +2079,9 @@ Parameters:
 - **int8_t raw_zero_point**: Zero point for quantized raw output values(**int8** input data).
 
 ---
-## MoveNet Single Pose Routines
+### MoveNet Single Pose Routines
 ---
-### `spe_movenet_pp_reset`
+#### `spe_movenet_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for MoveNet pose post-processing.
@@ -1758,7 +2102,7 @@ This function initializes the static parameters for the MoveNet but is currently
 
 ---
 
-### `spe_movenet_pp_process`
+#### `spe_movenet_pp_process`
 
 **Purpose**:  
 Processes the MoveNet pose post-processing pipeline for float32_t input data.
@@ -1783,7 +2127,7 @@ This function performs the post-processing steps for MoveNet single pose object 
 
 ---
 
-### `spe_movenet_pp_process_int8`
+#### `spe_movenet_pp_process_int8`
 
 **Purpose**:  
 Processes the MoveNet pose post-processing pipeline for int8_t input data.
@@ -1823,12 +2167,12 @@ This function performs the post-processing steps for MoveNet single pose object 
 # Palm Detection Post-Processings
 <details>
 
-# CNN_pd Palm Detection Post-Processing
+## CNN_pd Palm Detection Post-Processing
 <details>
 
-##  CNN_pd palm detection Structures
+###  CNN_pd palm detection Structures
 ---
-### `pd_model_pp_in_t`
+#### `pd_model_pp_in_t`
 
 This structure holds the input parameters required for CNN_pd palm detection post-processing.
 
@@ -1838,7 +2182,7 @@ Parameters:
 - **float32_t \*pBoxes**:  pointer to boxes buffer (output from model).
 
 ---
-### `pd_model_pp_static_param_t`
+#### `pd_model_pp_static_param_t`
 
 This structure holds the static parameters required for CNN_pd palm detection post-processing.
 
@@ -1858,9 +2202,9 @@ Parameters:
 - **int8_t proba_zp**: Zero point for quantized raw confidences model ouput  values(**int8** input data).
 
 ---
-## CNN_pd Semantic segmentation Routines
+### CNN_pd Semantic segmentation Routines
 ---
-### `pd_model_pp_reset`
+#### `pd_model_pp_reset`
 
 **Purpose**:  
 Resets the static parameters for CNN_pd palm detection post-processing.
@@ -1881,7 +2225,7 @@ This function initializes the static parameters for the CNN_pd but is currently 
 
 ---
 
-### `pd_model_pp_process`
+#### `pd_model_pp_process`
 
 **Purpose**:  
 Processes the CNN_pd pose post-processing pipeline for float32_t input data.
@@ -1906,7 +2250,7 @@ This function performs the post-processing steps for CNN_pd palm detection. It r
 
 ---
 
-### `pd_model_pp_process_int8`
+#### `pd_model_pp_process_int8`
 
 **Purpose**:  
 Processes the CNN_pd pose post-processing pipeline for int8_t input data.

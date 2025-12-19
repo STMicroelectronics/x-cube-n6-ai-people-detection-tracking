@@ -23,7 +23,7 @@
 
 #if POSTPROCESS_TYPE == POSTPROCESS_OD_YOLO_V2_UF
 
-int32_t app_postprocess_init(void *params_postprocess, NN_Instance_TypeDef *NN_Instance)
+int32_t app_postprocess_init(void *params_postprocess, stai_network_info *NN_Info)
 {
   int32_t error = AI_OD_POSTPROCESS_ERROR_NO;
   od_yolov2_pp_static_param_t *params = (od_yolov2_pp_static_param_t *) params_postprocess;

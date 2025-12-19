@@ -4,86 +4,66 @@
 * @file    st_readme.txt
 * @author  MCD Application Team
 * @brief   This file lists the main modification done by STMicroelectronics on
-*          CMSIS_5 for integration with STM32Cube solution.
+*          CMSIS Base Software, CMSIS-DSP and CMSIS-NN Software Libraries for 
+*          integration in STM32Cube (folders location updates only).
 ******************************************************************************
-* Copyright 2024-2025 STMicroelectronics
 *
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
+*   Copyright 2024-2025 STMicroelectronics.
 *
-*   http://www.apache.org/licenses/LICENSE-2.0
+*   Licensed under the Apache License, Version 2.0 (the "License");
+*   you may not use this file except in compliance with the License.
+*   You may obtain a copy of the License at
 *
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+*       http://www.apache.org/licenses/LICENSE-2.0
+*
+*   Unless required by applicable law or agreed to in writing, software
+*   distributed under the License is distributed on an "AS IS" BASIS,
+*   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*   See the License for the specific language governing permissions and
+*   limitations under the License.
 * ******************************************************************************
 @endverbatim
 
-### 20-May-2025 ###
-=======================
-  Tag: v5.9.0_fix_620_dsp_v1.10.0_nn_v3.1.0_no_doc
+=======
+
+### 28-July-2025 ###
+====================
+
+  + CMSIS Base Software component V6.2.0
   
-  Remove Documentation/ subfolders and update index.html to link to
-  online documentation https://arm-software.github.io/CMSIS_5/latest/General/html/index.html
+  Suppress CMSIS/ folder level (done also in ARM.CMSIS.pdsc to match the STM32Cube legacy file structure)
+  No import ARM.CMSIS.sha1 file, Core/Test and Driver folders
+  To preserve CMSIS v5-based STM32Cube legacy file structure compatibility:
+  - Add Include/ folder as a copy of Core/Include but without Core/Include/core_ca.h and Core/Include/a-profile folder
+  - Add Core_A/ folder with a copy of Core/Include/cmsis_gcc.h, Core/Include/core_ca.h and Core/Include/a-profile folder 
+
+  + CMSIS-DSP Software Library pack V1.16.2
+
+  Component pack copied under CMSIS\DSP (without ARM.CMSIS-DSP.sha1 file)
+  CMSIS-DSP Software Library full document available from DSP/Documentation/html/index.html
+
+  + Remove CMSIS-NN Software Library pack
+
+  Due to the multiplicity of CMSIS-NN Software Library pack versions any application resorting to CMSIS-NN shall
+  download the selected CMSIS-NN Software Library pack version from https://github.com/ARM-software/CMSIS-NN
+
+### 22-July-2024 ###
+====================
+
+  + CMSIS Base Software component V6.0.0
   
-### 14-January-2025 ###
-=======================
-  Tag: v5.9.0_fix_620_dsp_v1.10.0_nn_v3.1.0
-  
-  Update Core/Include/cachel1_armv7.h
-  
-    fix(cmsis): Integrate SCB_DisableDCache() issue 620 fixes from CMSIS_5 github
+  Suppress CMSIS/ folder level (done also in ARM.CMSIS.pdsc to match the STM32Cube legacy file structure)
+  No import ARM.CMSIS.sha1 file, Core/Test and Driver folders
+  To preserve CMSIS v5-based STM32Cube legacy file structure compatibility:
+  - Add Include/ folder as a copy of Core/Include but without Core/Include/core_ca.h and Core/Include/a-profile folder
+  - Add Core_A/ folder as a copy of Core/Include/core_ca.h and Core/Include/a-profile folder 
 
-    Merge two following commits from https://github.com/ARM-software/CMSIS_5
+  + CMSIS-DSP Software Library pack V1.15.0
 
-    SHA-1: 36bd54f7963825954b3dd37c036dbbcd1494988f
+  Component pack copied under CMSIS\DSP (without ARM.CMSIS-DSP.sha1 file)
+  CMSIS-DSP Software Library full document available from DSP/Documentation/html/index.html
 
-    * Fix the endless loop issue with GCC O0.
+  + CMSIS-NN Software Library pack V5.0.0
 
-    More details, see https://github.com/ARM-software/CMSIS_5/issues/620
-    The issue only happens when local variables are in stack (GCC O0). If local variables are saved
-    in general purpose register, then the function is OK.
-    When local variables are in stack, after disabling the cache, flush the local variables cache
-    line for data consistency.
-
-    SHA-1: ae2a29fc077f2d62ad9c6793e19eea604bf76843
-
-    * Core(M): Fix endless loop issue with non-optimized IAR builds
-
-    This is an IAR fix for the problem described in
-    https://github.com/ARM-software/CMSIS_5/issues/620
-
-    IAR builds can not align the stack to the cache line size and
-    thus the invalidation is done in separate steps for the three
-    variables.
-
-    Fix validated on STM32H7 HW.
-
-### 14-October-2024 ###
-=======================
-  Tag: v5.9.0_dsp_v1.10.0_nn_v3.1.0
-  
-  CMSIS v5.9.0, please refer to "index.html" available under \Documentation folder.
-  
-  CMSIS v5.9.0, CMSIS-DSP v1.1.0, CMSIS-NN v3.1.0
-
-  Note: content of \CMSIS\Core\Include has been copied under \Include to keep the same structure
-       used in existing projects, and thus avoid projects mass update
-  Note: the following components has been removed from ARM original delivery (not used in ST packages)
-      - .gitattributes
-      - .gitignore
-      - \Device
-      - CMSIS\DAP
-         - \Firmware\Examples
-         - \Firmware\Template
-         - \Firmware\Validation
-      - CMSIS\Driver
-      - CMSIS\NN\Tests
-      - CMSIS\RTOS\RTX
-      - CMSIS\RTOS\Template
-      - CMSIS\RTOS2\RTX
-      - CMSIS\Utilities
-
+  Component pack copied under CMSIS\NN (without ARM.CMSIS-NN.sha1 file)
+  CMSIS-NN Software Library full documentation available from NN/Documentation/html/index.html

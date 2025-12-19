@@ -40,8 +40,13 @@
 #ifdef TRACKER_MODULE
 #include "tracker.h"
 #endif
-#include "network.h"
+#include "stai.h"
+#include "stai_network.h"
 #include "utils.h"
+
+#ifndef APP_VERSION_STRING
+#define APP_VERSION_STRING "dev"
+#endif
 
 #define FREERTOS_PRIORITY(p) ((UBaseType_t)((int)tskIDLE_PRIORITY + configMAX_PRIORITIES / 2 + (p)))
 
@@ -53,32 +58,32 @@
 
 #define ALIGN_VALUE(_v_,_a_) (((_v_) + (_a_) - 1) & ~((_a_) - 1))
 
-#define NN_OUT_NB LL_ATON_DEFAULT_OUT_NUM
+#define NN_OUT_NB STAI_NETWORK_OUT_NUM
 
 #define NN_OUT_MAX_NB 4
 #if NN_OUT_NB > NN_OUT_MAX_NB
 #error "max output buffer reached"
 #endif
 
-#define NN_OUT0_SIZE LL_ATON_DEFAULT_OUT_1_SIZE_BYTES
-#define NN_OUT0_SIZE_ALIGN ALIGN_VALUE(NN_OUT0_SIZE, LL_ATON_DEFAULT_OUT_1_ALIGNMENT)
-#ifdef LL_ATON_DEFAULT_OUT_2_SIZE_BYTES
-#define NN_OUT1_SIZE LL_ATON_DEFAULT_OUT_2_SIZE_BYTES
-#define NN_OUT1_SIZE_ALIGN ALIGN_VALUE(NN_OUT1_SIZE, LL_ATON_DEFAULT_OUT_2_ALIGNMENT)
+#define NN_OUT0_SIZE STAI_NETWORK_OUT_1_SIZE_BYTES
+#define NN_OUT0_SIZE_ALIGN ALIGN_VALUE(NN_OUT0_SIZE, STAI_NETWORK_OUT_1_ALIGNMENT)
+#ifdef STAI_NETWORK_OUT_2_SIZE_BYTES
+#define NN_OUT1_SIZE STAI_NETWORK_OUT_2_SIZE_BYTES
+#define NN_OUT1_SIZE_ALIGN ALIGN_VALUE(NN_OUT1_SIZE, STAI_NETWORK_OUT_2_ALIGNMENT)
 #else
 #define NN_OUT1_SIZE 0
 #define NN_OUT1_SIZE_ALIGN 0
 #endif
-#ifdef LL_ATON_DEFAULT_OUT_3_SIZE_BYTES
-#define NN_OUT2_SIZE LL_ATON_DEFAULT_OUT_3_SIZE_BYTES
-#define NN_OUT2_SIZE_ALIGN ALIGN_VALUE(NN_OUT2_SIZE, LL_ATON_DEFAULT_OUT_3_ALIGNMENT)
+#ifdef STAI_NETWORK_OUT_3_SIZE_BYTES
+#define NN_OUT2_SIZE STAI_NETWORK_OUT_3_SIZE_BYTES
+#define NN_OUT2_SIZE_ALIGN ALIGN_VALUE(NN_OUT2_SIZE, STAI_NETWORK_OUT_3_ALIGNMENT)
 #else
 #define NN_OUT2_SIZE 0
 #define NN_OUT2_SIZE_ALIGN 0
 #endif
-#ifdef LL_ATON_DEFAULT_OUT_4_SIZE_BYTES
-#define NN_OUT3_SIZE LL_ATON_DEFAULT_OUT_4_SIZE_BYTES
-#define NN_OUT3_SIZE_ALIGN ALIGN_VALUE(NN_OUT3_SIZE, LL_ATON_DEFAULT_OUT_4_ALIGNMENT)
+#ifdef STAI_NETWORK_OUT_4_SIZE_BYTES
+#define NN_OUT3_SIZE STAI_NETWORK_OUT_4_SIZE_BYTES
+#define NN_OUT3_SIZE_ALIGN ALIGN_VALUE(NN_OUT3_SIZE, STAI_NETWORK_OUT_4_ALIGNMENT)
 #else
 #define NN_OUT3_SIZE 0
 #define NN_OUT3_SIZE_ALIGN 0
@@ -212,7 +217,7 @@ static cpuload_info_t cpu_load;
 static uint8_t screen_buffer[LCD_BG_WIDTH * LCD_BG_HEIGHT * 2] ALIGN_32 IN_PSRAM;
 
 /* model */
-LL_ATON_DECLARE_NAMED_NN_INSTANCE_AND_INTERFACE(Default);
+static uint8_t network_ctx[STAI_NETWORK_CONTEXT_SIZE] ALIGN_32;
  /* nn input buffers */
 static uint8_t nn_input_buffers[2][NN_WIDTH * NN_HEIGHT * NN_BPP] ALIGN_32 IN_PSRAM;
 static bqueue_t nn_input_queue;
@@ -533,18 +538,6 @@ static void Display_NetworkOutput_NoTracking(display_info_t *info)
     Display_Detection(&rois[i]);
 }
 
-static int model_get_output_nb(const LL_Buffer_InfoTypeDef *nn_out_info)
-{
-  int nb = 0;
-
-  while (nn_out_info->name) {
-    nb++;
-    nn_out_info++;
-  }
-
-  return nb;
-}
-
 #ifdef TRACKER_MODULE
 static void Display_TrackingBox(tbox_info *tbox)
 {
@@ -645,27 +638,29 @@ static void Display_NetworkOutput(display_info_t *info)
 
 static void nn_thread_fct(void *arg)
 {
-  const LL_Buffer_InfoTypeDef *nn_out_info = LL_ATON_Output_Buffers_Info(&NN_Instance_Default);
-  const LL_Buffer_InfoTypeDef *nn_in_info = LL_ATON_Input_Buffers_Info(&NN_Instance_Default);
+  stai_network_info info;
   uint32_t nn_period_ms;
   uint32_t nn_period[2];
   uint8_t *nn_pipe_dst;
-  uint32_t nn_in_len;
   uint32_t inf_ms;
   uint32_t ts;
   int ret;
   int i;
 
-  /* Initialize Cube.AI/ATON ... */
-  LL_ATON_RT_RuntimeInit();
-  /* ... and model instance */
-  LL_ATON_RT_Init_Network(&NN_Instance_Default);
+  /* initialize runtime */
+  ret = stai_runtime_init();
+  assert(ret == STAI_SUCCESS);
+  /* init model instance */
+  ret = stai_network_init(network_ctx);
+  assert(ret == STAI_SUCCESS);
 
   /* setup buffers size */
-  nn_in_len = LL_Buffer_len(&nn_in_info[0]);
-  assert(NN_OUT_NB == model_get_output_nb(nn_out_info));
+  ret = stai_network_get_info(network_ctx, &info);
+  assert(ret == STAI_SUCCESS);
+  assert(info.n_inputs == 1);
+  assert(NN_OUT_NB == info.n_outputs);
   for (i = 0; i < NN_OUT_NB; i++)
-    assert(LL_Buffer_len(&nn_out_info[i]) == nn_out_len_user[i]);
+    assert(info.outputs[i].size_bytes == nn_out_len_user[i]);
 
   /*** App Loop ***************************************************************/
   nn_period[1] = HAL_GetTick();
@@ -675,9 +670,10 @@ static void nn_thread_fct(void *arg)
   CAM_NNPipe_Start(nn_pipe_dst, CMW_MODE_CONTINUOUS);
   while (1)
   {
+    stai_ptr outputs[NN_OUT_NB];
     uint8_t *capture_buffer;
-    uint8_t *out[NN_OUT_NB];
     uint8_t *output_buffer;
+    stai_ptr inputs[1];
     int i;
 
     nn_period[0] = nn_period[1];
@@ -688,22 +684,21 @@ static void nn_thread_fct(void *arg)
     assert(capture_buffer);
     output_buffer = bqueue_get_free(&nn_output_queue, 1);
     assert(output_buffer);
-    out[0] = output_buffer;
+    outputs[0] = output_buffer;
     for (i = 1; i < NN_OUT_NB; i++)
-      out[i] = out[i - 1] + ALIGN_VALUE(nn_out_len_user[i - 1], 32);
+      outputs[i] = (stai_ptr) ((int)outputs[i - 1] + ALIGN_VALUE(nn_out_len_user[i - 1], 32));
 
     /* run ATON inference */
     ts = HAL_GetTick();
      /* Note that we don't need to clean/invalidate those input buffers since they are only access in hardware */
-    ret = LL_ATON_Set_User_Input_Buffer_Default(0, capture_buffer, nn_in_len);
-    assert(ret == LL_ATON_User_IO_NOERROR);
+    inputs[0] = capture_buffer;
+    ret = stai_network_set_inputs(network_ctx, inputs, ARRAY_NB(inputs));
+    assert(ret == STAI_SUCCESS);
      /* Invalidate output buffer before Hw access it */
     CACHE_OP(SCB_InvalidateDCache_by_Addr(output_buffer, sizeof(nn_output_buffers[0])));
-    for (i = 0; i < NN_OUT_NB; i++) {
-      ret = LL_ATON_Set_User_Output_Buffer_Default(i, out[i], nn_out_len_user[i]);
-      assert(ret == LL_ATON_User_IO_NOERROR);
-    }
-    Run_Inference(&NN_Instance_Default);
+    ret = stai_network_set_outputs(network_ctx, outputs, ARRAY_NB(outputs));
+    assert(ret == STAI_SUCCESS);
+    Run_Inference(network_ctx);
     inf_ms = HAL_GetTick() - ts;
 
     /* release buffers */
@@ -812,6 +807,7 @@ static void pp_thread_fct(void *arg)
     #error "PostProcessing type not supported"
 #endif
   uint8_t *pp_input[NN_OUT_NB];
+  stai_network_info info;
   od_pp_out_t pp_output;
   int tracking_enabled;
   uint32_t nn_pp[2];
@@ -820,7 +816,9 @@ static void pp_thread_fct(void *arg)
 
   (void)tracking_enabled;
   /* setup post process */
-  app_postprocess_init(&pp_params, &NN_Instance_Default);
+  ret = stai_network_get_info(network_ctx, &info);
+  assert(ret == STAI_SUCCESS);
+  app_postprocess_init(&pp_params, &info);
   while (1)
   {
     uint8_t *output_buffer;
@@ -963,6 +961,24 @@ static void Display_init()
   UTIL_LCD_SetTextColor(UTIL_LCD_COLOR_WHITE);
 }
 
+static void app_display_info_header()
+{
+  printf("========================================\n");
+  printf("x-cube-n6-ai-people-detection v2.2.0 (%s)\n", APP_VERSION_STRING);
+  printf("Build date & time: %s %s\n", __DATE__, __TIME__);
+#if defined(__GNUC__)
+  printf("Compiler: GCC %d.%d.%d\n", __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__);
+#elif defined(__ICCARM__)
+  printf("Compiler: IAR EWARM %d.%d.%d\n", __VER__ / 1000000, (__VER__ / 1000) % 1000 ,__VER__ % 1000);
+#else
+  printf("Compiler: Unknown\n");
+#endif
+  printf("HAL: %lu.%lu.%lu\n", __STM32N6xx_HAL_VERSION_MAIN, __STM32N6xx_HAL_VERSION_SUB1, __STM32N6xx_HAL_VERSION_SUB2);
+  printf("STEdgeAI Tools: %d.%d.%d\n", STAI_TOOLS_VERSION_MAJOR, STAI_TOOLS_VERSION_MINOR, STAI_TOOLS_VERSION_MICRO);
+  printf("NN model: %s\n", STAI_NETWORK_ORIGIN_MODEL_NAME);
+  printf("========================================\n");
+}
+
 void app_run()
 {
   UBaseType_t isp_priority = FREERTOS_PRIORITY(2);
@@ -972,7 +988,7 @@ void app_run()
   TaskHandle_t hdl;
   int ret;
 
-  printf("Init application\n");
+  app_display_info_header();
   /* Enable DWT so DWT_CYCCNT works when debugger not attached */
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
